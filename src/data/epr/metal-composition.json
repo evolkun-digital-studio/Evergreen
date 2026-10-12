@@ -1,0 +1,858 @@
+[
+  {
+    "code": "ITEW1",
+    "variant": null,
+    "au": "0.0008",
+    "cu": "4.5",
+    "fe": "30",
+    "al": "3"
+  },
+  {
+    "code": "ITEW2",
+    "variant": null,
+    "au": "0.0004",
+    "cu": "1.2",
+    "fe": "35",
+    "al": "3"
+  },
+  {
+    "code": "ITEW3",
+    "variant": null,
+    "au": "0.0004",
+    "cu": "0.19",
+    "fe": "5",
+    "al": "11"
+  },
+  {
+    "code": "ITEW4",
+    "variant": null,
+    "au": "0.0004",
+    "cu": "0.19",
+    "fe": "5",
+    "al": "7.5"
+  },
+  {
+    "code": "ITEW5",
+    "variant": null,
+    "au": "0.0004",
+    "cu": "0.04",
+    "fe": null,
+    "al": "4.71"
+  },
+  {
+    "code": "ITEW6",
+    "variant": null,
+    "au": null,
+    "cu": "0.01",
+    "fe": "10",
+    "al": "1.25"
+  },
+  {
+    "code": "ITEW7",
+    "variant": null,
+    "au": null,
+    "cu": "0.1",
+    "fe": "20",
+    "al": "1.15"
+  },
+  {
+    "code": "ITEW8",
+    "variant": null,
+    "au": null,
+    "cu": "1.5",
+    "fe": "45",
+    "al": null
+  },
+  {
+    "code": "ITEW9",
+    "variant": null,
+    "au": null,
+    "cu": "1.5",
+    "fe": "45",
+    "al": null
+  },
+  {
+    "code": "ITEW10",
+    "variant": null,
+    "au": null,
+    "cu": "0.01",
+    "fe": "16",
+    "al": "1.4"
+  },
+  {
+    "code": "ITEW11",
+    "variant": null,
+    "au": null,
+    "cu": "0.45",
+    "fe": "25",
+    "al": "1.25"
+  },
+  {
+    "code": "ITEW12",
+    "variant": null,
+    "au": null,
+    "cu": "0.55",
+    "fe": null,
+    "al": null
+  },
+  {
+    "code": "ITEW13",
+    "variant": null,
+    "au": null,
+    "cu": "0.5",
+    "fe": "25",
+    "al": null
+  },
+  {
+    "code": "ITEW14",
+    "variant": null,
+    "au": null,
+    "cu": "2",
+    "fe": "5",
+    "al": null
+  },
+  {
+    "code": "ITEW15",
+    "variant": "F.P",
+    "au": "0.0015",
+    "cu": "0.85",
+    "fe": "17.02",
+    "al": null
+  },
+  {
+    "code": "ITEW15",
+    "variant": "S.P",
+    "au": "0.00157",
+    "cu": "3",
+    "fe": "3",
+    "al": "7.97"
+  },
+  {
+    "code": "ITEW16",
+    "variant": null,
+    "au": null,
+    "cu": "1.75",
+    "fe": "85",
+    "al": null
+  },
+  {
+    "code": "ITEW17",
+    "variant": null,
+    "au": null,
+    "cu": "1",
+    "fe": "2",
+    "al": null
+  },
+  {
+    "code": "ITEW18",
+    "variant": null,
+    "au": "0.0035",
+    "cu": "11",
+    "fe": "27.5",
+    "al": null
+  },
+  {
+    "code": "ITEW19",
+    "variant": null,
+    "au": "0.0004",
+    "cu": "3.5",
+    "fe": "40",
+    "al": null
+  },
+  {
+    "code": "ITEW20",
+    "variant": null,
+    "au": "0.00045",
+    "cu": "5.5",
+    "fe": "40",
+    "al": null
+  },
+  {
+    "code": "ITEW21",
+    "variant": null,
+    "au": null,
+    "cu": "0.01",
+    "fe": "16.01",
+    "al": null
+  },
+  {
+    "code": "ITEW22",
+    "variant": null,
+    "au": null,
+    "cu": "3",
+    "fe": null,
+    "al": null
+  },
+  {
+    "code": "ITEW23",
+    "variant": null,
+    "au": null,
+    "cu": "4.5",
+    "fe": null,
+    "al": null
+  },
+  {
+    "code": "ITEW24",
+    "variant": null,
+    "au": null,
+    "cu": "11",
+    "fe": null,
+    "al": null
+  },
+  {
+    "code": "ITEW25",
+    "variant": null,
+    "au": null,
+    "cu": "11",
+    "fe": null,
+    "al": null
+  },
+  {
+    "code": "ITEW26",
+    "variant": null,
+    "au": null,
+    "cu": "8.5",
+    "fe": null,
+    "al": null
+  },
+  {
+    "code": "ITEW27",
+    "variant": null,
+    "au": null,
+    "cu": "3",
+    "fe": null,
+    "al": null
+  },
+  {
+    "code": "CEEW1",
+    "variant": null,
+    "au": "0.00012",
+    "cu": "0.5",
+    "fe": "27.1",
+    "al": null
+  },
+  {
+    "code": "CEEW2",
+    "variant": null,
+    "au": null,
+    "cu": "0.76",
+    "fe": "24.21",
+    "al": "4"
+  },
+  {
+    "code": "CEEW3",
+    "variant": null,
+    "au": null,
+    "cu": "0.73",
+    "fe": "30",
+    "al": "1.9"
+  },
+  {
+    "code": "CEEW4",
+    "variant": null,
+    "au": null,
+    "cu": "7.5",
+    "fe": "45",
+    "al": "8.4"
+  },
+  {
+    "code": "CEEW5",
+    "variant": null,
+    "au": null,
+    "cu": null,
+    "fe": "1",
+    "al": "1"
+  },
+  {
+    "code": "CEEW6",
+    "variant": null,
+    "au": "0.0004",
+    "cu": "0.15",
+    "fe": "24",
+    "al": null
+  },
+  {
+    "code": "CEEW7",
+    "variant": null,
+    "au": null,
+    "cu": "2.5",
+    "fe": "7",
+    "al": null
+  },
+  {
+    "code": "CEEW8",
+    "variant": null,
+    "au": null,
+    "cu": "0.5",
+    "fe": "28.7",
+    "al": null
+  },
+  {
+    "code": "CEEW9",
+    "variant": null,
+    "au": null,
+    "cu": "0.1",
+    "fe": "3",
+    "al": null
+  },
+  {
+    "code": "CEEW10",
+    "variant": null,
+    "au": null,
+    "cu": "0.2",
+    "fe": "12.3",
+    "al": null
+  },
+  {
+    "code": "CEEW11",
+    "variant": null,
+    "au": null,
+    "cu": "1.5",
+    "fe": "25",
+    "al": null
+  },
+  {
+    "code": "CEEW12",
+    "variant": null,
+    "au": null,
+    "cu": "5",
+    "fe": "20",
+    "al": "5"
+  },
+  {
+    "code": "CEEW13",
+    "variant": null,
+    "au": null,
+    "cu": "1",
+    "fe": "2",
+    "al": null
+  },
+  {
+    "code": "CEEW14",
+    "variant": null,
+    "au": null,
+    "cu": null,
+    "fe": "1",
+    "al": "13"
+  },
+  {
+    "code": "CEEW15",
+    "variant": null,
+    "au": null,
+    "cu": "0.5",
+    "fe": "9",
+    "al": "13.5"
+  },
+  {
+    "code": "CEEW16",
+    "variant": null,
+    "au": null,
+    "cu": null,
+    "fe": "8",
+    "al": "9"
+  },
+  {
+    "code": "CEEW17",
+    "variant": null,
+    "au": null,
+    "cu": null,
+    "fe": "11",
+    "al": "3"
+  },
+  {
+    "code": "CEEW18",
+    "variant": null,
+    "au": null,
+    "cu": null,
+    "fe": "11",
+    "al": "3"
+  },
+  {
+    "code": "CEEW19",
+    "variant": null,
+    "au": null,
+    "cu": "0.1",
+    "fe": null,
+    "al": "5"
+  },
+  {
+    "code": "LSEEW1",
+    "variant": null,
+    "au": null,
+    "cu": "2",
+    "fe": "49",
+    "al": "1.4"
+  },
+  {
+    "code": "LSEEW2",
+    "variant": null,
+    "au": null,
+    "cu": "2",
+    "fe": "51",
+    "al": "1.4"
+  },
+  {
+    "code": "LSEEW3",
+    "variant": null,
+    "au": null,
+    "cu": "2",
+    "fe": "49",
+    "al": "1.4"
+  },
+  {
+    "code": "LSEEW4",
+    "variant": null,
+    "au": null,
+    "cu": "1",
+    "fe": "17",
+    "al": "1"
+  },
+  {
+    "code": "LSEEW5",
+    "variant": null,
+    "au": null,
+    "cu": "4",
+    "fe": "55",
+    "al": null
+  },
+  {
+    "code": "LSEEW6",
+    "variant": null,
+    "au": null,
+    "cu": "0.15",
+    "fe": "7.5",
+    "al": "5"
+  },
+  {
+    "code": "LSEEW7",
+    "variant": null,
+    "au": null,
+    "cu": "0.15",
+    "fe": "19.5",
+    "al": "9.5"
+  },
+  {
+    "code": "LSEEW8",
+    "variant": null,
+    "au": null,
+    "cu": "0.25",
+    "fe": "39.5",
+    "al": "0.25"
+  },
+  {
+    "code": "LSEEW9",
+    "variant": null,
+    "au": null,
+    "cu": "0.5",
+    "fe": "50",
+    "al": "1.5"
+  },
+  {
+    "code": "LSEEW10",
+    "variant": null,
+    "au": null,
+    "cu": "1",
+    "fe": "42.5",
+    "al": "4.5"
+  },
+  {
+    "code": "LSEEW11",
+    "variant": null,
+    "au": null,
+    "cu": "2",
+    "fe": "40",
+    "al": "2"
+  },
+  {
+    "code": "LSEEW12",
+    "variant": null,
+    "au": null,
+    "cu": "2",
+    "fe": "41.5",
+    "al": null
+  },
+  {
+    "code": "LSEEW13",
+    "variant": null,
+    "au": null,
+    "cu": "2",
+    "fe": "43.5",
+    "al": null
+  },
+  {
+    "code": "LSEEW14",
+    "variant": null,
+    "au": null,
+    "cu": "6",
+    "fe": "55",
+    "al": "5"
+  },
+  {
+    "code": "LSEEW15",
+    "variant": null,
+    "au": null,
+    "cu": "3",
+    "fe": "50",
+    "al": "3"
+  },
+  {
+    "code": "LSEEW16",
+    "variant": null,
+    "au": null,
+    "cu": null,
+    "fe": "2.87",
+    "al": "2.5"
+  },
+  {
+    "code": "LSEEW17",
+    "variant": null,
+    "au": null,
+    "cu": "1.5",
+    "fe": "11",
+    "al": "2.5"
+  },
+  {
+    "code": "LSEEW18",
+    "variant": null,
+    "au": null,
+    "cu": "1.5",
+    "fe": "11",
+    "al": "2.5"
+  },
+  {
+    "code": "LSEEW19",
+    "variant": null,
+    "au": null,
+    "cu": "1.75",
+    "fe": "47.5",
+    "al": "2.5"
+  },
+  {
+    "code": "LSEEW20",
+    "variant": null,
+    "au": null,
+    "cu": "1.5",
+    "fe": "47.5",
+    "al": "2.5"
+  },
+  {
+    "code": "LSEEW21",
+    "variant": null,
+    "au": null,
+    "cu": "1.25",
+    "fe": "32.5",
+    "al": "1.25"
+  },
+  {
+    "code": "LSEEW22",
+    "variant": null,
+    "au": null,
+    "cu": "2",
+    "fe": "1",
+    "al": null
+  },
+  {
+    "code": "LSEEW23",
+    "variant": null,
+    "au": null,
+    "cu": "0.75",
+    "fe": "7",
+    "al": null
+  },
+  {
+    "code": "LSEEW24",
+    "variant": null,
+    "au": null,
+    "cu": null,
+    "fe": "27.5",
+    "al": null
+  },
+  {
+    "code": "LSEEW25",
+    "variant": null,
+    "au": null,
+    "cu": "2.5",
+    "fe": "32.5",
+    "al": "1.5"
+  },
+  {
+    "code": "LSEEW26",
+    "variant": null,
+    "au": null,
+    "cu": "1",
+    "fe": "32.5",
+    "al": "3"
+  },
+  {
+    "code": "LSEEW27",
+    "variant": null,
+    "au": null,
+    "cu": "1",
+    "fe": "32.5",
+    "al": "3"
+  },
+  {
+    "code": "LSEEW28",
+    "variant": null,
+    "au": null,
+    "cu": "0.1",
+    "fe": "57.5",
+    "al": "0.45"
+  },
+  {
+    "code": "LSEEW29",
+    "variant": null,
+    "au": null,
+    "cu": "1",
+    "fe": "32.5",
+    "al": "3"
+  },
+  {
+    "code": "LSEEW30",
+    "variant": null,
+    "au": null,
+    "cu": "2",
+    "fe": "4.5",
+    "al": "2"
+  },
+  {
+    "code": "LSEEW31",
+    "variant": null,
+    "au": null,
+    "cu": "0.5",
+    "fe": "9",
+    "al": "5"
+  },
+  {
+    "code": "LSEEW32",
+    "variant": null,
+    "au": null,
+    "cu": "0.1",
+    "fe": "1.5",
+    "al": "1"
+  },
+  {
+    "code": "LSEEW33",
+    "variant": null,
+    "au": null,
+    "cu": null,
+    "fe": "41",
+    "al": "8"
+  },
+  {
+    "code": "LSEEW34",
+    "variant": null,
+    "au": "0.0004",
+    "cu": "0.15",
+    "fe": "24",
+    "al": null
+  },
+  {
+    "code": "EETW1",
+    "variant": null,
+    "au": null,
+    "cu": "0.75",
+    "fe": "37.5",
+    "al": "1"
+  },
+  {
+    "code": "EETW2",
+    "variant": null,
+    "au": null,
+    "cu": "0.75",
+    "fe": "37.5",
+    "al": "1"
+  },
+  {
+    "code": "EETW3",
+    "variant": null,
+    "au": null,
+    "cu": "1.75",
+    "fe": "47.5",
+    "al": "2.5"
+  },
+  {
+    "code": "EETW4",
+    "variant": null,
+    "au": null,
+    "cu": "0.15",
+    "fe": "55",
+    "al": "1.25"
+  },
+  {
+    "code": "EETW5",
+    "variant": null,
+    "au": null,
+    "cu": "0.75",
+    "fe": "37.5",
+    "al": "1"
+  },
+  {
+    "code": "EETW6",
+    "variant": null,
+    "au": null,
+    "cu": "7",
+    "fe": "45",
+    "al": "10"
+  },
+  {
+    "code": "EETW7",
+    "variant": null,
+    "au": null,
+    "cu": "0.5",
+    "fe": "9",
+    "al": "0.5"
+  },
+  {
+    "code": "EETW8",
+    "variant": null,
+    "au": null,
+    "cu": "1",
+    "fe": "37.5",
+    "al": "1"
+  },
+  {
+    "code": "TLSEW1",
+    "variant": null,
+    "au": null,
+    "cu": "0.02",
+    "fe": "6.5",
+    "al": null
+  },
+  {
+    "code": "TLSEW2",
+    "variant": null,
+    "au": null,
+    "cu": null,
+    "fe": "0.2",
+    "al": null
+  },
+  {
+    "code": "TLSEW3",
+    "variant": null,
+    "au": null,
+    "cu": "0.15",
+    "fe": "0.25",
+    "al": null
+  },
+  {
+    "code": "TLSEW4",
+    "variant": null,
+    "au": "0.0004",
+    "cu": "0.19",
+    "fe": "5",
+    "al": "7.5"
+  },
+  {
+    "code": "TLSEW5",
+    "variant": null,
+    "au": null,
+    "cu": "0.15",
+    "fe": "12",
+    "al": "2.5"
+  },
+  {
+    "code": "TLSEW6",
+    "variant": null,
+    "au": null,
+    "cu": "0.15",
+    "fe": "37.5",
+    "al": "2.5"
+  },
+  {
+    "code": "MDW1",
+    "variant": null,
+    "au": null,
+    "cu": "2",
+    "fe": "36.5",
+    "al": "10"
+  },
+  {
+    "code": "MDW2",
+    "variant": null,
+    "au": null,
+    "cu": "1.33",
+    "fe": "36.5",
+    "al": "6"
+  },
+  {
+    "code": "MDW3",
+    "variant": null,
+    "au": null,
+    "cu": "2",
+    "fe": null,
+    "al": "8"
+  },
+  {
+    "code": "MDW4",
+    "variant": null,
+    "au": null,
+    "cu": "0.55",
+    "fe": "20",
+    "al": "35.67"
+  },
+  {
+    "code": "MDW5",
+    "variant": null,
+    "au": null,
+    "cu": "3.5",
+    "fe": "36.5",
+    "al": "10"
+  },
+  {
+    "code": "MDW6",
+    "variant": null,
+    "au": null,
+    "cu": "1.2",
+    "fe": null,
+    "al": "14.73"
+  },
+  {
+    "code": "MDW7",
+    "variant": null,
+    "au": null,
+    "cu": "4.76",
+    "fe": null,
+    "al": "8"
+  },
+  {
+    "code": "MDW8",
+    "variant": null,
+    "au": null,
+    "cu": "5.5",
+    "fe": "36.5",
+    "al": "10"
+  },
+  {
+    "code": "MDW9",
+    "variant": null,
+    "au": null,
+    "cu": "0.5",
+    "fe": null,
+    "al": "0.5"
+  },
+  {
+    "code": "MDW10",
+    "variant": null,
+    "au": null,
+    "cu": "3.5",
+    "fe": "36.5",
+    "al": "10"
+  },
+  {
+    "code": "LIW1",
+    "variant": null,
+    "au": null,
+    "cu": "7.14",
+    "fe": "20",
+    "al": "17.86"
+  },
+  {
+    "code": "LIW2",
+    "variant": null,
+    "au": null,
+    "cu": "3.5",
+    "fe": "36.5",
+    "al": "10"
+  }
+]

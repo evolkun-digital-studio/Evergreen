@@ -1,0 +1,36 @@
+# dependencies
+node_modules/
+.pnpm-store/
+
+# next.js
+.next/
+out/
+next-env.d.ts
+*.tsbuildinfo
+
+# env
+.env
+.env*.local
+
+# local data and uploads (pnpm db:dev, local storage driver)
+.mongo-data/
+storage/uploads/
+public/uploads/
+
+# tests and review output
+coverage/
+test-results/
+playwright-report/
+screenshots/
+
+# vercel and turbopack
+.vercel/
+.turbo/
+
+# editor / OS / local tool settings
+.vscode/
+.idea/
+.claude/
+.DS_Store
+Thumbs.db
+*.log

@@ -1,0 +1,1401 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`buildSchema > Guide: core graph with linked ids 1`] = `
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@id": "https://evergreen.example/#organization",
+      "@type": [
+        "Organization",
+        "LocalBusiness",
+        "RecyclingCenter",
+      ],
+      "address": {
+        "@type": "PostalAddress",
+        "addressCountry": "IN",
+        "addressLocality": "Sitapur",
+        "addressRegion": "Uttar Pradesh",
+        "postalCode": "261204",
+        "streetAddress": "Rampur Mathura, Mahmudabad",
+      },
+      "areaServed": {
+        "@type": "Country",
+        "name": "India",
+      },
+      "contactPoint": [
+        {
+          "@type": "ContactPoint",
+          "areaServed": "IN",
+          "availableLanguage": [
+            "en",
+            "hi",
+          ],
+          "contactType": "customer service",
+          "email": "evergreenewaste2021@gmail.com",
+          "telephone": "+91 94150 46061",
+        },
+        {
+          "@type": "ContactPoint",
+          "areaServed": "IN",
+          "availableLanguage": [
+            "en",
+            "hi",
+          ],
+          "contactType": "sales",
+          "name": "Business enquiries (Mukul Agarwal)",
+          "telephone": "+91 95577 86553",
+        },
+      ],
+      "description": "Authorised e-waste, battery and plastic recycler in Sitapur, Uttar Pradesh, since 2021. PAN India pickup, recycling certificates, EPR and CPCB compliance support.",
+      "email": "evergreenewaste2021@gmail.com",
+      "employee": [
+        {
+          "@id": "https://evergreen.example/about#irfan-ahmad",
+        },
+        {
+          "@id": "https://evergreen.example/about#ramesh-yadav",
+        },
+      ],
+      "founder": [
+        {
+          "@id": "https://evergreen.example/about#irfan-ahmad",
+        },
+      ],
+      "foundingDate": "2021",
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": 27.2955,
+        "longitude": 81.1167,
+      },
+      "hasMap": "https://maps.google.com/?q=Mahmudabad,Sitapur,Uttar+Pradesh",
+      "hasOfferCatalog": {
+        "@type": "OfferCatalog",
+        "itemListElement": [
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@id": "https://evergreen.example/services/e-waste-recycling#service",
+              "@type": "Service",
+              "description": "Dismantling and recycling of laptops, desktops, servers, phones and other electronics.",
+              "name": "E-waste recycling",
+              "url": "https://evergreen.example/services/e-waste-recycling",
+            },
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@id": "https://evergreen.example/services/battery-recycling#service",
+              "@type": "Service",
+              "description": "Processing of lead-acid, lithium-ion, NiMH and industrial batteries.",
+              "name": "Battery recycling",
+              "url": "https://evergreen.example/services/battery-recycling",
+            },
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@id": "https://evergreen.example/services/plastic-recycling#service",
+              "@type": "Service",
+              "description": "Sorting, shredding and pelletising of PET, HDPE, PP and ABS plastics.",
+              "name": "Plastic recycling",
+              "url": "https://evergreen.example/services/plastic-recycling",
+            },
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@id": "https://evergreen.example/services/metal-recovery#service",
+              "@type": "Service",
+              "description": "Recovery of copper, aluminium, gold and silver from electronic scrap.",
+              "name": "Metal recovery",
+              "url": "https://evergreen.example/services/metal-recovery",
+            },
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@id": "https://evergreen.example/services/industrial-scrap-management#service",
+              "@type": "Service",
+              "description": "Collection, transport, sorting and compliant disposal for factories and manufacturing units.",
+              "name": "Industrial scrap management",
+              "url": "https://evergreen.example/services/industrial-scrap-management",
+            },
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@id": "https://evergreen.example/services/secure-disposal#service",
+              "@type": "Service",
+              "description": "Destruction of hard drives, IT assets and confidential documents, with certificates.",
+              "name": "Secure disposal",
+              "url": "https://evergreen.example/services/secure-disposal",
+            },
+          },
+        ],
+        "name": "Recycling services",
+      },
+      "image": "https://evergreen.example/brand/evergreen-512.png",
+      "knowsAbout": [
+        "E-waste recycling",
+        "Battery recycling",
+        "Lithium-ion battery recycling",
+        "Lead-acid battery recycling",
+        "Plastic recycling",
+        "Metal recovery",
+        "Secure data destruction",
+        "Extended Producer Responsibility (EPR)",
+        "E-Waste (Management) Rules, 2022",
+        "Battery Waste Management Rules, 2022",
+        "CPCB compliance",
+      ],
+      "legalName": "Ever Green E-Waste Recycling Management",
+      "logo": {
+        "@id": "https://evergreen.example/#logo",
+        "@type": "ImageObject",
+        "url": "https://evergreen.example/brand/evergreen-512.png",
+      },
+      "name": "Evergreen",
+      "taxID": "09BQEPA3569F3ZV",
+      "telephone": "+91 94150 46061",
+      "url": "https://evergreenrecycler.in",
+      "vatID": "09BQEPA3569F3ZV",
+    },
+    {
+      "@id": "https://evergreen.example/#website",
+      "@type": "WebSite",
+      "description": "Authorised e-waste, battery and plastic recycler in Sitapur, Uttar Pradesh, since 2021. PAN India pickup, recycling certificates, EPR and CPCB compliance support.",
+      "inLanguage": "en-IN",
+      "name": "Evergreen",
+      "publisher": {
+        "@id": "https://evergreen.example/#organization",
+      },
+      "url": "https://evergreen.example",
+    },
+    {
+      "@id": "https://evergreen.example/blog/epr-guide#primaryimage",
+      "@type": "ImageObject",
+      "caption": "Hero alt",
+      "contentUrl": "https://cdn.example.com/hero-1280.png",
+      "height": 672,
+      "inLanguage": "en-IN",
+      "url": "https://cdn.example.com/hero-1280.png",
+      "width": 1280,
+    },
+    {
+      "@id": "https://evergreen.example/blog/author/asha-verma#person",
+      "@type": "Person",
+      "description": "EPR consultant.",
+      "hasCredential": {
+        "@type": "EducationalOccupationalCredential",
+        "name": "M.Tech Environmental Engineering",
+      },
+      "jobTitle": "Compliance Lead",
+      "knowsAbout": [
+        "EPR",
+      ],
+      "name": "Asha Verma",
+      "sameAs": [
+        "https://www.linkedin.com/in/example",
+      ],
+      "url": "https://evergreen.example/blog/author/asha-verma",
+      "worksFor": {
+        "@id": "https://evergreen.example/#organization",
+      },
+    },
+    {
+      "@id": "https://evergreen.example/blog/epr-guide#breadcrumb",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "item": "https://evergreen.example/",
+          "name": "Home",
+          "position": 1,
+        },
+        {
+          "@type": "ListItem",
+          "item": "https://evergreen.example/blog",
+          "name": "Blog",
+          "position": 2,
+        },
+        {
+          "@type": "ListItem",
+          "item": "https://evergreen.example/blog/category/epr-compliance",
+          "name": "EPR Compliance",
+          "position": 3,
+        },
+        {
+          "@type": "ListItem",
+          "item": "https://evergreen.example/blog/epr-guide",
+          "name": "EPR Guide",
+          "position": 4,
+        },
+      ],
+    },
+    {
+      "@id": "https://evergreen.example/blog/epr-guide#webpage",
+      "@type": "WebPage",
+      "breadcrumb": {
+        "@id": "https://evergreen.example/blog/epr-guide#breadcrumb",
+      },
+      "dateModified": "2026-02-03T00:00:00.000Z",
+      "datePublished": "2026-01-02T00:00:00.000Z",
+      "description": "Meta",
+      "image": {
+        "@id": "https://evergreen.example/blog/epr-guide#primaryimage",
+      },
+      "inLanguage": "en-IN",
+      "isPartOf": {
+        "@id": "https://evergreen.example/#website",
+      },
+      "lastReviewed": "2026-02-01T00:00:00.000Z",
+      "mainEntity": {
+        "@id": "https://evergreen.example/blog/epr-guide#article",
+      },
+      "name": "EPR Guide for PIBOs",
+      "primaryImageOfPage": {
+        "@id": "https://evergreen.example/blog/epr-guide#primaryimage",
+      },
+      "speakable": {
+        "@type": "SpeakableSpecification",
+        "cssSelector": [
+          ".article-title",
+          ".ai-summary",
+          ".key-takeaways",
+        ],
+      },
+      "url": "https://evergreen.example/blog/epr-guide",
+    },
+    {
+      "@id": "https://evergreen.example/blog/epr-guide#article",
+      "@type": "BlogPosting",
+      "about": [
+        {
+          "@type": "Thing",
+          "name": "Extended producer responsibility",
+          "sameAs": "https://en.wikipedia.org/wiki/Extended_producer_responsibility",
+        },
+      ],
+      "abstract": "Register, calculate, fulfil, file.",
+      "articleSection": "EPR Compliance",
+      "author": {
+        "@id": "https://evergreen.example/blog/author/asha-verma#person",
+      },
+      "dateModified": "2026-02-03T00:00:00.000Z",
+      "datePublished": "2026-01-02T00:00:00.000Z",
+      "description": "Meta",
+      "headline": "EPR Guide for PIBOs",
+      "image": [
+        {
+          "@id": "https://evergreen.example/blog/epr-guide#primaryimage",
+        },
+      ],
+      "inLanguage": "en-IN",
+      "isPartOf": {
+        "@id": "https://evergreen.example/blog/epr-guide#webpage",
+      },
+      "keywords": "EPR compliance, EPR registration, CPCB",
+      "mainEntityOfPage": {
+        "@id": "https://evergreen.example/blog/epr-guide#webpage",
+      },
+      "mentions": [
+        {
+          "@type": "GovernmentOrganization",
+          "name": "CPCB",
+          "sameAs": "https://en.wikipedia.org/wiki/Central_Pollution_Control_Board",
+        },
+      ],
+      "name": "EPR Guide",
+      "publisher": {
+        "@id": "https://evergreen.example/#organization",
+      },
+      "timeRequired": "PT7M",
+      "url": "https://evergreen.example/blog/epr-guide",
+      "wordCount": 1500,
+    },
+  ],
+}
+`;
+
+exports[`buildSchema > HowTo: emitted with steps, warned without 1`] = `
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@id": "https://evergreen.example/#organization",
+      "@type": [
+        "Organization",
+        "LocalBusiness",
+        "RecyclingCenter",
+      ],
+      "address": {
+        "@type": "PostalAddress",
+        "addressCountry": "IN",
+        "addressLocality": "Sitapur",
+        "addressRegion": "Uttar Pradesh",
+        "postalCode": "261204",
+        "streetAddress": "Rampur Mathura, Mahmudabad",
+      },
+      "areaServed": {
+        "@type": "Country",
+        "name": "India",
+      },
+      "contactPoint": [
+        {
+          "@type": "ContactPoint",
+          "areaServed": "IN",
+          "availableLanguage": [
+            "en",
+            "hi",
+          ],
+          "contactType": "customer service",
+          "email": "evergreenewaste2021@gmail.com",
+          "telephone": "+91 94150 46061",
+        },
+        {
+          "@type": "ContactPoint",
+          "areaServed": "IN",
+          "availableLanguage": [
+            "en",
+            "hi",
+          ],
+          "contactType": "sales",
+          "name": "Business enquiries (Mukul Agarwal)",
+          "telephone": "+91 95577 86553",
+        },
+      ],
+      "description": "Authorised e-waste, battery and plastic recycler in Sitapur, Uttar Pradesh, since 2021. PAN India pickup, recycling certificates, EPR and CPCB compliance support.",
+      "email": "evergreenewaste2021@gmail.com",
+      "employee": [
+        {
+          "@id": "https://evergreen.example/about#irfan-ahmad",
+        },
+        {
+          "@id": "https://evergreen.example/about#ramesh-yadav",
+        },
+      ],
+      "founder": [
+        {
+          "@id": "https://evergreen.example/about#irfan-ahmad",
+        },
+      ],
+      "foundingDate": "2021",
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": 27.2955,
+        "longitude": 81.1167,
+      },
+      "hasMap": "https://maps.google.com/?q=Mahmudabad,Sitapur,Uttar+Pradesh",
+      "hasOfferCatalog": {
+        "@type": "OfferCatalog",
+        "itemListElement": [
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@id": "https://evergreen.example/services/e-waste-recycling#service",
+              "@type": "Service",
+              "description": "Dismantling and recycling of laptops, desktops, servers, phones and other electronics.",
+              "name": "E-waste recycling",
+              "url": "https://evergreen.example/services/e-waste-recycling",
+            },
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@id": "https://evergreen.example/services/battery-recycling#service",
+              "@type": "Service",
+              "description": "Processing of lead-acid, lithium-ion, NiMH and industrial batteries.",
+              "name": "Battery recycling",
+              "url": "https://evergreen.example/services/battery-recycling",
+            },
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@id": "https://evergreen.example/services/plastic-recycling#service",
+              "@type": "Service",
+              "description": "Sorting, shredding and pelletising of PET, HDPE, PP and ABS plastics.",
+              "name": "Plastic recycling",
+              "url": "https://evergreen.example/services/plastic-recycling",
+            },
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@id": "https://evergreen.example/services/metal-recovery#service",
+              "@type": "Service",
+              "description": "Recovery of copper, aluminium, gold and silver from electronic scrap.",
+              "name": "Metal recovery",
+              "url": "https://evergreen.example/services/metal-recovery",
+            },
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@id": "https://evergreen.example/services/industrial-scrap-management#service",
+              "@type": "Service",
+              "description": "Collection, transport, sorting and compliant disposal for factories and manufacturing units.",
+              "name": "Industrial scrap management",
+              "url": "https://evergreen.example/services/industrial-scrap-management",
+            },
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@id": "https://evergreen.example/services/secure-disposal#service",
+              "@type": "Service",
+              "description": "Destruction of hard drives, IT assets and confidential documents, with certificates.",
+              "name": "Secure disposal",
+              "url": "https://evergreen.example/services/secure-disposal",
+            },
+          },
+        ],
+        "name": "Recycling services",
+      },
+      "image": "https://evergreen.example/brand/evergreen-512.png",
+      "knowsAbout": [
+        "E-waste recycling",
+        "Battery recycling",
+        "Lithium-ion battery recycling",
+        "Lead-acid battery recycling",
+        "Plastic recycling",
+        "Metal recovery",
+        "Secure data destruction",
+        "Extended Producer Responsibility (EPR)",
+        "E-Waste (Management) Rules, 2022",
+        "Battery Waste Management Rules, 2022",
+        "CPCB compliance",
+      ],
+      "legalName": "Ever Green E-Waste Recycling Management",
+      "logo": {
+        "@id": "https://evergreen.example/#logo",
+        "@type": "ImageObject",
+        "url": "https://evergreen.example/brand/evergreen-512.png",
+      },
+      "name": "Evergreen",
+      "taxID": "09BQEPA3569F3ZV",
+      "telephone": "+91 94150 46061",
+      "url": "https://evergreenrecycler.in",
+      "vatID": "09BQEPA3569F3ZV",
+    },
+    {
+      "@id": "https://evergreen.example/#website",
+      "@type": "WebSite",
+      "description": "Authorised e-waste, battery and plastic recycler in Sitapur, Uttar Pradesh, since 2021. PAN India pickup, recycling certificates, EPR and CPCB compliance support.",
+      "inLanguage": "en-IN",
+      "name": "Evergreen",
+      "publisher": {
+        "@id": "https://evergreen.example/#organization",
+      },
+      "url": "https://evergreen.example",
+    },
+    {
+      "@id": "https://evergreen.example/blog/epr-guide#primaryimage",
+      "@type": "ImageObject",
+      "caption": "Hero alt",
+      "contentUrl": "https://cdn.example.com/hero-1280.png",
+      "height": 672,
+      "inLanguage": "en-IN",
+      "url": "https://cdn.example.com/hero-1280.png",
+      "width": 1280,
+    },
+    {
+      "@id": "https://evergreen.example/blog/author/asha-verma#person",
+      "@type": "Person",
+      "description": "EPR consultant.",
+      "hasCredential": {
+        "@type": "EducationalOccupationalCredential",
+        "name": "M.Tech Environmental Engineering",
+      },
+      "jobTitle": "Compliance Lead",
+      "knowsAbout": [
+        "EPR",
+      ],
+      "name": "Asha Verma",
+      "sameAs": [
+        "https://www.linkedin.com/in/example",
+      ],
+      "url": "https://evergreen.example/blog/author/asha-verma",
+      "worksFor": {
+        "@id": "https://evergreen.example/#organization",
+      },
+    },
+    {
+      "@id": "https://evergreen.example/blog/epr-guide#breadcrumb",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "item": "https://evergreen.example/",
+          "name": "Home",
+          "position": 1,
+        },
+        {
+          "@type": "ListItem",
+          "item": "https://evergreen.example/blog",
+          "name": "Blog",
+          "position": 2,
+        },
+        {
+          "@type": "ListItem",
+          "item": "https://evergreen.example/blog/category/epr-compliance",
+          "name": "EPR Compliance",
+          "position": 3,
+        },
+        {
+          "@type": "ListItem",
+          "item": "https://evergreen.example/blog/epr-guide",
+          "name": "EPR Guide",
+          "position": 4,
+        },
+      ],
+    },
+    {
+      "@id": "https://evergreen.example/blog/epr-guide#webpage",
+      "@type": "WebPage",
+      "breadcrumb": {
+        "@id": "https://evergreen.example/blog/epr-guide#breadcrumb",
+      },
+      "dateModified": "2026-02-03T00:00:00.000Z",
+      "datePublished": "2026-01-02T00:00:00.000Z",
+      "description": "Meta",
+      "image": {
+        "@id": "https://evergreen.example/blog/epr-guide#primaryimage",
+      },
+      "inLanguage": "en-IN",
+      "isPartOf": {
+        "@id": "https://evergreen.example/#website",
+      },
+      "lastReviewed": "2026-02-01T00:00:00.000Z",
+      "mainEntity": {
+        "@id": "https://evergreen.example/blog/epr-guide#article",
+      },
+      "name": "EPR Guide for PIBOs",
+      "primaryImageOfPage": {
+        "@id": "https://evergreen.example/blog/epr-guide#primaryimage",
+      },
+      "speakable": {
+        "@type": "SpeakableSpecification",
+        "cssSelector": [
+          ".article-title",
+          ".ai-summary",
+          ".key-takeaways",
+        ],
+      },
+      "url": "https://evergreen.example/blog/epr-guide",
+    },
+    {
+      "@id": "https://evergreen.example/blog/epr-guide#article",
+      "@type": "BlogPosting",
+      "about": [
+        {
+          "@type": "Thing",
+          "name": "Extended producer responsibility",
+          "sameAs": "https://en.wikipedia.org/wiki/Extended_producer_responsibility",
+        },
+      ],
+      "abstract": "Register, calculate, fulfil, file.",
+      "articleSection": "EPR Compliance",
+      "author": {
+        "@id": "https://evergreen.example/blog/author/asha-verma#person",
+      },
+      "dateModified": "2026-02-03T00:00:00.000Z",
+      "datePublished": "2026-01-02T00:00:00.000Z",
+      "description": "Meta",
+      "headline": "EPR Guide for PIBOs",
+      "image": [
+        {
+          "@id": "https://evergreen.example/blog/epr-guide#primaryimage",
+        },
+      ],
+      "inLanguage": "en-IN",
+      "isPartOf": {
+        "@id": "https://evergreen.example/blog/epr-guide#webpage",
+      },
+      "keywords": "EPR compliance, EPR registration, CPCB",
+      "mainEntityOfPage": {
+        "@id": "https://evergreen.example/blog/epr-guide#webpage",
+      },
+      "mentions": [
+        {
+          "@type": "GovernmentOrganization",
+          "name": "CPCB",
+          "sameAs": "https://en.wikipedia.org/wiki/Central_Pollution_Control_Board",
+        },
+      ],
+      "name": "EPR Guide",
+      "publisher": {
+        "@id": "https://evergreen.example/#organization",
+      },
+      "timeRequired": "PT7M",
+      "url": "https://evergreen.example/blog/epr-guide",
+      "wordCount": 1500,
+    },
+    {
+      "@id": "https://evergreen.example/blog/epr-guide#howto",
+      "@type": "HowTo",
+      "description": "Register, calculate, fulfil, file.",
+      "image": {
+        "@id": "https://evergreen.example/blog/epr-guide#primaryimage",
+      },
+      "inLanguage": "en-IN",
+      "isPartOf": {
+        "@id": "https://evergreen.example/blog/epr-guide#webpage",
+      },
+      "name": "EPR Guide",
+      "step": [
+        {
+          "@type": "HowToStep",
+          "name": "Register",
+          "position": 1,
+          "text": "On the portal",
+        },
+        {
+          "@type": "HowToStep",
+          "name": "File",
+          "position": 2,
+          "text": "Annual return",
+        },
+      ],
+    },
+  ],
+}
+`;
+
+exports[`buildSchema > Review never invents a rating; ProductReview links a Product 1`] = `
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@id": "https://evergreen.example/#organization",
+      "@type": [
+        "Organization",
+        "LocalBusiness",
+        "RecyclingCenter",
+      ],
+      "address": {
+        "@type": "PostalAddress",
+        "addressCountry": "IN",
+        "addressLocality": "Sitapur",
+        "addressRegion": "Uttar Pradesh",
+        "postalCode": "261204",
+        "streetAddress": "Rampur Mathura, Mahmudabad",
+      },
+      "areaServed": {
+        "@type": "Country",
+        "name": "India",
+      },
+      "contactPoint": [
+        {
+          "@type": "ContactPoint",
+          "areaServed": "IN",
+          "availableLanguage": [
+            "en",
+            "hi",
+          ],
+          "contactType": "customer service",
+          "email": "evergreenewaste2021@gmail.com",
+          "telephone": "+91 94150 46061",
+        },
+        {
+          "@type": "ContactPoint",
+          "areaServed": "IN",
+          "availableLanguage": [
+            "en",
+            "hi",
+          ],
+          "contactType": "sales",
+          "name": "Business enquiries (Mukul Agarwal)",
+          "telephone": "+91 95577 86553",
+        },
+      ],
+      "description": "Authorised e-waste, battery and plastic recycler in Sitapur, Uttar Pradesh, since 2021. PAN India pickup, recycling certificates, EPR and CPCB compliance support.",
+      "email": "evergreenewaste2021@gmail.com",
+      "employee": [
+        {
+          "@id": "https://evergreen.example/about#irfan-ahmad",
+        },
+        {
+          "@id": "https://evergreen.example/about#ramesh-yadav",
+        },
+      ],
+      "founder": [
+        {
+          "@id": "https://evergreen.example/about#irfan-ahmad",
+        },
+      ],
+      "foundingDate": "2021",
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": 27.2955,
+        "longitude": 81.1167,
+      },
+      "hasMap": "https://maps.google.com/?q=Mahmudabad,Sitapur,Uttar+Pradesh",
+      "hasOfferCatalog": {
+        "@type": "OfferCatalog",
+        "itemListElement": [
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@id": "https://evergreen.example/services/e-waste-recycling#service",
+              "@type": "Service",
+              "description": "Dismantling and recycling of laptops, desktops, servers, phones and other electronics.",
+              "name": "E-waste recycling",
+              "url": "https://evergreen.example/services/e-waste-recycling",
+            },
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@id": "https://evergreen.example/services/battery-recycling#service",
+              "@type": "Service",
+              "description": "Processing of lead-acid, lithium-ion, NiMH and industrial batteries.",
+              "name": "Battery recycling",
+              "url": "https://evergreen.example/services/battery-recycling",
+            },
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@id": "https://evergreen.example/services/plastic-recycling#service",
+              "@type": "Service",
+              "description": "Sorting, shredding and pelletising of PET, HDPE, PP and ABS plastics.",
+              "name": "Plastic recycling",
+              "url": "https://evergreen.example/services/plastic-recycling",
+            },
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@id": "https://evergreen.example/services/metal-recovery#service",
+              "@type": "Service",
+              "description": "Recovery of copper, aluminium, gold and silver from electronic scrap.",
+              "name": "Metal recovery",
+              "url": "https://evergreen.example/services/metal-recovery",
+            },
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@id": "https://evergreen.example/services/industrial-scrap-management#service",
+              "@type": "Service",
+              "description": "Collection, transport, sorting and compliant disposal for factories and manufacturing units.",
+              "name": "Industrial scrap management",
+              "url": "https://evergreen.example/services/industrial-scrap-management",
+            },
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@id": "https://evergreen.example/services/secure-disposal#service",
+              "@type": "Service",
+              "description": "Destruction of hard drives, IT assets and confidential documents, with certificates.",
+              "name": "Secure disposal",
+              "url": "https://evergreen.example/services/secure-disposal",
+            },
+          },
+        ],
+        "name": "Recycling services",
+      },
+      "image": "https://evergreen.example/brand/evergreen-512.png",
+      "knowsAbout": [
+        "E-waste recycling",
+        "Battery recycling",
+        "Lithium-ion battery recycling",
+        "Lead-acid battery recycling",
+        "Plastic recycling",
+        "Metal recovery",
+        "Secure data destruction",
+        "Extended Producer Responsibility (EPR)",
+        "E-Waste (Management) Rules, 2022",
+        "Battery Waste Management Rules, 2022",
+        "CPCB compliance",
+      ],
+      "legalName": "Ever Green E-Waste Recycling Management",
+      "logo": {
+        "@id": "https://evergreen.example/#logo",
+        "@type": "ImageObject",
+        "url": "https://evergreen.example/brand/evergreen-512.png",
+      },
+      "name": "Evergreen",
+      "taxID": "09BQEPA3569F3ZV",
+      "telephone": "+91 94150 46061",
+      "url": "https://evergreenrecycler.in",
+      "vatID": "09BQEPA3569F3ZV",
+    },
+    {
+      "@id": "https://evergreen.example/#website",
+      "@type": "WebSite",
+      "description": "Authorised e-waste, battery and plastic recycler in Sitapur, Uttar Pradesh, since 2021. PAN India pickup, recycling certificates, EPR and CPCB compliance support.",
+      "inLanguage": "en-IN",
+      "name": "Evergreen",
+      "publisher": {
+        "@id": "https://evergreen.example/#organization",
+      },
+      "url": "https://evergreen.example",
+    },
+    {
+      "@id": "https://evergreen.example/blog/epr-guide#primaryimage",
+      "@type": "ImageObject",
+      "caption": "Hero alt",
+      "contentUrl": "https://cdn.example.com/hero-1280.png",
+      "height": 672,
+      "inLanguage": "en-IN",
+      "url": "https://cdn.example.com/hero-1280.png",
+      "width": 1280,
+    },
+    {
+      "@id": "https://evergreen.example/blog/author/asha-verma#person",
+      "@type": "Person",
+      "description": "EPR consultant.",
+      "hasCredential": {
+        "@type": "EducationalOccupationalCredential",
+        "name": "M.Tech Environmental Engineering",
+      },
+      "jobTitle": "Compliance Lead",
+      "knowsAbout": [
+        "EPR",
+      ],
+      "name": "Asha Verma",
+      "sameAs": [
+        "https://www.linkedin.com/in/example",
+      ],
+      "url": "https://evergreen.example/blog/author/asha-verma",
+      "worksFor": {
+        "@id": "https://evergreen.example/#organization",
+      },
+    },
+    {
+      "@id": "https://evergreen.example/blog/epr-guide#breadcrumb",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "item": "https://evergreen.example/",
+          "name": "Home",
+          "position": 1,
+        },
+        {
+          "@type": "ListItem",
+          "item": "https://evergreen.example/blog",
+          "name": "Blog",
+          "position": 2,
+        },
+        {
+          "@type": "ListItem",
+          "item": "https://evergreen.example/blog/category/epr-compliance",
+          "name": "EPR Compliance",
+          "position": 3,
+        },
+        {
+          "@type": "ListItem",
+          "item": "https://evergreen.example/blog/epr-guide",
+          "name": "EPR Guide",
+          "position": 4,
+        },
+      ],
+    },
+    {
+      "@id": "https://evergreen.example/blog/epr-guide#webpage",
+      "@type": "WebPage",
+      "breadcrumb": {
+        "@id": "https://evergreen.example/blog/epr-guide#breadcrumb",
+      },
+      "dateModified": "2026-02-03T00:00:00.000Z",
+      "datePublished": "2026-01-02T00:00:00.000Z",
+      "description": "Meta",
+      "image": {
+        "@id": "https://evergreen.example/blog/epr-guide#primaryimage",
+      },
+      "inLanguage": "en-IN",
+      "isPartOf": {
+        "@id": "https://evergreen.example/#website",
+      },
+      "lastReviewed": "2026-02-01T00:00:00.000Z",
+      "mainEntity": {
+        "@id": "https://evergreen.example/blog/epr-guide#article",
+      },
+      "name": "EPR Guide for PIBOs",
+      "primaryImageOfPage": {
+        "@id": "https://evergreen.example/blog/epr-guide#primaryimage",
+      },
+      "speakable": {
+        "@type": "SpeakableSpecification",
+        "cssSelector": [
+          ".article-title",
+          ".ai-summary",
+          ".key-takeaways",
+        ],
+      },
+      "url": "https://evergreen.example/blog/epr-guide",
+    },
+    {
+      "@id": "https://evergreen.example/blog/epr-guide#article",
+      "@type": "BlogPosting",
+      "about": [
+        {
+          "@type": "Thing",
+          "name": "Extended producer responsibility",
+          "sameAs": "https://en.wikipedia.org/wiki/Extended_producer_responsibility",
+        },
+      ],
+      "abstract": "Register, calculate, fulfil, file.",
+      "articleSection": "EPR Compliance",
+      "author": {
+        "@id": "https://evergreen.example/blog/author/asha-verma#person",
+      },
+      "dateModified": "2026-02-03T00:00:00.000Z",
+      "datePublished": "2026-01-02T00:00:00.000Z",
+      "description": "Meta",
+      "headline": "EPR Guide for PIBOs",
+      "image": [
+        {
+          "@id": "https://evergreen.example/blog/epr-guide#primaryimage",
+        },
+      ],
+      "inLanguage": "en-IN",
+      "isPartOf": {
+        "@id": "https://evergreen.example/blog/epr-guide#webpage",
+      },
+      "keywords": "EPR compliance, EPR registration, CPCB",
+      "mainEntityOfPage": {
+        "@id": "https://evergreen.example/blog/epr-guide#webpage",
+      },
+      "mentions": [
+        {
+          "@type": "GovernmentOrganization",
+          "name": "CPCB",
+          "sameAs": "https://en.wikipedia.org/wiki/Central_Pollution_Control_Board",
+        },
+      ],
+      "name": "EPR Guide",
+      "publisher": {
+        "@id": "https://evergreen.example/#organization",
+      },
+      "timeRequired": "PT7M",
+      "url": "https://evergreen.example/blog/epr-guide",
+      "wordCount": 1500,
+    },
+    {
+      "@id": "https://evergreen.example/blog/epr-guide#review",
+      "@type": "Review",
+      "author": {
+        "@id": "https://evergreen.example/blog/author/asha-verma#person",
+      },
+      "datePublished": "2026-01-02T00:00:00.000Z",
+      "isPartOf": {
+        "@id": "https://evergreen.example/blog/epr-guide#webpage",
+      },
+      "itemReviewed": {
+        "@type": "SoftwareApplication",
+        "name": "Portal",
+      },
+      "name": "EPR Guide",
+      "negativeNotes": {
+        "@type": "ItemList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "name": "Clunky",
+            "position": 1,
+          },
+        ],
+      },
+      "positiveNotes": {
+        "@type": "ItemList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "name": "Fast",
+            "position": 1,
+          },
+        ],
+      },
+      "publisher": {
+        "@id": "https://evergreen.example/#organization",
+      },
+      "reviewBody": "Register, calculate, fulfil, file.",
+    },
+  ],
+}
+`;
+
+exports[`buildSchema > Review never invents a rating; ProductReview links a Product 2`] = `
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@id": "https://evergreen.example/#organization",
+      "@type": [
+        "Organization",
+        "LocalBusiness",
+        "RecyclingCenter",
+      ],
+      "address": {
+        "@type": "PostalAddress",
+        "addressCountry": "IN",
+        "addressLocality": "Sitapur",
+        "addressRegion": "Uttar Pradesh",
+        "postalCode": "261204",
+        "streetAddress": "Rampur Mathura, Mahmudabad",
+      },
+      "areaServed": {
+        "@type": "Country",
+        "name": "India",
+      },
+      "contactPoint": [
+        {
+          "@type": "ContactPoint",
+          "areaServed": "IN",
+          "availableLanguage": [
+            "en",
+            "hi",
+          ],
+          "contactType": "customer service",
+          "email": "evergreenewaste2021@gmail.com",
+          "telephone": "+91 94150 46061",
+        },
+        {
+          "@type": "ContactPoint",
+          "areaServed": "IN",
+          "availableLanguage": [
+            "en",
+            "hi",
+          ],
+          "contactType": "sales",
+          "name": "Business enquiries (Mukul Agarwal)",
+          "telephone": "+91 95577 86553",
+        },
+      ],
+      "description": "Authorised e-waste, battery and plastic recycler in Sitapur, Uttar Pradesh, since 2021. PAN India pickup, recycling certificates, EPR and CPCB compliance support.",
+      "email": "evergreenewaste2021@gmail.com",
+      "employee": [
+        {
+          "@id": "https://evergreen.example/about#irfan-ahmad",
+        },
+        {
+          "@id": "https://evergreen.example/about#ramesh-yadav",
+        },
+      ],
+      "founder": [
+        {
+          "@id": "https://evergreen.example/about#irfan-ahmad",
+        },
+      ],
+      "foundingDate": "2021",
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": 27.2955,
+        "longitude": 81.1167,
+      },
+      "hasMap": "https://maps.google.com/?q=Mahmudabad,Sitapur,Uttar+Pradesh",
+      "hasOfferCatalog": {
+        "@type": "OfferCatalog",
+        "itemListElement": [
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@id": "https://evergreen.example/services/e-waste-recycling#service",
+              "@type": "Service",
+              "description": "Dismantling and recycling of laptops, desktops, servers, phones and other electronics.",
+              "name": "E-waste recycling",
+              "url": "https://evergreen.example/services/e-waste-recycling",
+            },
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@id": "https://evergreen.example/services/battery-recycling#service",
+              "@type": "Service",
+              "description": "Processing of lead-acid, lithium-ion, NiMH and industrial batteries.",
+              "name": "Battery recycling",
+              "url": "https://evergreen.example/services/battery-recycling",
+            },
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@id": "https://evergreen.example/services/plastic-recycling#service",
+              "@type": "Service",
+              "description": "Sorting, shredding and pelletising of PET, HDPE, PP and ABS plastics.",
+              "name": "Plastic recycling",
+              "url": "https://evergreen.example/services/plastic-recycling",
+            },
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@id": "https://evergreen.example/services/metal-recovery#service",
+              "@type": "Service",
+              "description": "Recovery of copper, aluminium, gold and silver from electronic scrap.",
+              "name": "Metal recovery",
+              "url": "https://evergreen.example/services/metal-recovery",
+            },
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@id": "https://evergreen.example/services/industrial-scrap-management#service",
+              "@type": "Service",
+              "description": "Collection, transport, sorting and compliant disposal for factories and manufacturing units.",
+              "name": "Industrial scrap management",
+              "url": "https://evergreen.example/services/industrial-scrap-management",
+            },
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@id": "https://evergreen.example/services/secure-disposal#service",
+              "@type": "Service",
+              "description": "Destruction of hard drives, IT assets and confidential documents, with certificates.",
+              "name": "Secure disposal",
+              "url": "https://evergreen.example/services/secure-disposal",
+            },
+          },
+        ],
+        "name": "Recycling services",
+      },
+      "image": "https://evergreen.example/brand/evergreen-512.png",
+      "knowsAbout": [
+        "E-waste recycling",
+        "Battery recycling",
+        "Lithium-ion battery recycling",
+        "Lead-acid battery recycling",
+        "Plastic recycling",
+        "Metal recovery",
+        "Secure data destruction",
+        "Extended Producer Responsibility (EPR)",
+        "E-Waste (Management) Rules, 2022",
+        "Battery Waste Management Rules, 2022",
+        "CPCB compliance",
+      ],
+      "legalName": "Ever Green E-Waste Recycling Management",
+      "logo": {
+        "@id": "https://evergreen.example/#logo",
+        "@type": "ImageObject",
+        "url": "https://evergreen.example/brand/evergreen-512.png",
+      },
+      "name": "Evergreen",
+      "taxID": "09BQEPA3569F3ZV",
+      "telephone": "+91 94150 46061",
+      "url": "https://evergreenrecycler.in",
+      "vatID": "09BQEPA3569F3ZV",
+    },
+    {
+      "@id": "https://evergreen.example/#website",
+      "@type": "WebSite",
+      "description": "Authorised e-waste, battery and plastic recycler in Sitapur, Uttar Pradesh, since 2021. PAN India pickup, recycling certificates, EPR and CPCB compliance support.",
+      "inLanguage": "en-IN",
+      "name": "Evergreen",
+      "publisher": {
+        "@id": "https://evergreen.example/#organization",
+      },
+      "url": "https://evergreen.example",
+    },
+    {
+      "@id": "https://evergreen.example/blog/epr-guide#primaryimage",
+      "@type": "ImageObject",
+      "caption": "Hero alt",
+      "contentUrl": "https://cdn.example.com/hero-1280.png",
+      "height": 672,
+      "inLanguage": "en-IN",
+      "url": "https://cdn.example.com/hero-1280.png",
+      "width": 1280,
+    },
+    {
+      "@id": "https://evergreen.example/blog/author/asha-verma#person",
+      "@type": "Person",
+      "description": "EPR consultant.",
+      "hasCredential": {
+        "@type": "EducationalOccupationalCredential",
+        "name": "M.Tech Environmental Engineering",
+      },
+      "jobTitle": "Compliance Lead",
+      "knowsAbout": [
+        "EPR",
+      ],
+      "name": "Asha Verma",
+      "sameAs": [
+        "https://www.linkedin.com/in/example",
+      ],
+      "url": "https://evergreen.example/blog/author/asha-verma",
+      "worksFor": {
+        "@id": "https://evergreen.example/#organization",
+      },
+    },
+    {
+      "@id": "https://evergreen.example/blog/epr-guide#breadcrumb",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "item": "https://evergreen.example/",
+          "name": "Home",
+          "position": 1,
+        },
+        {
+          "@type": "ListItem",
+          "item": "https://evergreen.example/blog",
+          "name": "Blog",
+          "position": 2,
+        },
+        {
+          "@type": "ListItem",
+          "item": "https://evergreen.example/blog/category/epr-compliance",
+          "name": "EPR Compliance",
+          "position": 3,
+        },
+        {
+          "@type": "ListItem",
+          "item": "https://evergreen.example/blog/epr-guide",
+          "name": "EPR Guide",
+          "position": 4,
+        },
+      ],
+    },
+    {
+      "@id": "https://evergreen.example/blog/epr-guide#webpage",
+      "@type": "WebPage",
+      "breadcrumb": {
+        "@id": "https://evergreen.example/blog/epr-guide#breadcrumb",
+      },
+      "dateModified": "2026-02-03T00:00:00.000Z",
+      "datePublished": "2026-01-02T00:00:00.000Z",
+      "description": "Meta",
+      "image": {
+        "@id": "https://evergreen.example/blog/epr-guide#primaryimage",
+      },
+      "inLanguage": "en-IN",
+      "isPartOf": {
+        "@id": "https://evergreen.example/#website",
+      },
+      "lastReviewed": "2026-02-01T00:00:00.000Z",
+      "mainEntity": {
+        "@id": "https://evergreen.example/blog/epr-guide#article",
+      },
+      "name": "EPR Guide for PIBOs",
+      "primaryImageOfPage": {
+        "@id": "https://evergreen.example/blog/epr-guide#primaryimage",
+      },
+      "speakable": {
+        "@type": "SpeakableSpecification",
+        "cssSelector": [
+          ".article-title",
+          ".ai-summary",
+          ".key-takeaways",
+        ],
+      },
+      "url": "https://evergreen.example/blog/epr-guide",
+    },
+    {
+      "@id": "https://evergreen.example/blog/epr-guide#article",
+      "@type": "BlogPosting",
+      "about": [
+        {
+          "@type": "Thing",
+          "name": "Extended producer responsibility",
+          "sameAs": "https://en.wikipedia.org/wiki/Extended_producer_responsibility",
+        },
+      ],
+      "abstract": "Register, calculate, fulfil, file.",
+      "articleSection": "EPR Compliance",
+      "author": {
+        "@id": "https://evergreen.example/blog/author/asha-verma#person",
+      },
+      "dateModified": "2026-02-03T00:00:00.000Z",
+      "datePublished": "2026-01-02T00:00:00.000Z",
+      "description": "Meta",
+      "headline": "EPR Guide for PIBOs",
+      "image": [
+        {
+          "@id": "https://evergreen.example/blog/epr-guide#primaryimage",
+        },
+      ],
+      "inLanguage": "en-IN",
+      "isPartOf": {
+        "@id": "https://evergreen.example/blog/epr-guide#webpage",
+      },
+      "keywords": "EPR compliance, EPR registration, CPCB",
+      "mainEntityOfPage": {
+        "@id": "https://evergreen.example/blog/epr-guide#webpage",
+      },
+      "mentions": [
+        {
+          "@type": "GovernmentOrganization",
+          "name": "CPCB",
+          "sameAs": "https://en.wikipedia.org/wiki/Central_Pollution_Control_Board",
+        },
+      ],
+      "name": "EPR Guide",
+      "publisher": {
+        "@id": "https://evergreen.example/#organization",
+      },
+      "timeRequired": "PT7M",
+      "url": "https://evergreen.example/blog/epr-guide",
+      "wordCount": 1500,
+    },
+    {
+      "@id": "https://evergreen.example/blog/epr-guide#product",
+      "@type": "Product",
+      "brand": {
+        "@type": "Brand",
+        "name": "Acme",
+      },
+      "image": {
+        "@id": "https://evergreen.example/blog/epr-guide#primaryimage",
+      },
+      "name": "Shredder X",
+      "review": {
+        "@id": "https://evergreen.example/blog/epr-guide#review",
+      },
+      "sku": "SX1",
+    },
+    {
+      "@id": "https://evergreen.example/blog/epr-guide#review",
+      "@type": "Review",
+      "author": {
+        "@id": "https://evergreen.example/blog/author/asha-verma#person",
+      },
+      "datePublished": "2026-01-02T00:00:00.000Z",
+      "isPartOf": {
+        "@id": "https://evergreen.example/blog/epr-guide#webpage",
+      },
+      "itemReviewed": {
+        "@id": "https://evergreen.example/blog/epr-guide#product",
+      },
+      "name": "EPR Guide",
+      "negativeNotes": {
+        "@type": "ItemList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "name": "Clunky",
+            "position": 1,
+          },
+        ],
+      },
+      "positiveNotes": {
+        "@type": "ItemList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "name": "Fast",
+            "position": 1,
+          },
+        ],
+      },
+      "publisher": {
+        "@id": "https://evergreen.example/#organization",
+      },
+      "reviewBody": "Register, calculate, fulfil, file.",
+      "reviewRating": {
+        "@type": "Rating",
+        "bestRating": 5,
+        "ratingValue": 4.5,
+        "worstRating": 1,
+      },
+    },
+  ],
+}
+`;

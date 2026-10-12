@@ -1,0 +1,34 @@
+{
+  "base": "http://localhost:3100",
+  "pages": [
+    "/",
+    "/about",
+    "/blog",
+    "/certifications",
+    "/contact",
+    "/epr-calculator",
+    "/group-companies",
+    "/privacy-policy",
+    "/process",
+    "/services",
+    "/services/battery-recycling",
+    "/services/e-waste-recycling",
+    "/services/industrial-scrap-management",
+    "/services/metal-recovery",
+    "/services/plastic-recycling",
+    "/services/secure-disposal",
+    "/sustainability"
+  ],
+  "internalTargets": 34,
+  "externalTargets": 12,
+  "errors": [],
+  "warnings": [
+    {
+      "level": "warning",
+      "page": "/epr-calculator",
+      "viewport": "any",
+      "kind": "external-tls-chain",
+      "detail": "https://egazette.gov.in/writeReadData/2024/252788.pdf: server omits its intermediate certificate (opens in browsers)"
+    }
+  ]
+}

@@ -1,0 +1,31 @@
+{
+  "base": "http://localhost:3100",
+  "widths": [
+    360,
+    390,
+    768,
+    1024,
+    1280,
+    1440
+  ],
+  "pages": [
+    "/",
+    "/about",
+    "/services",
+    "/process",
+    "/certifications",
+    "/sustainability",
+    "/epr-calculator",
+    "/group-companies",
+    "/contact",
+    "/privacy-policy",
+    "/services/e-waste-recycling",
+    "/services/battery-recycling",
+    "/services/plastic-recycling",
+    "/services/metal-recovery",
+    "/services/industrial-scrap-management",
+    "/services/secure-disposal",
+    "/blog"
+  ],
+  "findings": []
+}

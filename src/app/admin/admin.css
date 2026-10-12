@@ -1,0 +1,85 @@
+/* Admin-only styles (imported by app/admin/layout.tsx, so they never ship with public pages). */
+
+/* The CMS stays in Manrope: point the display font at Manrope for the whole admin document
+   (body[class] outranks the next/font variable class, and also covers portalled dialogs). */
+body[class] {
+  --font-franie: var(--font-manrope);
+}
+
+.prose-editor {
+  color: var(--color-ink);
+  font-size: 1.0625rem;
+  line-height: 1.75;
+}
+.prose-editor > * + * {
+  margin-top: 0.9em;
+}
+.prose-editor h2,
+.prose-editor h3,
+.prose-editor h4 {
+  font-family: var(--font-franie), var(--font-manrope), system-ui, sans-serif;
+  color: var(--color-evergreen-700);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  line-height: 1.25;
+  margin-top: 1.6em;
+}
+.prose-editor h2 { font-size: 1.6rem; }
+.prose-editor h3 { font-size: 1.3rem; }
+.prose-editor h4 { font-size: 1.1rem; }
+.prose-editor a {
+  color: var(--color-moss-ink);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.prose-editor ul { list-style: disc; padding-left: 1.5rem; }
+.prose-editor ol { list-style: decimal; padding-left: 1.5rem; }
+.prose-editor li > p { margin: 0.2em 0; }
+.prose-editor blockquote {
+  border-left: 3px solid var(--color-evergreen-600);
+  padding-left: 1rem;
+  color: var(--color-evergreen-700);
+  font-size: 1.08em;
+}
+.prose-editor code:not(pre code) {
+  background: var(--color-paper-2);
+  border-radius: 4px;
+  padding: 0.1em 0.35em;
+  font-size: 0.9em;
+}
+.prose-editor hr {
+  border: 0;
+  border-top: 1px solid var(--color-line);
+  margin: 2em 0;
+}
+.prose-editor hr.ProseMirror-selectednode { border-top-color: var(--color-evergreen-600); }
+.prose-editor table {
+  border-collapse: collapse;
+  width: 100%;
+  table-layout: fixed;
+  font-size: 0.95rem;
+}
+.prose-editor th,
+.prose-editor td {
+  border: 1px solid var(--color-line);
+  padding: 0.45rem 0.6rem;
+  vertical-align: top;
+  position: relative;
+}
+.prose-editor th { background: var(--color-paper-2); text-align: left; font-weight: 600; }
+.prose-editor .selectedCell::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(44, 147, 69, 0.12);
+  pointer-events: none;
+}
+.prose-editor p.is-editor-empty:first-child::before,
+.prose-editor .is-empty::before {
+  content: attr(data-placeholder);
+  color: rgba(16, 54, 38, 0.4);
+  float: left;
+  height: 0;
+  pointer-events: none;
+}
+.prose-editor .ProseMirror-gapcursor::after { border-top-color: var(--color-evergreen-600); }

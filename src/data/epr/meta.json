@@ -1,0 +1,91 @@
+{
+  "extractedAt": "2026-10-07",
+  "sources": [
+    {
+      "key": "rules",
+      "file": "ewaste-rules-2022-gsr801e-2022-11-02.pdf",
+      "title": "E-Waste (Management) Rules, 2022 (G.S.R. 801(E))",
+      "issuer": "Ministry of Environment, Forest and Climate Change",
+      "date": "2022-11-02",
+      "url": "https://cpcb.gov.in/uploads/Projects/E-Waste/e-waste_rules_2022.pdf",
+      "usedFor": "Schedule I (EEE items and codes), Schedule III and Schedule IV targets",
+      "sha256": "d03f8744bc79d67a94b06e1020537e93d15572b0cf1d575cb32b76c89f30a5fb"
+    },
+    {
+      "key": "amendment2023",
+      "file": "ewaste-rules-2022-amendment-2023-01.pdf",
+      "title": "E-Waste (Management) Amendment Rules, 2023 (G.S.R. 61(E))",
+      "issuer": "Ministry of Environment, Forest and Climate Change",
+      "date": "2023-01-30",
+      "url": "https://tnpcb.gov.in/owems/pdf/regulations/Ewaste%20Rules2022_Amendment%20Jan23.pdf",
+      "usedFor": "Checked: amends rule 16 and Schedule II only; Schedules I, III and IV unchanged",
+      "sha256": "b2d920aef4913ec7093c849e69789b622c10c09e44cbef79705e116e5aa27f1b"
+    },
+    {
+      "key": "amendment2024",
+      "file": "egazette-2024-252788.pdf",
+      "title": "E-Waste (Management) Amendment Rules, 2024 (G.S.R. 164(E))",
+      "issuer": "Ministry of Environment, Forest and Climate Change",
+      "date": "2024-03-08",
+      "url": "https://egazette.gov.in/writeReadData/2024/252788.pdf",
+      "usedFor": "Checked: amends rules 3, 9 and 15 (definitions, relaxation, EPR certificate prices); Schedules I, III and IV unchanged",
+      "sha256": "e15a599fd195bc4ad69a5d64134d22366228e2dd0a8d0953d7a76aba175689e0"
+    },
+    {
+      "key": "metals",
+      "file": "cpcb-key-metals-notice-2023-09-21.pdf",
+      "title": "Framework for generation of EPR Certificate under E-Waste (Management) Rules, 2022, with Annexure I",
+      "issuer": "Central Pollution Control Board",
+      "date": "2023-09-21",
+      "url": "https://cpcb.gov.in/openpdffile.php?id=TGF0ZXN0RmlsZS8zOTBfMTY5NTM1ODM1OF9tZWRpYXBob3RvMjA2MzgucGRm",
+      "usedFor": "Key-metal composition per EEE item (Annexure I) and the gold phase-in (paragraph 6)",
+      "sha256": "81564e6c6d8479e6150bf02c0f3347e2cfa395ba1d55546e3551c2379e50b84f"
+    },
+    {
+      "key": "lifeDraft",
+      "file": "cpcb-average-life-draft.pdf",
+      "title": "Draft average life proposed for the notified EEE items under the E-Waste (Management) Rules, 2022",
+      "issuer": "Central Pollution Control Board",
+      "date": "2023-03-21",
+      "url": "https://cpcb.nic.in/openpdffile.php?id=UmVwb3J0RmlsZXMvMTUwOV8xNjc5Mzc0NjE5X21lZGlhcGhvdG8xMDQ1Mi5wZGY%3D",
+      "usedFor": "Average life of the 85 EEE items added in 2022 (DRAFT: no final list found)",
+      "sha256": "931f5c1c173c2f4765e29e47f3e379cb2101a8c01be8fbb6129941e2474edc43"
+    },
+    {
+      "key": "life2016",
+      "file": "cpcb-guidelines-ewaste-rules-2016.pdf",
+      "title": "Guidelines on Implementation of E-Waste (Management) Rules, 2016, section 2.1.1",
+      "issuer": "Central Pollution Control Board",
+      "date": "2016",
+      "url": "https://cpcb.nic.in/displaypdf.php?id=aHdtZC9HVUlERUxJTkVTX0VXQVNURV9SVUxFU18yMDE2LnBkZg%3D%3D",
+      "usedFor": "Average life of the 21 original EEE items (ITEW1–ITEW16, CEEW1–CEEW5)",
+      "sha256": "c24a8bc94faf37f8e23f7e0c3f7b37d473e419e8fcdd880b68ffe79b6c940ed4"
+    },
+    {
+      "key": "faq",
+      "file": "cpcb-faq-ewaste-2024-01-23.pdf",
+      "title": "FAQs under E-Waste (Management) Rules, 2022",
+      "issuer": "Central Pollution Control Board",
+      "date": "2024-01-23",
+      "url": "https://cpcb.nic.in/uploads/Projects/E-Waste/FAQ_ewaste_23012024.pdf",
+      "usedFor": "Confirms Schedule III/IV targets, the 100% target for imported used EEE and the 20% first-year gold obligation",
+      "sha256": "acde410efaa27e649b24b07a8ab71ea69fb51ca2439c95acc9a1864f52cce1be"
+    },
+    {
+      "key": "portalFaq",
+      "file": "cpcb-epr-portal-faq.pdf",
+      "title": "E-Waste EPR portal FAQ",
+      "issuer": "Central Pollution Control Board",
+      "date": "2024-01-23",
+      "url": "https://eprewaste.cpcb.gov.in/assets/PDF/faqewaste.pdf",
+      "usedFor": "Same target wording as the CPCB FAQ (cross-check)",
+      "sha256": "30f56238fb7db53dd82f69d198be9a92e31d98ea5b21d2724eb7397641a80d16"
+    }
+  ],
+  "notes": [
+    "ITEW15 smart phones: Annexure I gives Au 0.00157%, while the published worked example uses 0.0016% (the same figure rounded). The notice value is used.",
+    "Gold phase-in: the notice gives 20% (2023-24), 30% (2024-25), 45% (2025-26), 60% (2026-27), 80% (2027-28), 100% (2028-29), then 100% onwards. A secondary source listed 45% twice and 100% only from 2029-30. The notice is used.",
+    "Average life: 85 EEE codes use CPCB's draft list of 21 March 2023 (no final list was found on cpcb.nic.in, cpcb.gov.in or eprewaste.cpcb.gov.in). The other 21 use the 2016 CPCB guidelines.",
+    "No recycling target applies to CEEW14 (solar PV) under Schedule III note (3) and Schedule IV note (2)."
+  ]
+}

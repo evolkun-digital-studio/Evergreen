@@ -1,0 +1,46 @@
+{
+  "scheduleIII": [
+    {
+      "fromYear": "2023-24",
+      "toYear": "2024-25",
+      "percent": 60
+    },
+    {
+      "fromYear": "2025-26",
+      "toYear": "2026-27",
+      "percent": 70
+    },
+    {
+      "fromYear": "2027-28",
+      "toYear": null,
+      "percent": 80
+    }
+  ],
+  "scheduleIV": [
+    {
+      "filingYear": "2023-24",
+      "toYear": "2023-24",
+      "percent": 15,
+      "baseYear": "2021-22",
+      "baseRule": "financial year 2021-22"
+    },
+    {
+      "filingYear": "2024-25",
+      "toYear": "2024-25",
+      "percent": 20,
+      "baseYear": "2022-23",
+      "baseRule": "financial year 2022-23"
+    },
+    {
+      "filingYear": "2025-26",
+      "toYear": null,
+      "percent": 20,
+      "baseYear": null,
+      "baseRule": "financial year two years before the filing year"
+    }
+  ],
+  "importedUsedEeePercent": 100,
+  "notApplicableCodes": [
+    "CEEW14"
+  ]
+}

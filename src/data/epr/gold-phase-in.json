@@ -1,0 +1,26 @@
+[
+  {
+    "filingYear": "2023-24",
+    "percent": 20
+  },
+  {
+    "filingYear": "2024-25",
+    "percent": 30
+  },
+  {
+    "filingYear": "2025-26",
+    "percent": 45
+  },
+  {
+    "filingYear": "2026-27",
+    "percent": 60
+  },
+  {
+    "filingYear": "2027-28",
+    "percent": 80
+  },
+  {
+    "filingYear": "2028-29",
+    "percent": 100
+  }
+]

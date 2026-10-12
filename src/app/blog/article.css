@@ -1,0 +1,336 @@
+/* Article copy is editor-written (apostrophes, colons, symbols), so it stays in Manrope:
+   the trial Franie lacks those glyphs. Page titles outside the body use <FontSafe>. */
+.article-body,
+.faq,
+.key-takeaways,
+.toc-inline {
+  --font-franie: var(--font-manrope);
+}
+.article-body em,
+.article-body i,
+.article-body cite {
+  font-style: normal;
+}
+
+/*
+ * Article body styles for HTML produced by lib/content/render.ts.
+ * Plain CSS (no runtime), brand tokens only; contrast pairs meet WCAG 2.1 AA.
+ */
+
+.article-body {
+  color: var(--color-ink);
+  font-size: 1.0625rem;
+  line-height: 1.8;
+  overflow-wrap: break-word;
+}
+@media (min-width: 768px) {
+  .article-body { font-size: 1.125rem; }
+}
+.article-body > * + * { margin-top: 1.15em; }
+
+.article-body h2,
+.article-body h3,
+.article-body h4 {
+  position: relative;
+  font-family: var(--font-franie), var(--font-manrope), system-ui, sans-serif;
+  color: var(--color-evergreen-700);
+  font-weight: 600;
+  scroll-margin-top: calc(var(--header-h) + 1.5rem);
+  text-wrap: balance;
+}
+.article-body h2 {
+  font-size: var(--fs-h2);
+  line-height: 1.18;
+  letter-spacing: -0.015em;
+  margin-top: 2.2em;
+}
+.article-body h3 {
+  font-size: var(--fs-h3);
+  line-height: 1.3;
+  letter-spacing: -0.01em;
+  margin-top: 1.8em;
+}
+.article-body h4 {
+  font-size: var(--fs-h4);
+  line-height: 1.4;
+  letter-spacing: 0;
+  margin-top: 1.6em;
+}
+.article-body .heading-anchor {
+  position: absolute;
+  left: -1.1em;
+  width: 1em;
+  color: var(--color-moss-ink);
+  text-decoration: none;
+  opacity: 0;
+  transition: opacity var(--motion-fast) var(--ease-standard);
+}
+.article-body h2:hover .heading-anchor,
+.article-body h3:hover .heading-anchor,
+.article-body h4:hover .heading-anchor,
+.article-body .heading-anchor:focus-visible { opacity: 1; }
+
+.article-body a:not(.heading-anchor):not(.yt-facade) {
+  color: var(--color-moss-ink);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+.article-body a:not(.heading-anchor):not(.yt-facade):hover { color: var(--color-evergreen-700); }
+.article-body strong { color: var(--color-evergreen-700); font-weight: 600; }
+
+.article-body ul,
+.article-body ol { padding-left: 1.4em; }
+.article-body ul { list-style: disc; }
+.article-body ol { list-style: decimal; }
+.article-body li { margin-top: 0.4em; padding-left: 0.2em; }
+.article-body li::marker { color: var(--color-moss-ink); }
+.article-body li > p { margin: 0; }
+
+.article-body blockquote {
+  border-left: 3px solid var(--color-moss);
+  padding: 0.2em 0 0.2em 1.1em;
+  color: var(--color-evergreen-900);
+  font-size: 1.08em;
+  font-style: normal;
+}
+.article-body hr {
+  border: 0;
+  border-top: 1px solid var(--color-line);
+  margin: 2.5em 0;
+}
+.article-body :not(pre) > code {
+  background: var(--color-paper-2);
+  border: 1px solid var(--color-line);
+  border-radius: 5px;
+  padding: 0.08em 0.35em;
+  font-size: 0.88em;
+}
+
+/* Images */
+.article-body figure.content-image img,
+.article-body figure.content-image picture { display: block; width: 100%; height: auto; border-radius: 0.75rem; }
+.article-body figure.content-image img { background-color: var(--color-paper-2); }
+.article-body figcaption {
+  margin-top: 0.6em;
+  font-size: 0.88rem;
+  color: color-mix(in srgb, var(--color-ink) 80%, transparent);
+  text-align: center;
+}
+
+/* Tables */
+.article-body .table-wrap {
+  overflow-x: auto;
+  border: 1px solid var(--color-line);
+  border-radius: 0.75rem;
+}
+.article-body table { width: 100%; border-collapse: collapse; font-size: 0.95rem; }
+.article-body th,
+.article-body td {
+  padding: 0.65rem 0.85rem;
+  border-bottom: 1px solid var(--color-line);
+  text-align: left;
+  vertical-align: top;
+}
+.article-body th { background: var(--color-paper-2); color: var(--color-evergreen-700); font-weight: 600; }
+.article-body tr:last-child td { border-bottom: 0; }
+
+/* Callouts */
+.article-body .callout {
+  display: flex;
+  gap: 0.85rem;
+  padding: 1rem 1.15rem;
+  border-radius: 0.75rem;
+  border-left: 4px solid;
+}
+.article-body .callout-icon { flex-shrink: 0; margin-top: 0.3em; }
+.article-body .callout-body { min-width: 0; }
+.article-body .callout-body > * + * { margin-top: 0.6em; }
+.article-body .callout-title {
+  font-family: var(--font-franie), var(--font-manrope), system-ui, sans-serif;
+  font-weight: 600;
+  font-size: 0.95em;
+  color: var(--color-evergreen-700);
+}
+.article-body .callout-important { background: rgba(16, 54, 38, 0.06); border-color: var(--color-evergreen-700); color: var(--color-ink); }
+.article-body .callout-important .callout-icon { color: var(--color-evergreen-700); }
+.article-body .callout-warning { background: #fff8eb; border-color: #b45309; }
+.article-body .callout-warning .callout-icon,
+.article-body .callout-warning .callout-title { color: #92400e; }
+.article-body .callout-tip { background: rgba(44, 147, 69, 0.1); border-color: var(--color-evergreen-600); }
+.article-body .callout-tip .callout-icon { color: var(--color-moss-ink); }
+.article-body .callout-note { background: var(--color-paper-2); border-color: rgba(16, 54, 38, 0.35); }
+.article-body .callout-note .callout-icon { color: var(--color-evergreen-700); }
+
+/* Expert quote */
+.article-body .expert-quote {
+  padding: 1.5rem 1.6rem;
+  border-radius: 1rem;
+  background: var(--color-evergreen-900);
+  color: #fff;
+}
+.article-body .expert-quote blockquote {
+  border: 0;
+  padding: 0;
+  color: #fff;
+  font-family: var(--font-franie), var(--font-manrope), system-ui, sans-serif;
+  font-size: 1.2em;
+  font-style: normal;
+  line-height: 1.5;
+}
+.article-body .expert-quote blockquote::before {
+  content: "“";
+  display: block;
+  font-size: 2.6em;
+  line-height: 0.6;
+  color: var(--color-moss-soft);
+}
+.article-body .expert-quote figcaption { text-align: left; color: rgba(255, 255, 255, 0.82); margin-top: 1em; }
+.article-body .expert-quote cite { font-style: normal; font-weight: 600; color: #fff; }
+.article-body .expert-quote cite a { color: var(--color-moss-soft) !important; }
+
+/* Code */
+.article-body .code-block {
+  position: relative;
+  border: 1px solid var(--color-line);
+  border-radius: 0.75rem;
+  overflow: hidden;
+  background: #fff;
+}
+.article-body .code-filename {
+  margin: 0;
+  padding: 0.45rem 1rem;
+  border-bottom: 1px solid var(--color-line);
+  background: var(--color-paper-2);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 0.8rem;
+  text-align: left;
+  color: var(--color-evergreen-700);
+}
+.article-body .code-block pre {
+  margin: 0;
+  padding: 1rem 1.1rem;
+  overflow-x: auto;
+  font-size: 0.88rem;
+  line-height: 1.65;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+.article-body .copy-code {
+  position: absolute;
+  top: 0.4rem;
+  right: 0.5rem;
+  z-index: 1;
+  padding: 0.2rem 0.6rem;
+  border: 1px solid var(--color-line);
+  border-radius: 0.4rem;
+  background: #fff;
+  color: var(--color-evergreen-700);
+  font-size: 0.75rem;
+  cursor: pointer;
+}
+.article-body .copy-code:hover { border-color: var(--color-evergreen-600); }
+
+/* YouTube facade */
+.article-body .yt-facade {
+  position: relative;
+  display: block;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  border-radius: 0.75rem;
+  background: #000;
+}
+.article-body .yt-facade img { width: 100%; height: 100%; object-fit: cover; opacity: 0.88; }
+.article-body .yt-play {
+  position: absolute;
+  inset: 50% auto auto 50%;
+  width: 68px;
+  height: 48px;
+  translate: -50% -50%;
+  border-radius: 14px;
+  background: rgba(15, 15, 15, 0.82);
+  transition: background var(--motion-fast) var(--ease-standard);
+}
+.article-body .yt-play::after {
+  content: "";
+  position: absolute;
+  inset: 50% auto auto 54%;
+  translate: -50% -50%;
+  border-style: solid;
+  border-width: 11px 0 11px 19px;
+  border-color: transparent transparent transparent #fff;
+}
+.article-body .yt-facade:hover .yt-play,
+.article-body .yt-facade:focus-visible .yt-play { background: #c4302b; }
+.article-body .video-embed iframe { width: 100%; aspect-ratio: 16 / 9; border: 0; border-radius: 0.75rem; }
+
+/* Key takeaways */
+.key-takeaways {
+  padding: 1.25rem 1.4rem;
+  border: 1px solid rgba(44, 147, 69, 0.35);
+  border-radius: 1rem;
+  background: rgba(44, 147, 69, 0.07);
+}
+.key-takeaways .key-takeaways-title {
+  margin: 0 0 0.6rem;
+  font-family: var(--font-franie), var(--font-manrope), system-ui, sans-serif;
+  font-size: var(--fs-h2);
+  line-height: 1.18;
+  letter-spacing: -0.015em;
+  color: var(--color-evergreen-700);
+}
+.key-takeaways ul { list-style: none; padding: 0; }
+.key-takeaways li { position: relative; padding-left: 1.6rem; margin-top: 0.45rem; }
+.key-takeaways li::before {
+  content: "";
+  position: absolute;
+  left: 0.15rem;
+  top: 0.55em;
+  width: 0.75rem;
+  height: 0.4rem;
+  border-left: 2px solid var(--color-moss-ink);
+  border-bottom: 2px solid var(--color-moss-ink);
+  rotate: -45deg;
+}
+
+/* FAQ (answers are in the HTML; <details> just collapses them) */
+.faq h2 { margin-bottom: 0.8rem; }
+.faq-item { border-bottom: 1px solid var(--color-line); }
+.faq-item summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1rem 0;
+  cursor: pointer;
+  list-style: none;
+}
+.faq-item summary::-webkit-details-marker { display: none; }
+.faq-item summary::after {
+  content: "+";
+  flex-shrink: 0;
+  font-size: 1.4rem;
+  line-height: 1;
+  color: var(--color-moss-ink);
+}
+.faq-item[open] summary::after { content: "−"; }
+.faq-item .faq-question {
+  margin: 0;
+  font-family: var(--font-franie), var(--font-manrope), system-ui, sans-serif;
+  font-size: var(--fs-h3);
+  line-height: 1.3;
+  letter-spacing: -0.01em;
+  color: var(--color-evergreen-700);
+}
+.faq-item .faq-answer { padding-bottom: 1rem; }
+
+/* Inline table of contents block */
+.toc-inline {
+  padding: 1rem 1.25rem;
+  border: 1px solid var(--color-line);
+  border-radius: 1rem;
+  background: #fff;
+}
+.toc-inline .toc-title { font-family: var(--font-franie), var(--font-manrope), system-ui, sans-serif; font-weight: 600; color: var(--color-evergreen-700); }
+.toc-inline ol { list-style: none; padding-left: 0; }
+.toc-inline ol ol { padding-left: 1rem; }
+.toc-inline a { text-decoration: none !important; }

@@ -1,0 +1,88 @@
+{
+  "routes": [
+    "/",
+    "/blog",
+    "/about",
+    "/services/e-waste-recycling",
+    "/services/battery-recycling",
+    "/services/plastic-recycling",
+    "/services/metal-recovery",
+    "/services/industrial-scrap-management",
+    "/services/secure-disposal",
+    "/services",
+    "/process",
+    "/epr-calculator",
+    "/contact",
+    "/certifications",
+    "/sustainability",
+    "/privacy-policy",
+    "/group-companies"
+  ],
+  "findings": [],
+  "layouts": [
+    {
+      "viewport": 320,
+      "portraits": [
+        {
+          "width": 280,
+          "height": 350,
+          "loaded": true
+        },
+        {
+          "width": 280,
+          "height": 350,
+          "loaded": true
+        }
+      ],
+      "overflow": false
+    },
+    {
+      "viewport": 390,
+      "portraits": [
+        {
+          "width": 340,
+          "height": 425,
+          "loaded": true
+        },
+        {
+          "width": 340,
+          "height": 425,
+          "loaded": true
+        }
+      ],
+      "overflow": false
+    },
+    {
+      "viewport": 768,
+      "portraits": [
+        {
+          "width": 336,
+          "height": 420,
+          "loaded": true
+        },
+        {
+          "width": 336,
+          "height": 420,
+          "loaded": true
+        }
+      ],
+      "overflow": false
+    },
+    {
+      "viewport": 1440,
+      "portraits": [
+        {
+          "width": 340,
+          "height": 425,
+          "loaded": true
+        },
+        {
+          "width": 340,
+          "height": 425,
+          "loaded": true
+        }
+      ],
+      "overflow": false
+    }
+  ]
+}

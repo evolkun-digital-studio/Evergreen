@@ -1,0 +1,465 @@
+@import "tailwindcss";
+@plugin "tailwindcss-animate";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  /* Franie (display, trial: 68 glyphs) + Manrope (body). See src/app/fonts.ts.
+     These are inlined into utilities; custom CSS below uses var(--font-franie) directly. */
+  --font-display: var(--font-franie), "Manrope", system-ui, sans-serif;
+  --font-sans: var(--font-manrope), "Manrope", system-ui, sans-serif;
+}
+
+/*
+ * Evergreen circular palette.
+ * Hue and accent are taken from the logo artwork (#2C9345 leaf green, #B6D433 lime);
+ * the scale is rebuilt around them. Contrast ratios (WCAG 2.1) are noted per token.
+ * Rule: evergreen-600 and moss are fills/icons/rules only on light surfaces — use the
+ * `-700` / `-ink` shades for any text on paper or white.
+ */
+@theme {
+  --color-evergreen-950: #0A2616; /* darkest surfaces, footer, hero overlay — white 16.1:1 */
+  --color-evergreen-900: #0F3A21; /* dark sections — white 12.8:1 */
+  --color-evergreen-800: #145230; /* button hover — white 9.2:1 */
+  --color-evergreen-700: #1A6B37; /* PRIMARY: buttons, links, headings — 6.0:1 on paper, white on it 6.6:1 */
+  --color-evergreen-600: #2C9345; /* logo green: icons, rules, focus ring — 3.6:1 (non-text / large only) */
+  --color-evergreen-500: #3FAA58; /* decorative tints only */
+  --color-moss: #B6D433; /* logo lime: fills, highlights, rules — 9.6:1 against evergreen-950 */
+  --color-moss-ink: #4E6B12; /* moss as text on light — 5.6:1 on paper */
+  --color-moss-soft: #CFE57A; /* moss as text on dark — 11.6:1 on evergreen-950 */
+  --color-copper: #C27A3A; /* small doses: rules, tags, dots — 3.1:1 (non-text) */
+  --color-copper-ink: #94561F; /* copper as text on light — 5.3:1 on paper */
+  --color-copper-soft: #E7B98C; /* copper on dark — 9.0:1 on evergreen-950 */
+  --color-paper: #FFFFFF; /* page background */
+  --color-paper-2: #F5F7F6; /* insets, alternating sections */
+  --color-ink: #10261C; /* body text — 14.6:1 on paper */
+  --color-ink-muted: #4B5E53; /* secondary text — 6.4:1 on paper */
+  --color-line: rgba(16, 54, 38, 0.12);
+}
+
+/* shadcn/ui variables mapped onto the palette */
+:root {
+  --radius: 0.625rem;
+  --background: #FFFFFF;
+  --foreground: #10261C;
+  --card: #ffffff;
+  --card-foreground: #10261C;
+  --popover: #ffffff;
+  --popover-foreground: #10261C;
+  --primary: #1A6B37;
+  --primary-foreground: #ffffff;
+  --secondary: #F5F7F6;
+  --secondary-foreground: #10261C;
+  --muted: #F5F7F6;
+  --muted-foreground: #4B5E53;
+  --accent: #EAF2D2;
+  --accent-foreground: #0F3A21;
+  --destructive: #B3261E;
+  --destructive-foreground: #ffffff;
+  --border: rgba(16, 54, 38, 0.14);
+  --input: rgba(16, 54, 38, 0.22);
+  --ring: #2C9345;
+
+  --header-h: 3.5rem;
+
+  --motion-fast: 200ms;
+  --motion-medium: 500ms;
+  --motion-slow: 800ms;
+
+  --ease-standard: ease-out;
+  --ease-premium: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+
+
+* {
+  box-sizing: border-box;
+}
+html {
+  scroll-behavior: smooth;
+  /* Never fake italic or bold: only real Franie/Manrope faces render. */
+  font-synthesis: none;
+}
+
+html.lenis {
+  scroll-behavior: auto !important;
+}
+
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+
+/* No italics anywhere on the site. Emphasis uses colour or weight instead. */
+em,
+i,
+cite,
+var,
+dfn,
+address,
+[style*="italic"] {
+  font-style: normal !important;
+}
+body {
+  margin: 0;
+  min-width: 320px;
+  background: var(--color-paper);
+  color: var(--color-ink);
+  font-family: var(--font-manrope), ui-sans-serif, system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+button,
+a {
+  -webkit-tap-highlight-color: transparent;
+}
+a {
+  text-decoration: none;
+}
+
+/* Root scrollbar: dark track while the home video hero is on screen (see Header), so the classic
+   Windows scrollbar doesn't look like a white strip beside the video. */
+html[data-over-hero] {
+  scrollbar-color: rgb(255 255 255 / 0.35) #0a2616;
+}
+
+/* Anchor targets clear the sticky header (56px), plus a little air. */
+[id] {
+  scroll-margin-top: calc(var(--header-h) + 1rem);
+}
+
+.container {
+  width: 100%;
+  max-width: 1280px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1.25rem;
+  padding-right: 1.25rem;
+}
+
+::selection {
+  background: #B6D433;
+  color: #0A2616;
+}
+
+@media (min-width: 640px) {
+  .container {
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .container {
+    padding-left: 3rem;
+    padding-right: 3rem;
+  }
+}
+
+/* ---------- Type scale (mobile → desktop via clamp) ---------- */
+:root {
+  --fs-h1: clamp(2.125rem, 1.4rem + 2.2vw, 3rem); /* 34 → 48 */
+  --fs-h2: clamp(1.75rem, 1.45rem + 0.95vw, 2.125rem); /* 28 → 34 */
+  --fs-h3: clamp(1.25rem, 1.15rem + 0.3vw, 1.375rem); /* 20 → 22 */
+  --fs-h4: clamp(1.0625rem, 1.03rem + 0.1vw, 1.125rem); /* 17 → 18 */
+  --fs-lead: clamp(1.0625rem, 0.98rem + 0.3vw, 1.1875rem); /* 17 → 19 */
+  --fs-body: clamp(1rem, 0.97rem + 0.1vw, 1.0625rem); /* 16 → 17 */
+  --fs-small: 0.875rem; /* 14 */
+  --fs-eyebrow: 0.75rem; /* 12 */
+  --font-heading: var(--font-franie), var(--font-manrope), system-ui, sans-serif;
+}
+
+body {
+  font-size: var(--fs-body);
+  line-height: 1.65;
+}
+
+@layer base {
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-heading);
+    font-weight: 600;
+    color: var(--color-evergreen-950);
+    text-wrap: balance;
+  }
+  h1 {
+    font-size: var(--fs-h1);
+    line-height: 1.12;
+    letter-spacing: -0.02em;
+    max-width: 24ch;
+  }
+  h2 {
+    font-size: var(--fs-h2);
+    line-height: 1.18;
+    letter-spacing: -0.015em;
+    max-width: 28ch;
+  }
+  h3 {
+    font-size: var(--fs-h3);
+    line-height: 1.3;
+    letter-spacing: -0.01em;
+  }
+  h4 {
+    font-size: var(--fs-h4);
+    line-height: 1.4;
+    letter-spacing: 0;
+  }
+}
+
+@layer components {
+  .lead {
+    font-size: var(--fs-lead);
+    line-height: 1.6;
+    color: color-mix(in srgb, var(--color-ink) 82%, transparent);
+    text-wrap: pretty;
+  }
+  .stat-value {
+    font-family: var(--font-heading);
+    font-size: var(--fs-h2);
+    font-weight: 500;
+    line-height: 1;
+  }
+  .meta {
+    font-size: var(--fs-small);
+    line-height: 1.5;
+    font-weight: 500;
+  }
+  .eyebrow {
+    display: block;
+    font-family: var(--font-heading);
+    font-size: var(--fs-eyebrow);
+    line-height: 1.4;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--color-copper-ink);
+  }
+  /* Section rhythm: 64px mobile, 96px desktop. */
+  .section {
+    padding-block: 4rem;
+  }
+  @media (min-width: 1024px) {
+    .section {
+      padding-block: 6rem;
+    }
+  }
+
+  /* The two button styles used across the site. */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    height: 2.75rem;
+    padding: 0 1.25rem;
+    border: 1px solid transparent;
+    border-radius: 0.5rem;
+    font-family: var(--font-heading);
+    font-size: 0.9375rem;
+    font-weight: 600;
+    line-height: 1;
+    white-space: nowrap;
+    transition:
+      background-color 150ms ease,
+      border-color 150ms ease,
+      color 150ms ease;
+  }
+  /* Same 44px tap target as .btn; only the padding and type are smaller. */
+  .btn-sm {
+    height: 2.75rem;
+    padding: 0 1.125rem;
+    font-size: 0.875rem;
+  }
+  .btn-primary {
+    background: var(--color-evergreen-700);
+    color: #fff;
+  }
+  .btn-primary:hover {
+    background: var(--color-evergreen-800);
+  }
+  .btn-secondary {
+    border-color: rgba(16, 54, 38, 0.25);
+    color: var(--color-evergreen-900);
+  }
+  .btn-secondary:hover {
+    border-color: rgba(16, 54, 38, 0.5);
+    background: #fff;
+  }
+
+  .text-link {
+    display: inline-flex;
+    align-items: center;
+    min-height: 2.75rem;
+    gap: 0.5rem;
+    font-weight: 600;
+    color: var(--color-evergreen-700);
+    text-decoration: underline;
+    text-decoration-color: color-mix(in srgb, var(--color-evergreen-600) 45%, transparent);
+    text-decoration-thickness: 1px;
+    text-underline-offset: 6px;
+    transition:
+      color 150ms ease,
+      text-decoration-color 150ms ease;
+  }
+  .text-link:hover {
+    color: var(--color-evergreen-900);
+    text-decoration-color: currentColor;
+  }
+
+  .field {
+    width: 100%;
+    padding: 0.75rem 0.875rem;
+    border: 1px solid var(--input);
+    border-radius: 0.5rem;
+    background: #fff;
+    color: var(--color-ink);
+    font-size: 1rem;
+    transition:
+      border-color 150ms ease,
+      box-shadow 150ms ease;
+  }
+  .field:hover {
+    border-color: rgba(16, 54, 38, 0.32);
+  }
+  .field:focus {
+    outline: none;
+    border-color: var(--color-evergreen-600);
+    box-shadow: 0 0 0 3px rgba(44, 147, 69, 0.18);
+  }
+}
+
+/* Long-form article copy stays in Manrope. */
+.font-scope-sans {
+  --font-franie: var(--font-manrope);
+}
+
+/* Icons: lucide only, one stroke weight. */
+svg.lucide {
+  stroke-width: 1.5;
+}
+
+/* ---------- Focus visibility ---------- */
+@layer base {
+  :where(
+    a,
+    button,
+    [role="button"],
+    input,
+    select,
+    textarea,
+    summary
+  ):focus-visible {
+    outline: 2px solid var(--color-evergreen-600);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+
+  button {
+    transition:
+      transform var(--motion-fast) var(--ease-premium),
+      background-color 150ms ease,
+      border-color 150ms ease,
+      color 150ms ease,
+      box-shadow 150ms ease;
+  }
+
+  /* Tactile press instead of a hover bounce */
+  button:active:not(:disabled) {
+    transform: scale(0.98);
+  }
+}
+
+/* ---------- Motion ---------- */
+@keyframes fadeRise {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Base utility for staggered entrance */
+.animate-fade-rise {
+  opacity: 0;
+  animation: fadeRise 0.8s var(--ease-premium) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+
+  .animate-fade-rise {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+
+  button:active:not(:disabled) {
+    transform: none;
+  }
+}
+
+/* ---------- Admin CMS: sidebar tokens used by components/ui/sidebar.tsx ---------- */
+@theme inline {
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+}
+
+:root {
+  --sidebar: #0F3A21;
+  --sidebar-foreground: #EEF5E6;
+  --sidebar-primary: #B6D433;
+  --sidebar-primary-foreground: #0A2616;
+  --sidebar-accent: rgba(182, 212, 51, 0.14);
+  --sidebar-accent-foreground: #ffffff;
+  --sidebar-border: rgba(182, 212, 51, 0.16);
+  --sidebar-ring: #CFE57A;
+}
+
+
