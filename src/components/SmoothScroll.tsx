@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { Suspense, useEffect } from "react";
 import { usePathname } from "next/navigation";
 import Lenis from "lenis";
 import "lenis/dist/lenis.css";
@@ -17,6 +17,14 @@ declare global {
  * Initializes immediately on mount, handles hash anchors, and respects prefers-reduced-motion.
  */
 export function SmoothScroll() {
+  return (
+    <Suspense fallback={null}>
+      <SmoothScrollEffects />
+    </Suspense>
+  );
+}
+
+function SmoothScrollEffects() {
   const pathname = usePathname();
 
   useEffect(() => {
