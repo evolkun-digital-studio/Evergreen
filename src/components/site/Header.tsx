@@ -4,9 +4,9 @@ import { Suspense, useEffect, useId, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Calculator, ChevronDown, Menu, Phone, X } from "lucide-react";
+import { Calculator, ChevronDown, Menu, X } from "lucide-react";
 import { eprNavLink, primaryNav, shortServiceLinks, type NavLink } from "@/config/nav";
-import { publicPhone, site, telHref } from "@/config/site";
+import { site } from "@/config/site";
 import { cn } from "@/lib/utils";
 import { useHideOnScroll } from "@/hooks/useHideOnScroll";
 
@@ -416,20 +416,6 @@ function HeaderBar({ pathname }: { pathname: string | null }) {
                   <Calculator aria-hidden="true" className="h-[15px] w-[15px]" />
                   {eprNavLink.label}
                 </Link>
-                <div className="mt-auto space-y-3 pt-8">
-                  <Link href="/contact" className="btn btn-primary w-full">
-                    Request a free pickup
-                  </Link>
-                  {publicPhone && (
-                    <a
-                      href={telHref(publicPhone)}
-                      className="flex min-h-11 items-center justify-center gap-2 font-medium text-evergreen-700 tabular-nums"
-                    >
-                      <Phone aria-hidden="true" className="h-4 w-4" />
-                      {publicPhone}
-                    </a>
-                  )}
-                </div>
               </nav>
             </div>
           </div>,

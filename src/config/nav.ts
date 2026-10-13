@@ -5,7 +5,7 @@ export type NavLink = { href: string; label: string; description?: string };
 const serviceLinks: NavLink[] = services.map(s => ({ href: `/services/${s.slug}`, label: s.title }));
 
 // Certifications, Sustainability and Group companies are reached from the footer and the About page.
-// Contact is reached from the hero, the mobile menu's "Request a free pickup" button and the footer.
+// Contact is reached from the hero and footer.
 export const primaryNav: (NavLink & { children?: NavLink[] })[] = [
   { href: "/about", label: "About" },
   { href: "/services", label: "Services", children: serviceLinks },
