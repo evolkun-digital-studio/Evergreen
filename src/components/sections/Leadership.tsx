@@ -25,8 +25,8 @@ export function Leadership({ children }: { children?: React.ReactNode }) {
             </p>
           </div>
           <ul className="mx-auto mt-10 grid max-w-[712px] justify-items-center gap-x-8 gap-y-12 md:mt-12 md:grid-cols-2">
-            {leadership.map((l, index) => (
-              <LeaderProfile key={l.id} leader={l} number={index + 1} />
+            {leadership.map((l) => (
+              <LeaderProfile key={l.id} leader={l} />
             ))}
           </ul>
           {children}
@@ -36,13 +36,7 @@ export function Leadership({ children }: { children?: React.ReactNode }) {
   );
 }
 
-function LeaderProfile({
-  leader: l,
-  number,
-}: {
-  leader: Leader;
-  number: number;
-}) {
+function LeaderProfile({ leader: l }: { leader: Leader }) {
   const hasBio = isSet(l.bio);
   return (
     <li
@@ -63,10 +57,7 @@ function LeaderProfile({
         />
       </div>
       <div className="flex flex-1 flex-col pt-4">
-        <div className="flex items-baseline justify-between gap-4 border-b border-line pb-2 text-[12px] font-semibold uppercase tracking-[0.12em] text-evergreen-700">
-          <span className="tabular-nums" aria-hidden="true">
-            {String(number).padStart(2, "0")}
-          </span>
+        <div className="flex items-baseline justify-end gap-4 border-b border-line pb-2 text-[12px] font-semibold uppercase tracking-[0.12em] text-evergreen-700">
           <p>{l.role}</p>
         </div>
         <h3 className="mt-2 font-display text-[28px] font-medium leading-tight tracking-[-0.025em] text-ink lg:text-[28px]">
