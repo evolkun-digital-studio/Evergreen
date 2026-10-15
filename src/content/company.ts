@@ -13,11 +13,19 @@ import { portraits, type Photo } from "@/content/images";
 
 export const about = {
   paragraphs: [
-    `${site.legalName} is a government-authorised recycling company in ${site.address.locality}, ${site.address.region}. Since ${site.founded} we have collected and processed electronic waste, batteries, plastics and industrial scrap.`,
-    `The company is led by its owner, ${site.owner.honorific} ${site.owner.name}. Our aim is to recover as much material as we can and send as little as possible to landfill, so that it goes back into use.`,
+    {
+      lead: site.legalName,
+      body: "is one of India's leading companies recycling electrical and electronic (WEEE) waste in accordance with government guidelines. Our integrated, best-in-class technology ensures environmental safety and sustainability.",
+    },
+    {
+      body: "We handle large quantities of high-quality e-waste and are able to remove all components from electrical items, including metals and hazardous materials such as lead, mercury, cadmium and PCBs, without leaving anything behind. We are ISO 180 certified and adhere to strict environmental regulations for the safe handling and disposal of hazardous products, helping keep our environment green.",
+    },
   ],
-  // "Eco-certified" is shown as published on the source site; the certificate is to be confirmed.
-  capabilities: ["GST registered", "Authorised recycler", "Eco-certified", "Industrial grade", "Based in UP", "B2B and B2C"],
+  highlights: [
+    { title: "Operating Since", body: "Successfully recycling e-waste since 2020" },
+    { title: "ISO Certified", body: "Adheres to strict environmental regulations for safe hazardous product handling" },
+    { title: "Complete Removal", body: "Removes mercury, lead, cadmium, PCBs and all hazardous components from electrical items" },
+  ],
 };
 
 export type Leader = {
@@ -112,6 +120,21 @@ export const registrations: { title: string; detail: string; body: string; verif
     title: "CPCB EPR portal",
     detail: "Central Pollution Control Board",
     body: "Registered on the CPCB EPR portal.",
+  },
+  {
+    title: "ISO 45001:2018",
+    detail: "Occupational Health & Safety Management System",
+    body: "Certified for occupational health and safety at our plant.",
+  },
+  {
+    title: "ISO 14001:2015",
+    detail: "Environmental Management System",
+    body: "Certified for environmental management in our recycling operations.",
+  },
+  {
+    title: "Quality Management System",
+    detail: "Quality certification",
+    body: "Certified for quality standards in recycling operations.",
   },
 ];
 

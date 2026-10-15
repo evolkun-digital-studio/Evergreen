@@ -43,15 +43,20 @@ export default function Home() {
           </div>
           <div className="lg:col-span-7 lg:pt-12">
             {about.paragraphs.map(p => (
-              <p key={p} className="mt-5 text-[1.0625rem] leading-[1.7] text-ink/90 first:mt-0 lg:text-[1.125rem]">
-                {p}
+              <p key={p.body} className="mt-5 text-[18px] leading-[1.7] text-ink/90 first:mt-0">
+                {p.lead && <strong className="font-semibold text-ink">{p.lead}</strong>}
+                {p.lead && " "}
+                {p.body}
               </p>
             ))}
-            <ul className="mt-8 grid grid-cols-2 gap-x-6 gap-y-3 border-t border-line pt-8 text-[15px] font-medium text-ink-muted sm:grid-cols-3">
-              {about.capabilities.map(c => (
-                <li key={c} className="flex items-center gap-2">
-                  <span aria-hidden="true" className="h-1.5 w-1.5 shrink-0 rounded-full bg-evergreen-600/70" />
-                  {c}
+            <ul className="mt-8 grid gap-4 sm:grid-cols-2">
+              {about.highlights.map((h, i) => (
+                <li
+                  key={h.title}
+                  className={`rounded-lg border border-line bg-paper-2 p-5 ${i === about.highlights.length - 1 ? "sm:col-span-2" : ""}`}
+                >
+                  <h3 className="text-lg font-semibold text-ink">{h.title}</h3>
+                  <p className="mt-1 text-[15px] text-ink-muted">{h.body}</p>
                 </li>
               ))}
             </ul>

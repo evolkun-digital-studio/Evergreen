@@ -46,16 +46,21 @@ export default function AboutPage() {
           </h2>
           <div className="space-y-4 text-ink/85 lg:col-span-8">
             {about.paragraphs.map(p => (
-              <p key={p}>{p}</p>
+              <p key={p.body} className="text-[18px]">
+                {p.lead && <strong className="font-semibold text-ink">{p.lead}</strong>}
+                {p.lead && " "}
+                {p.body}
+              </p>
             ))}
             <p>Our plant is at {fullAddress()}.</p>
-            <ul className="meta flex flex-wrap gap-x-2 gap-y-1 pt-2 text-ink-muted">
-              {about.capabilities.map((c, i) => (
-                <li key={c}>
-                  {c}
-                  {i < about.capabilities.length - 1 && (
-                    <span aria-hidden="true"> ·</span>
-                  )}
+            <ul className="grid gap-4 pt-4 sm:grid-cols-2">
+              {about.highlights.map((h, i) => (
+                <li
+                  key={h.title}
+                  className={`rounded-lg border border-line bg-paper-2 p-5 ${i === about.highlights.length - 1 ? "sm:col-span-2" : ""}`}
+                >
+                  <h3 className="text-lg font-semibold text-ink">{h.title}</h3>
+                  <p className="mt-1 text-[15px] text-ink-muted">{h.body}</p>
                 </li>
               ))}
             </ul>
