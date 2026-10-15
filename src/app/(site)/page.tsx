@@ -6,7 +6,13 @@ import { ServiceList } from "@/components/sections/ServiceList";
 import { StatsRow } from "@/components/sections/StatsRow";
 import { Registrations } from "@/components/sections/Registrations";
 import { Industries } from "@/components/sections/Industries";
-import { CapacityBand, EntityBlock, MaterialsStrip, SectionHead, Workflow } from "@/components/sections/Blocks";
+import {
+  CapacityBand,
+  EntityBlock,
+  MaterialsStrip,
+  SectionHead,
+  Workflow,
+} from "@/components/sections/Blocks";
 import { PageJsonLd } from "@/components/PageJsonLd";
 import { Photo } from "@/components/Photo";
 import { industryPhotos, photos, stepPhotos } from "@/content/images";
@@ -19,7 +25,12 @@ const title = "E-Waste, Battery and Plastic Recycler in Sitapur | Evergreen";
 const description =
   "Authorised e-waste, battery and plastic recycler in Sitapur, UP. PAN India pickup, recycling certificates, data destruction and EPR compliance support.";
 
-export const metadata = pageMetadata({ title, description, path: "/", absoluteTitle: true });
+export const metadata = pageMetadata({
+  title,
+  description,
+  path: "/",
+  absoluteTitle: true,
+});
 
 export default function Home() {
   return (
@@ -27,7 +38,10 @@ export default function Home() {
       <PageJsonLd path="/" name={site.name} description={description} />
       <Hero />
 
-      <section aria-labelledby="about-heading" className="section border-y border-line">
+      <section
+        aria-labelledby="about-heading"
+        className="section border-y border-line"
+      >
         <div className="container grid gap-10 lg:grid-cols-12 lg:gap-x-12">
           <div className="lg:col-span-5">
             <p className="eyebrow">About {site.shortName}</p>
@@ -43,8 +57,13 @@ export default function Home() {
           </div>
           <div className="lg:col-span-7 lg:pt-12">
             {about.paragraphs.map(p => (
-              <p key={p.body} className="mt-5 text-[18px] leading-[1.7] text-ink/90 first:mt-0">
-                {p.lead && <strong className="font-semibold text-ink">{p.lead}</strong>}
+              <p
+                key={p.body}
+                className="mt-5 text-[18px] leading-[1.7] text-ink/90 first:mt-0"
+              >
+                {p.lead && (
+                  <strong className="font-semibold text-ink">{p.lead}</strong>
+                )}
                 {p.lead && " "}
                 {p.body}
               </p>
@@ -68,9 +87,16 @@ export default function Home() {
         </div>
       </section>
 
-      <section aria-labelledby="services-heading" className="section bg-paper-2">
+      <section
+        aria-labelledby="services-heading"
+        className="section bg-paper-2"
+      >
         <div className="container">
-          <SectionHead id="services-heading" title="What we recycle" link={{ href: "/services", label: "All services" }} />
+          <SectionHead
+            id="services-heading"
+            title="What we recycle"
+            link={{ href: "/services", label: "All services" }}
+          />
           <ServiceList />
         </div>
       </section>
@@ -94,15 +120,24 @@ export default function Home() {
         </div>
       </CapacityBand>
 
-      <section aria-labelledby="process-heading" className="section border-t border-line">
+      <section
+        aria-labelledby="process-heading"
+        className="section border-t border-line"
+      >
         <div className="container">
           <SectionHead
             id="process-heading"
             title="How a pickup works"
-            lead="Five steps from your request to a recycling certificate."
+            lead="Six documented stages from inspection to a recycling or destruction certificate."
             link={{ href: "/process", label: "Our recycling process" }}
           />
-          <Workflow steps={steps.map((s, i) => ({ title: s.title, caption: s.short, photo: stepPhotos[i] }))} />
+          <Workflow
+            steps={steps.map((s, i) => ({
+              title: s.title,
+              caption: s.short,
+              photo: stepPhotos[i],
+            }))}
+          />
         </div>
       </section>
 
@@ -110,14 +145,17 @@ export default function Home() {
         <div className="container grid gap-10 lg:grid-cols-12 lg:gap-x-12">
           <div className="lg:col-span-4">
             <h2 id="certs-heading">Registrations and authorisations</h2>
-            <p className="mt-4 text-ink-muted">The registrations under which we collect, process and certify. Copies on request.</p>
+            <p className="mt-4 text-ink-muted">
+              The registrations under which we collect, process and certify.
+              Copies on request.
+            </p>
             <Link href="/certifications" className="text-link mt-6 min-h-11">
               Certifications
               <ArrowRight aria-hidden="true" className="h-4 w-4" />
             </Link>
           </div>
           <div className="lg:col-span-8">
-            <Registrations />
+            <Registrations limit={5} />
           </div>
         </div>
       </section>
@@ -128,7 +166,11 @@ export default function Home() {
           <ul className="mb-10 grid grid-cols-2 gap-3 sm:grid-cols-4 lg:mb-12">
             {industryPhotos.map(photo => (
               <li key={photo.alt}>
-                <Photo photo={photo} ratio="4/3" sizes="(min-width: 1280px) 290px, (min-width: 640px) 23vw, 46vw" />
+                <Photo
+                  photo={photo}
+                  ratio="4/3"
+                  sizes="(min-width: 1280px) 290px, (min-width: 640px) 23vw, 46vw"
+                />
               </li>
             ))}
           </ul>
@@ -139,7 +181,6 @@ export default function Home() {
       <SustainabilityBand />
 
       <EntityBlock className="border-t-0" />
-
     </>
   );
 }

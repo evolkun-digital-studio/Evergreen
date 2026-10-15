@@ -1,5 +1,12 @@
 import type { LucideIcon } from "lucide-react";
-import { Battery, Cpu, Factory, Recycle, ShieldCheck, Wrench } from "lucide-react";
+import {
+  Battery,
+  Cpu,
+  Factory,
+  Recycle,
+  ShieldCheck,
+  Wrench,
+} from "lucide-react";
 import { library, photos, stepPhotos, type Photo } from "@/content/images";
 import { steps } from "@/content/company";
 
@@ -7,14 +14,26 @@ import { steps } from "@/content/company";
 export type Source = { label: string; url: string };
 
 export const sources = {
-  eWasteRules: { label: "E-Waste (Management) Rules, 2022", url: "https://cpcb.gov.in/uploads/Projects/E-Waste/e-waste_rules_2022.pdf" },
-  eWasteFaq: { label: "CPCB, FAQs under the E-Waste (Management) Rules, 2022", url: "https://cpcb.nic.in/uploads/Projects/E-Waste/FAQ_ewaste_23012024.pdf" },
-  eWastePortal: { label: "CPCB E-Waste EPR portal", url: "https://eprewaste.cpcb.gov.in/" },
+  eWasteRules: {
+    label: "E-Waste (Management) Rules, 2022",
+    url: "https://cpcb.gov.in/uploads/Projects/E-Waste/e-waste_rules_2022.pdf",
+  },
+  eWasteFaq: {
+    label: "CPCB, FAQs under the E-Waste (Management) Rules, 2022",
+    url: "https://cpcb.nic.in/uploads/Projects/E-Waste/FAQ_ewaste_23012024.pdf",
+  },
+  eWastePortal: {
+    label: "CPCB E-Waste EPR portal",
+    url: "https://eprewaste.cpcb.gov.in/",
+  },
   batteryRules: {
     label: "Battery Waste Management Rules, 2022 (Gazette notification)",
     url: "https://thc.nic.in/Central%20Governmental%20Rules/Battery%20Waste%20Management%20Rules,%202022.pdf",
   },
-  plasticPortal: { label: "CPCB EPR portal for plastic packaging", url: "https://eprplastic.cpcb.gov.in/" },
+  plasticPortal: {
+    label: "CPCB EPR portal for plastic packaging",
+    url: "https://eprplastic.cpcb.gov.in/",
+  },
 } satisfies Record<string, Source>;
 
 export type AcceptItem = { name: string; detail: string; photo?: Photo };
@@ -46,30 +65,64 @@ export type Service = {
 };
 
 /** Every job ends with the same paperwork; services add to it. */
-const certificate = "A recycling certificate with the weight and a material breakdown";
-const complianceReport = "A disposal compliance report, ready for audits and CSR or ESG reporting";
-const eprSupport = "EPR obligation and CPCB compliance support, with digital documentation";
+const certificate =
+  "A recycling certificate with the weight and a material breakdown";
+const complianceReport =
+  "A disposal compliance report, ready for audits and CSR or ESG reporting";
+const eprSupport =
+  "EPR obligation and CPCB compliance support, with digital documentation";
 
 export const services: Service[] = [
   {
     slug: "e-waste-recycling",
     title: "E-waste recycling",
     icon: Cpu,
-    summary: "Dismantling and recycling of laptops, desktops, servers, phones and other electronics.",
+    summary:
+      "Dismantling and recycling of laptops, desktops, servers, phones and other electronics.",
     lead: "We collect laptops, desktops, servers, phones and other electronics from your site, dismantle them in Sitapur and recover the material. You get a recycling certificate for every pickup.",
     definition: {
       term: "E-waste",
       text: "E-waste is electrical and electronic equipment that has been discarded, along with its parts and consumables.",
     },
     accepts: [
-      { name: "IT equipment", detail: "Laptops, desktops, servers, monitors and networking gear" },
-      { name: "Phones and tablets", detail: "Mobile phones, tablets and their chargers" },
-      { name: "Office electronics", detail: "Printers, copiers, UPS units and peripherals" },
-      { name: "Other electronic equipment", detail: "Tell us what you have and we will confirm" },
-      { name: "Data-bearing devices", detail: "Drives and devices that go through data destruction, with a certificate" },
+      {
+        name: "IT equipment",
+        detail: "Laptops, desktops, servers, monitors and networking gear",
+      },
+      {
+        name: "Phones and tablets",
+        detail: "Mobile phones, tablets and their chargers",
+      },
+      {
+        name: "Office electronics",
+        detail: "Printers, copiers, UPS units and peripherals",
+      },
+      {
+        name: "Reusable IT assets",
+        detail:
+          "Equipment suitable for secure sanitisation, testing and refurbishment",
+      },
+      {
+        name: "Other electronic equipment",
+        detail: "Tell us what you have and we will confirm",
+      },
+      {
+        name: "Data-bearing devices",
+        detail:
+          "Drives and devices that go through data destruction, with a certificate",
+      },
     ],
-    workflow: steps.map((s, i) => ({ title: s.title, caption: s.short, photo: stepPhotos[i] })),
-    receives: [certificate, "A certificate of data destruction for data-bearing devices", complianceReport, eprSupport],
+    workflow: steps.map((s, i) => ({
+      title: s.title,
+      caption: s.short,
+      photo: stepPhotos[i],
+    })),
+    receives: [
+      certificate,
+      "A certificate of data destruction for data-bearing devices",
+      complianceReport,
+      eprSupport,
+    ],
     faq: [
       {
         q: "Do you pick up e-waste outside Uttar Pradesh?",
@@ -97,29 +150,60 @@ export const services: Service[] = [
     metaTitle: "E-Waste Recycling Company in Sitapur, UP | PAN India Pickup",
     metaDescription:
       "Authorised e-waste recycler in Sitapur, UP, with PAN India pickup. Laptops, servers and phones recycled with data destruction, certificates and EPR support.",
-    confirm: ["Data destruction standard (source says “certified data destruction”)"],
+    confirm: [
+      "Data destruction standard (source says “certified data destruction”)",
+    ],
   },
   {
     slug: "battery-recycling",
     title: "Battery recycling",
     icon: Battery,
-    summary: "Processing of lead-acid, lithium-ion, NiMH and industrial batteries.",
+    summary:
+      "Processing of lead-acid, lithium-ion, NiMH and industrial batteries.",
     lead: "We process lead-acid, lithium-ion, NiMH and industrial batteries, collected from your site anywhere in India. Valuable materials such as lithium and cobalt are extracted safely and returned to use.",
     definition: {
       term: "Black mass",
       text: "Black mass is the dark powder left after lithium-ion cells are shredded. It holds the lithium, cobalt, nickel and manganese that refiners recover.",
     },
     accepts: [
-      { name: "Lead-acid batteries", detail: "Vehicle, inverter and UPS batteries", photo: library.leadAcid },
-      { name: "Lithium-ion batteries", detail: "Cells, packs and modules from devices, tools and vehicles", photo: library.batteryCells },
+      {
+        name: "Lead-acid batteries",
+        detail: "Vehicle, inverter and UPS batteries",
+        photo: library.leadAcid,
+      },
+      {
+        name: "Lithium-ion batteries",
+        detail: "Cells, packs and modules from devices, tools and vehicles",
+        photo: library.batteryCells,
+      },
       { name: "NiMH batteries", detail: "Rechargeable cells and packs" },
-      { name: "Industrial batteries", detail: "Stationary and traction batteries from plants and sites" },
+      {
+        name: "Industrial batteries",
+        detail: "Stationary and traction batteries from plants and sites",
+      },
     ],
     workflow: [
-      { title: "Collection", caption: "Batteries are packed and collected from your site.", photo: photos.process },
-      { title: "Discharge and safe storage", caption: "Batteries are discharged and stored apart by chemistry.", photo: library.batteryCollection },
-      { title: "Dismantling", caption: "Packs and devices are opened and the cells removed.", photo: library.eWasteBench },
-      { title: "Black mass and lead recovery", caption: "Lithium-ion cells give black mass; lead-acid batteries give lead.", photo: library.recoveredScrap },
+      {
+        title: "Collection",
+        caption: "Batteries are packed and collected from your site.",
+        photo: photos.process,
+      },
+      {
+        title: "Discharge and safe storage",
+        caption: "Batteries are discharged and stored apart by chemistry.",
+        photo: library.batteryCollection,
+      },
+      {
+        title: "Dismantling",
+        caption: "Packs and devices are opened and the cells removed.",
+        photo: library.eWasteBench,
+      },
+      {
+        title: "Black mass and lead recovery",
+        caption:
+          "Lithium-ion cells give black mass; lead-acid batteries give lead.",
+        photo: library.recoveredScrap,
+      },
     ],
     receives: [certificate, complianceReport, eprSupport],
     faq: [
@@ -154,19 +238,39 @@ export const services: Service[] = [
     slug: "plastic-recycling",
     title: "Plastic recycling",
     icon: Recycle,
-    summary: "Sorting, shredding and pelletising of PET, HDPE, PP and ABS plastics.",
+    summary:
+      "Sorting, shredding and pelletising of PET, HDPE, PP and ABS plastics.",
     lead: "We process PET, HDPE, PP and ABS plastics. The plastic is sorted, shredded and pelletised so that manufacturers can use it again.",
     accepts: [
       { name: "PET", detail: "Bottles, food trays and other clear packaging" },
       { name: "HDPE", detail: "Cans, containers, crates and pipes" },
       { name: "PP", detail: "Caps, tubs, woven sacks and moulded parts" },
-      { name: "ABS", detail: "Housings and casings from electronics and appliances" },
+      {
+        name: "ABS",
+        detail: "Housings and casings from electronics and appliances",
+      },
     ],
     workflow: [
-      { title: "Collection", caption: "Plastic is collected from your site, loose or baled.", photo: library.bottleHeap },
-      { title: "Sorting", caption: "Sorted by polymer type and colour.", photo: library.plasticSorting },
-      { title: "Shredding and washing", caption: "Shredded into flakes and washed clean.", photo: library.plasticFlakes },
-      { title: "Pelletising", caption: "Extruded into pellets that manufacturers can reuse.", photo: library.plasticGranules },
+      {
+        title: "Collection",
+        caption: "Plastic is collected from your site, loose or baled.",
+        photo: library.bottleHeap,
+      },
+      {
+        title: "Sorting",
+        caption: "Sorted by polymer type and colour.",
+        photo: library.plasticSorting,
+      },
+      {
+        title: "Shredding and washing",
+        caption: "Shredded into flakes and washed clean.",
+        photo: library.plasticFlakes,
+      },
+      {
+        title: "Pelletising",
+        caption: "Extruded into pellets that manufacturers can reuse.",
+        photo: library.plasticGranules,
+      },
     ],
     receives: [certificate, complianceReport, eprSupport],
     faq: [
@@ -197,18 +301,46 @@ export const services: Service[] = [
     slug: "metal-recovery",
     title: "Metal recovery",
     icon: Wrench,
-    summary: "Recovery of copper, aluminium, gold and silver from electronic scrap.",
+    summary:
+      "Recovery of copper, aluminium, gold and silver from electronic scrap.",
     lead: "We recover copper, aluminium, gold and silver from electronic scrap. Precious metal and rare earth fractions are sent to authorised refiners.",
     accepts: [
-      { name: "Copper", detail: "Cables, wiring, motors and transformer windings", photo: library.copperStrands },
-      { name: "Aluminium", detail: "Casings, frames, heat sinks and cans", photo: library.aluminium },
-      { name: "Gold and silver", detail: "Circuit boards, connectors and contacts" },
+      {
+        name: "Copper",
+        detail: "Cables, wiring, motors and transformer windings",
+        photo: library.copperStrands,
+      },
+      {
+        name: "Aluminium",
+        detail: "Casings, frames, heat sinks and cans",
+        photo: library.aluminium,
+      },
+      {
+        name: "Gold and silver",
+        detail: "Circuit boards, connectors and contacts",
+      },
     ],
     workflow: [
-      { title: "Collection and sorting", caption: "Scrap is collected and sorted by source.", photo: library.phones },
-      { title: "Dismantling", caption: "Devices are taken apart by hand.", photo: library.eWasteDismantling },
-      { title: "Separation", caption: "Copper and aluminium are separated for reuse.", photo: library.recoveredScrap },
-      { title: "Refining", caption: "Precious-metal fractions go to authorised refiners.", photo: library.eWasteBoards },
+      {
+        title: "Collection and sorting",
+        caption: "Scrap is collected and sorted by source.",
+        photo: library.phones,
+      },
+      {
+        title: "Dismantling",
+        caption: "Devices are taken apart by hand.",
+        photo: library.eWasteDismantling,
+      },
+      {
+        title: "Separation",
+        caption: "Copper and aluminium are separated for reuse.",
+        photo: library.recoveredScrap,
+      },
+      {
+        title: "Refining",
+        caption: "Precious-metal fractions go to authorised refiners.",
+        photo: library.eWasteBoards,
+      },
     ],
     receives: [certificate, complianceReport, eprSupport],
     faq: [
@@ -234,25 +366,70 @@ export const services: Service[] = [
     metaTitle: "Copper and Aluminium Recovery from E-Scrap | Sitapur, UP",
     metaDescription:
       "Copper and aluminium recovery from electronic scrap in Sitapur, UP. Precious-metal fractions go to authorised refiners. PAN India pickup, certificates.",
-    confirm: ["Advanced hydrometallurgical processes and whether gold, silver and rare earth metals are recovered in-house or by partner refiners"],
+    confirm: [
+      "Advanced hydrometallurgical processes and whether gold, silver and rare earth metals are recovered in-house or by partner refiners",
+    ],
   },
   {
     slug: "industrial-scrap-management",
     title: "Industrial scrap management",
     icon: Factory,
-    summary: "Collection, transport, sorting and compliant disposal for factories and manufacturing units.",
-    lead: "For factories and manufacturing units we handle industrial waste from start to finish: collection, transport, sorting and compliant disposal. We collect in bulk and keep the paperwork your compliance team needs.",
+    summary:
+      "Asset verification, office dismantling, bulk collection, sorting and compliant disposal.",
+    lead: "We verify inventories on site and manage office or industrial clear-outs from start to finish: dismantling, bulk collection, transport, sorting, reuse and compliant disposal, with records for your compliance team.",
     accepts: [
-      { name: "Metal scrap", detail: "Offcuts, pipes, machinery parts and structural steel" },
-      { name: "Electrical and electronic scrap", detail: "Panels, cables, motors and control equipment" },
-      { name: "Plastic scrap", detail: "Packaging, moulding rejects and crates" },
-      { name: "Hazardous waste", detail: "Accepted only after we confirm what it contains" },
+      {
+        name: "Metal scrap",
+        detail: "Offcuts, pipes, machinery parts and structural steel",
+      },
+      {
+        name: "Electrical and electronic scrap",
+        detail: "Panels, cables, motors and control equipment",
+      },
+      {
+        name: "Plastic scrap",
+        detail: "Packaging, moulding rejects and crates",
+      },
+      {
+        name: "Office assets",
+        detail:
+          "Furniture, air-conditioning units, fixtures and reusable equipment",
+      },
+      {
+        name: "Paper and cardboard",
+        detail: "Office records, packaging and other recyclable paper streams",
+      },
+      {
+        name: "Hazardous waste",
+        detail: "Accepted only after we confirm what it contains",
+      },
     ],
     workflow: [
-      { title: "Bulk pickup", caption: "We schedule bulk collection from your plant.", photo: photos.process },
-      { title: "Sorting", caption: "Scrap is sorted by material at our yard.", photo: library.craneScrap },
-      { title: "Segregated stock", caption: "Each material goes to its own recovery route.", photo: library.metalTubes },
-      { title: "Records", caption: "Weights and disposal routes are documented.", photo: library.paperwork },
+      {
+        title: "Inventory verification",
+        caption: "We inspect and record the assets at your site.",
+        photo: library.paperwork,
+      },
+      {
+        title: "Dismantling and pickup",
+        caption: "We dismantle where needed and schedule bulk collection.",
+        photo: photos.process,
+      },
+      {
+        title: "Sorting",
+        caption: "Scrap is sorted by material at our yard.",
+        photo: library.craneScrap,
+      },
+      {
+        title: "Segregated stock",
+        caption: "Each material goes to its own recovery route.",
+        photo: library.metalTubes,
+      },
+      {
+        title: "Records",
+        caption: "Weights and disposal routes are documented.",
+        photo: library.paperwork,
+      },
     ],
     receives: [certificate, complianceReport, eprSupport],
     faq: [
@@ -283,23 +460,43 @@ export const services: Service[] = [
     slug: "secure-disposal",
     title: "Secure disposal",
     icon: ShieldCheck,
-    summary: "Destruction of hard drives, IT assets and confidential documents, with certificates.",
-    lead: "We destroy hard drives, IT assets and confidential documents. You receive full chain-of-custody records and a certificate of destruction.",
+    summary:
+      "Software sanitisation, degaussing or physical destruction of data-bearing assets, with certificates.",
+    lead: "We sanitise data-bearing IT assets using software, degaussing or physical destruction, on site or at our facility. You receive chain-of-custody records and a certificate of destruction.",
     definition: {
       term: "Chain of custody",
       text: "Chain of custody is the signed record of who held each item, and when, from collection to destruction.",
     },
     accepts: [
       { name: "Hard drives", detail: "HDDs, SSDs and storage arrays" },
-      { name: "IT assets", detail: "Laptops, desktops, servers and phones that hold data" },
+      {
+        name: "IT assets",
+        detail: "Laptops, desktops, servers and phones that hold data",
+      },
       { name: "Confidential documents", detail: "Paper records and files" },
     ],
     workflow: [
-      { title: "Collection under custody", caption: "Items are listed and sealed at pickup.", photo: library.paperwork },
-      { title: "Destruction", caption: "Drives and media are physically destroyed.", photo: library.hddBroken },
-      { title: "Certificate", caption: "A certificate of destruction closes the record.", photo: photos.certs },
+      {
+        title: "Collection under custody",
+        caption: "Items are listed and sealed at pickup.",
+        photo: library.paperwork,
+      },
+      {
+        title: "Sanitisation or destruction",
+        caption: "Media is wiped, degaussed or physically destroyed as agreed.",
+        photo: library.hddBroken,
+      },
+      {
+        title: "Certificate",
+        caption: "A certificate of destruction closes the record.",
+        photo: photos.certs,
+      },
     ],
-    receives: ["A certificate of destruction", "Full chain-of-custody records", complianceReport],
+    receives: [
+      "A certificate of destruction",
+      "Full chain-of-custody records",
+      complianceReport,
+    ],
     faq: [
       {
         q: "How do I prove that data was destroyed?",

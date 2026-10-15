@@ -15,7 +15,13 @@ export function serializeJsonLd(data: unknown): string {
 
 const compact = <T extends Record<string, unknown>>(obj: T) =>
   Object.fromEntries(
-    Object.entries(obj).filter(([, v]) => v !== "" && v !== null && v !== undefined && !(Array.isArray(v) && !v.length)),
+    Object.entries(obj).filter(
+      ([, v]) =>
+        v !== "" &&
+        v !== null &&
+        v !== undefined &&
+        !(Array.isArray(v) && !v.length)
+    )
   ) as Partial<T>;
 
 export function organizationNode(settings: SiteSettingsData) {
@@ -35,7 +41,9 @@ export function organizationNode(settings: SiteSettingsData) {
     legalName: site.legalName,
     url: site.domain,
     description: site.description,
-    logo: org.logo ? { "@type": "ImageObject", "@id": `${SITE_URL}/#logo`, url: org.logo } : undefined,
+    logo: org.logo
+      ? { "@type": "ImageObject", "@id": `${SITE_URL}/#logo`, url: org.logo }
+      : undefined,
     image: org.logo || undefined,
     email: site.email,
     telephone: site.phone,
@@ -44,7 +52,11 @@ export function organizationNode(settings: SiteSettingsData) {
     vatID: site.gstin,
     foundingDate: site.founded,
     areaServed: { "@type": "Country", name: site.areaServed },
-    geo: { "@type": "GeoCoordinates", latitude: site.geo.latitude, longitude: site.geo.longitude },
+    geo: {
+      "@type": "GeoCoordinates",
+      latitude: site.geo.latitude,
+      longitude: site.geo.longitude,
+    },
     hasMap: site.mapsUrl,
     knowsAbout: [
       "E-waste recycling",
@@ -70,6 +82,13 @@ export function organizationNode(settings: SiteSettingsData) {
       },
       {
         "@type": "ContactPoint",
+        telephone: site.alternatePhone,
+        contactType: "customer service",
+        areaServed: "IN",
+        availableLanguage: ["en", "hi"],
+      },
+      {
+        "@type": "ContactPoint",
         telephone: site.businessContact.phone,
         contactType: "sales",
         name: `Business enquiries (${site.businessContact.name})`,
@@ -77,7 +96,9 @@ export function organizationNode(settings: SiteSettingsData) {
         availableLanguage: ["en", "hi"],
       },
     ],
-    founder: leadership.filter(l => l.founder).map(l => ({ "@id": personId(l) })),
+    founder: leadership
+      .filter(l => l.founder)
+      .map(l => ({ "@id": personId(l) })),
     employee: leadership.map(l => ({ "@id": personId(l) })),
     hasOfferCatalog: {
       "@type": "OfferCatalog",
@@ -106,18 +127,25 @@ export function leadershipNodes() {
       name: l.name,
       honorificPrefix: l.honorific,
       jobTitle: l.role,
-      image: {
-        "@type": "ImageObject",
-        url: `${SITE_URL}${l.portrait.src.src}`,
-        width: l.portrait.src.width,
-        height: l.portrait.src.height,
-        caption: l.portrait.alt,
-      },
+      image: l.portrait
+        ? {
+            "@type": "ImageObject",
+            url: `${SITE_URL}${l.portrait.src.src}`,
+            width: l.portrait.src.width,
+            height: l.portrait.src.height,
+            caption: l.portrait.alt,
+          }
+        : undefined,
       worksFor: { "@id": ORGANIZATION_ID },
       affiliation: l.founder
-        ? site.groupCompanies.map(g => ({ "@type": "Organization", "@id": g.id, name: g.name, url: g.url }))
+        ? site.groupCompanies.map(g => ({
+            "@type": "Organization",
+            "@id": g.id,
+            name: g.name,
+            url: g.url,
+          }))
         : undefined,
-    }),
+    })
   );
 }
 

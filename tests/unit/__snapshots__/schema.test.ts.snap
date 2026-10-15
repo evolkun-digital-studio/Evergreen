@@ -32,8 +32,18 @@ exports[`buildSchema > Guide: core graph with linked ids 1`] = `
             "hi",
           ],
           "contactType": "customer service",
-          "email": "evergreenewaste2021@gmail.com",
+          "email": "admin@indiawms.in",
           "telephone": "+91 94150 46061",
+        },
+        {
+          "@type": "ContactPoint",
+          "areaServed": "IN",
+          "availableLanguage": [
+            "en",
+            "hi",
+          ],
+          "contactType": "customer service",
+          "telephone": "+91 81159 37040",
         },
         {
           "@type": "ContactPoint",
@@ -47,14 +57,20 @@ exports[`buildSchema > Guide: core graph with linked ids 1`] = `
           "telephone": "+91 95577 86553",
         },
       ],
-      "description": "Authorised e-waste, battery and plastic recycler in Sitapur, Uttar Pradesh, since 2021. PAN India pickup, recycling certificates, EPR and CPCB compliance support.",
-      "email": "evergreenewaste2021@gmail.com",
+      "description": "Authorised e-waste, battery and plastic recycler in Sitapur, Uttar Pradesh, operating since 2020. PAN India pickup, recycling certificates, asset verification, secure data destruction and EPR compliance support.",
+      "email": "admin@indiawms.in",
       "employee": [
         {
           "@id": "https://evergreen.example/about#irfan-ahmad",
         },
         {
-          "@id": "https://evergreen.example/about#ramesh-yadav",
+          "@id": "https://evergreen.example/about#pradeep-gopala-krishana",
+        },
+        {
+          "@id": "https://evergreen.example/about#mukul-agarwal",
+        },
+        {
+          "@id": "https://evergreen.example/about#naveen-kumar-gupta",
         },
       ],
       "founder": [
@@ -62,7 +78,7 @@ exports[`buildSchema > Guide: core graph with linked ids 1`] = `
           "@id": "https://evergreen.example/about#irfan-ahmad",
         },
       ],
-      "foundingDate": "2021",
+      "foundingDate": "2020",
       "geo": {
         "@type": "GeoCoordinates",
         "latitude": 27.2955,
@@ -117,7 +133,7 @@ exports[`buildSchema > Guide: core graph with linked ids 1`] = `
             "itemOffered": {
               "@id": "https://evergreen.example/services/industrial-scrap-management#service",
               "@type": "Service",
-              "description": "Collection, transport, sorting and compliant disposal for factories and manufacturing units.",
+              "description": "Asset verification, office dismantling, bulk collection, sorting and compliant disposal.",
               "name": "Industrial scrap management",
               "url": "https://evergreen.example/services/industrial-scrap-management",
             },
@@ -127,7 +143,7 @@ exports[`buildSchema > Guide: core graph with linked ids 1`] = `
             "itemOffered": {
               "@id": "https://evergreen.example/services/secure-disposal#service",
               "@type": "Service",
-              "description": "Destruction of hard drives, IT assets and confidential documents, with certificates.",
+              "description": "Software sanitisation, degaussing or physical destruction of data-bearing assets, with certificates.",
               "name": "Secure disposal",
               "url": "https://evergreen.example/services/secure-disposal",
             },
@@ -164,7 +180,7 @@ exports[`buildSchema > Guide: core graph with linked ids 1`] = `
     {
       "@id": "https://evergreen.example/#website",
       "@type": "WebSite",
-      "description": "Authorised e-waste, battery and plastic recycler in Sitapur, Uttar Pradesh, since 2021. PAN India pickup, recycling certificates, EPR and CPCB compliance support.",
+      "description": "Authorised e-waste, battery and plastic recycler in Sitapur, Uttar Pradesh, operating since 2020. PAN India pickup, recycling certificates, asset verification, secure data destruction and EPR compliance support.",
       "inLanguage": "en-IN",
       "name": "Evergreen",
       "publisher": {
@@ -350,8 +366,18 @@ exports[`buildSchema > HowTo: emitted with steps, warned without 1`] = `
             "hi",
           ],
           "contactType": "customer service",
-          "email": "evergreenewaste2021@gmail.com",
+          "email": "admin@indiawms.in",
           "telephone": "+91 94150 46061",
+        },
+        {
+          "@type": "ContactPoint",
+          "areaServed": "IN",
+          "availableLanguage": [
+            "en",
+            "hi",
+          ],
+          "contactType": "customer service",
+          "telephone": "+91 81159 37040",
         },
         {
           "@type": "ContactPoint",
@@ -365,14 +391,20 @@ exports[`buildSchema > HowTo: emitted with steps, warned without 1`] = `
           "telephone": "+91 95577 86553",
         },
       ],
-      "description": "Authorised e-waste, battery and plastic recycler in Sitapur, Uttar Pradesh, since 2021. PAN India pickup, recycling certificates, EPR and CPCB compliance support.",
-      "email": "evergreenewaste2021@gmail.com",
+      "description": "Authorised e-waste, battery and plastic recycler in Sitapur, Uttar Pradesh, operating since 2020. PAN India pickup, recycling certificates, asset verification, secure data destruction and EPR compliance support.",
+      "email": "admin@indiawms.in",
       "employee": [
         {
           "@id": "https://evergreen.example/about#irfan-ahmad",
         },
         {
-          "@id": "https://evergreen.example/about#ramesh-yadav",
+          "@id": "https://evergreen.example/about#pradeep-gopala-krishana",
+        },
+        {
+          "@id": "https://evergreen.example/about#mukul-agarwal",
+        },
+        {
+          "@id": "https://evergreen.example/about#naveen-kumar-gupta",
         },
       ],
       "founder": [
@@ -380,7 +412,7 @@ exports[`buildSchema > HowTo: emitted with steps, warned without 1`] = `
           "@id": "https://evergreen.example/about#irfan-ahmad",
         },
       ],
-      "foundingDate": "2021",
+      "foundingDate": "2020",
       "geo": {
         "@type": "GeoCoordinates",
         "latitude": 27.2955,
@@ -435,7 +467,7 @@ exports[`buildSchema > HowTo: emitted with steps, warned without 1`] = `
             "itemOffered": {
               "@id": "https://evergreen.example/services/industrial-scrap-management#service",
               "@type": "Service",
-              "description": "Collection, transport, sorting and compliant disposal for factories and manufacturing units.",
+              "description": "Asset verification, office dismantling, bulk collection, sorting and compliant disposal.",
               "name": "Industrial scrap management",
               "url": "https://evergreen.example/services/industrial-scrap-management",
             },
@@ -445,7 +477,7 @@ exports[`buildSchema > HowTo: emitted with steps, warned without 1`] = `
             "itemOffered": {
               "@id": "https://evergreen.example/services/secure-disposal#service",
               "@type": "Service",
-              "description": "Destruction of hard drives, IT assets and confidential documents, with certificates.",
+              "description": "Software sanitisation, degaussing or physical destruction of data-bearing assets, with certificates.",
               "name": "Secure disposal",
               "url": "https://evergreen.example/services/secure-disposal",
             },
@@ -482,7 +514,7 @@ exports[`buildSchema > HowTo: emitted with steps, warned without 1`] = `
     {
       "@id": "https://evergreen.example/#website",
       "@type": "WebSite",
-      "description": "Authorised e-waste, battery and plastic recycler in Sitapur, Uttar Pradesh, since 2021. PAN India pickup, recycling certificates, EPR and CPCB compliance support.",
+      "description": "Authorised e-waste, battery and plastic recycler in Sitapur, Uttar Pradesh, operating since 2020. PAN India pickup, recycling certificates, asset verification, secure data destruction and EPR compliance support.",
       "inLanguage": "en-IN",
       "name": "Evergreen",
       "publisher": {
@@ -695,8 +727,18 @@ exports[`buildSchema > Review never invents a rating; ProductReview links a Prod
             "hi",
           ],
           "contactType": "customer service",
-          "email": "evergreenewaste2021@gmail.com",
+          "email": "admin@indiawms.in",
           "telephone": "+91 94150 46061",
+        },
+        {
+          "@type": "ContactPoint",
+          "areaServed": "IN",
+          "availableLanguage": [
+            "en",
+            "hi",
+          ],
+          "contactType": "customer service",
+          "telephone": "+91 81159 37040",
         },
         {
           "@type": "ContactPoint",
@@ -710,14 +752,20 @@ exports[`buildSchema > Review never invents a rating; ProductReview links a Prod
           "telephone": "+91 95577 86553",
         },
       ],
-      "description": "Authorised e-waste, battery and plastic recycler in Sitapur, Uttar Pradesh, since 2021. PAN India pickup, recycling certificates, EPR and CPCB compliance support.",
-      "email": "evergreenewaste2021@gmail.com",
+      "description": "Authorised e-waste, battery and plastic recycler in Sitapur, Uttar Pradesh, operating since 2020. PAN India pickup, recycling certificates, asset verification, secure data destruction and EPR compliance support.",
+      "email": "admin@indiawms.in",
       "employee": [
         {
           "@id": "https://evergreen.example/about#irfan-ahmad",
         },
         {
-          "@id": "https://evergreen.example/about#ramesh-yadav",
+          "@id": "https://evergreen.example/about#pradeep-gopala-krishana",
+        },
+        {
+          "@id": "https://evergreen.example/about#mukul-agarwal",
+        },
+        {
+          "@id": "https://evergreen.example/about#naveen-kumar-gupta",
         },
       ],
       "founder": [
@@ -725,7 +773,7 @@ exports[`buildSchema > Review never invents a rating; ProductReview links a Prod
           "@id": "https://evergreen.example/about#irfan-ahmad",
         },
       ],
-      "foundingDate": "2021",
+      "foundingDate": "2020",
       "geo": {
         "@type": "GeoCoordinates",
         "latitude": 27.2955,
@@ -780,7 +828,7 @@ exports[`buildSchema > Review never invents a rating; ProductReview links a Prod
             "itemOffered": {
               "@id": "https://evergreen.example/services/industrial-scrap-management#service",
               "@type": "Service",
-              "description": "Collection, transport, sorting and compliant disposal for factories and manufacturing units.",
+              "description": "Asset verification, office dismantling, bulk collection, sorting and compliant disposal.",
               "name": "Industrial scrap management",
               "url": "https://evergreen.example/services/industrial-scrap-management",
             },
@@ -790,7 +838,7 @@ exports[`buildSchema > Review never invents a rating; ProductReview links a Prod
             "itemOffered": {
               "@id": "https://evergreen.example/services/secure-disposal#service",
               "@type": "Service",
-              "description": "Destruction of hard drives, IT assets and confidential documents, with certificates.",
+              "description": "Software sanitisation, degaussing or physical destruction of data-bearing assets, with certificates.",
               "name": "Secure disposal",
               "url": "https://evergreen.example/services/secure-disposal",
             },
@@ -827,7 +875,7 @@ exports[`buildSchema > Review never invents a rating; ProductReview links a Prod
     {
       "@id": "https://evergreen.example/#website",
       "@type": "WebSite",
-      "description": "Authorised e-waste, battery and plastic recycler in Sitapur, Uttar Pradesh, since 2021. PAN India pickup, recycling certificates, EPR and CPCB compliance support.",
+      "description": "Authorised e-waste, battery and plastic recycler in Sitapur, Uttar Pradesh, operating since 2020. PAN India pickup, recycling certificates, asset verification, secure data destruction and EPR compliance support.",
       "inLanguage": "en-IN",
       "name": "Evergreen",
       "publisher": {
@@ -1053,8 +1101,18 @@ exports[`buildSchema > Review never invents a rating; ProductReview links a Prod
             "hi",
           ],
           "contactType": "customer service",
-          "email": "evergreenewaste2021@gmail.com",
+          "email": "admin@indiawms.in",
           "telephone": "+91 94150 46061",
+        },
+        {
+          "@type": "ContactPoint",
+          "areaServed": "IN",
+          "availableLanguage": [
+            "en",
+            "hi",
+          ],
+          "contactType": "customer service",
+          "telephone": "+91 81159 37040",
         },
         {
           "@type": "ContactPoint",
@@ -1068,14 +1126,20 @@ exports[`buildSchema > Review never invents a rating; ProductReview links a Prod
           "telephone": "+91 95577 86553",
         },
       ],
-      "description": "Authorised e-waste, battery and plastic recycler in Sitapur, Uttar Pradesh, since 2021. PAN India pickup, recycling certificates, EPR and CPCB compliance support.",
-      "email": "evergreenewaste2021@gmail.com",
+      "description": "Authorised e-waste, battery and plastic recycler in Sitapur, Uttar Pradesh, operating since 2020. PAN India pickup, recycling certificates, asset verification, secure data destruction and EPR compliance support.",
+      "email": "admin@indiawms.in",
       "employee": [
         {
           "@id": "https://evergreen.example/about#irfan-ahmad",
         },
         {
-          "@id": "https://evergreen.example/about#ramesh-yadav",
+          "@id": "https://evergreen.example/about#pradeep-gopala-krishana",
+        },
+        {
+          "@id": "https://evergreen.example/about#mukul-agarwal",
+        },
+        {
+          "@id": "https://evergreen.example/about#naveen-kumar-gupta",
         },
       ],
       "founder": [
@@ -1083,7 +1147,7 @@ exports[`buildSchema > Review never invents a rating; ProductReview links a Prod
           "@id": "https://evergreen.example/about#irfan-ahmad",
         },
       ],
-      "foundingDate": "2021",
+      "foundingDate": "2020",
       "geo": {
         "@type": "GeoCoordinates",
         "latitude": 27.2955,
@@ -1138,7 +1202,7 @@ exports[`buildSchema > Review never invents a rating; ProductReview links a Prod
             "itemOffered": {
               "@id": "https://evergreen.example/services/industrial-scrap-management#service",
               "@type": "Service",
-              "description": "Collection, transport, sorting and compliant disposal for factories and manufacturing units.",
+              "description": "Asset verification, office dismantling, bulk collection, sorting and compliant disposal.",
               "name": "Industrial scrap management",
               "url": "https://evergreen.example/services/industrial-scrap-management",
             },
@@ -1148,7 +1212,7 @@ exports[`buildSchema > Review never invents a rating; ProductReview links a Prod
             "itemOffered": {
               "@id": "https://evergreen.example/services/secure-disposal#service",
               "@type": "Service",
-              "description": "Destruction of hard drives, IT assets and confidential documents, with certificates.",
+              "description": "Software sanitisation, degaussing or physical destruction of data-bearing assets, with certificates.",
               "name": "Secure disposal",
               "url": "https://evergreen.example/services/secure-disposal",
             },
@@ -1185,7 +1249,7 @@ exports[`buildSchema > Review never invents a rating; ProductReview links a Prod
     {
       "@id": "https://evergreen.example/#website",
       "@type": "WebSite",
-      "description": "Authorised e-waste, battery and plastic recycler in Sitapur, Uttar Pradesh, since 2021. PAN India pickup, recycling certificates, EPR and CPCB compliance support.",
+      "description": "Authorised e-waste, battery and plastic recycler in Sitapur, Uttar Pradesh, operating since 2020. PAN India pickup, recycling certificates, asset verification, secure data destruction and EPR compliance support.",
       "inLanguage": "en-IN",
       "name": "Evergreen",
       "publisher": {

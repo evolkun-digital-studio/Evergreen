@@ -20,7 +20,10 @@ async function buildLlmsTxt(): Promise<string> {
   "use cache";
   cacheTag(TAGS.posts, TAGS.categories, TAGS.settings);
   cacheLife("max");
-  const [posts, categories] = await Promise.all([listIndexablePosts(50), listCategoriesWithPosts()]);
+  const [posts, categories] = await Promise.all([
+    listIndexablePosts(50),
+    listCategoriesWithPosts(),
+  ]);
   const bc = site.businessContact;
   const lines = [
     `# ${site.name} (${site.legalName})`,
@@ -36,7 +39,7 @@ async function buildLlmsTxt(): Promise<string> {
     `- Pickup: PAN India, from client locations`,
     `- Authorisations: ${entity.authorisations}`,
     `- GSTIN: ${site.gstin}`,
-    `- Owner: ${site.owner.honorific} ${site.owner.name}`,
+    `- ${site.owner.role}: ${site.owner.honorific} ${site.owner.name}`,
     `- Phone and WhatsApp: ${site.phone}`,
     `- Business enquiries: ${bc.honorific} ${bc.name}, ${bc.phone}`,
     `- Email: ${site.email}`,
@@ -45,11 +48,16 @@ async function buildLlmsTxt(): Promise<string> {
     "",
     "What the Sitapur plant can process in a year (not tonnes recycled):",
     "",
-    ...capacity.map(c => `- ${c.material}: ${formatTonnes(c.tonnes)} (metric tonnes per year)`),
+    ...capacity.map(
+      c => `- ${c.material}: ${formatTonnes(c.tonnes)} (metric tonnes per year)`
+    ),
     "",
     "## Services",
     "",
-    ...services.map(s => `- [${s.title}](${SITE_URL}/services/${s.slug}): ${oneLine(s.summary)}`),
+    ...services.map(
+      s =>
+        `- [${s.title}](${SITE_URL}/services/${s.slug}): ${oneLine(s.summary)}`
+    ),
     "",
     "## Process",
     "",
@@ -74,11 +82,17 @@ async function buildLlmsTxt(): Promise<string> {
   ];
   if (categories.length) {
     lines.push("", "## Topics", "");
-    for (const c of categories) lines.push(`- [${c.name}](${SITE_URL}/blog/category/${c.slug})${c.description ? `: ${oneLine(c.description)}` : ""}`);
+    for (const c of categories)
+      lines.push(
+        `- [${c.name}](${SITE_URL}/blog/category/${c.slug})${c.description ? `: ${oneLine(c.description)}` : ""}`
+      );
   }
   if (posts.length) {
     lines.push("", "## Articles", "");
-    for (const p of posts) lines.push(`- [${p.title}](${SITE_URL}/blog/${p.slug})${p.summary ? `: ${oneLine(p.summary)}` : ""}`);
+    for (const p of posts)
+      lines.push(
+        `- [${p.title}](${SITE_URL}/blog/${p.slug})${p.summary ? `: ${oneLine(p.summary)}` : ""}`
+      );
   }
   lines.push("", "## Optional", "", `- [Sitemap](${SITE_URL}/sitemap.xml)`, "");
   return lines.join("\n");
@@ -86,6 +100,10 @@ async function buildLlmsTxt(): Promise<string> {
 
 export async function GET() {
   return new Response(await buildLlmsTxt(), {
-    headers: { "Content-Type": "text/plain; charset=utf-8", "Cache-Control": "public, max-age=0, s-maxage=3600, stale-while-revalidate=86400" },
+    headers: {
+      "Content-Type": "text/plain; charset=utf-8",
+      "Cache-Control":
+        "public, max-age=0, s-maxage=3600, stale-while-revalidate=86400",
+    },
   });
 }

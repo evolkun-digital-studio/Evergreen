@@ -9,15 +9,25 @@ import { pageMetadata } from "@/lib/seo/pages";
 
 const title = "Certifications and registrations";
 const description =
-  "Evergreen holds UPPCB e-waste authorisation, battery waste authorisation, GST registration (GSTIN 09BQEPA3569F3ZV) and MSME Udyam registration in UP.";
+  "Evergreen's company profile lists UPPCB consents and EPR registrations for e-waste, batteries and plastics, hazardous-waste authorisation, GST, MSME and ISO certifications.";
 const crumbs = [{ name: "Certifications", path: "/certifications" }];
 
-export const metadata = pageMetadata({ title: "Certifications: UPPCB, Battery, GST and MSME", description, path: "/certifications" });
+export const metadata = pageMetadata({
+  title: "Evergreen Authorisations, Registrations and ISO Certifications",
+  description,
+  path: "/certifications",
+});
 
 export default function CertificationsPage() {
   return (
     <>
-      <PageJsonLd path="/certifications" name={title} description={description} crumbs={crumbs} image={photos.certs} />
+      <PageJsonLd
+        path="/certifications"
+        name={title}
+        description={description}
+        crumbs={crumbs}
+        image={photos.certs}
+      />
       <PageHeader
         title={title}
         lead={`The registrations and authorisations under which ${site.legalName} operates.`}
@@ -30,12 +40,22 @@ export default function CertificationsPage() {
             <h2 id="registrations-heading">Registrations</h2>
             <p className="mt-4 text-ink/85">
               For details of any registration, write to{" "}
-              <a href={mailHref("Registration details")} className="break-all font-semibold text-evergreen-700 underline underline-offset-4">
+              <a
+                href={mailHref("Registration details")}
+                className="break-all font-semibold text-evergreen-700 underline underline-offset-4"
+              >
                 {site.email}
               </a>
               .
             </p>
-            <SourceList items={[sources.eWasteRules, sources.batteryRules, sources.eWastePortal]} className="mt-8" />
+            <SourceList
+              items={[
+                sources.eWasteRules,
+                sources.batteryRules,
+                sources.eWastePortal,
+              ]}
+              className="mt-8"
+            />
           </div>
           <div className="lg:col-span-8">
             <Registrations />

@@ -1,6 +1,6 @@
 /**
  * Company facts. Single source for components, metadata and JSON-LD.
- * Source: evergreenrecycler.in (reference/evergreenrecycler-content.txt).
+ * Sources: evergreenrecycler.in and the company profile dated 27 April 2026.
  * Values set to CONFIRM are hidden from the public UI, including development previews.
  */
 export const CONFIRM = "CONFIRM" as const;
@@ -11,32 +11,39 @@ export const site = {
   legalName: "Ever Green E-Waste Recycling Management",
   domain: "https://evergreenrecycler.in",
   description:
-    "Authorised e-waste, battery and plastic recycler in Sitapur, Uttar Pradesh, since 2021. PAN India pickup, recycling certificates, EPR and CPCB compliance support.",
+    "Authorised e-waste, battery and plastic recycler in Sitapur, Uttar Pradesh, operating since 2020. PAN India pickup, recycling certificates, asset verification, secure data destruction and EPR compliance support.",
   logo: "/brand/evergreen-logo.png",
   // Local copy of the supplied PNG, shared by every logo placement.
   logoSource: "https://ik.imagekit.io/rxoyjxx4c/Asset%2058@4x.png",
-  founded: "2021",
-  owner: { name: "Irfan Ahmad", honorific: "Mr.", role: "Owner" },
-  /** Business enquiries (source: Evergreen outreach material). Title not yet confirmed: shown without one. */
+  founded: "2020",
+  owner: { name: "Irfan Ahmad", honorific: "Mr.", role: "Founder & CEO" },
+  /** Business enquiries (title confirmed in the company profile dated 27 April 2026). */
   businessContact: {
     name: "Mukul Agarwal",
     honorific: "Mr.",
-    title: CONFIRM as string,
+    title: "Strategic Head",
     phone: "+91 95577 86553",
     whatsapp: "919557786553",
   },
   phone: "+91 94150 46061",
+  alternatePhone: "+91 81159 37040",
   phoneConfirmed: true,
   whatsapp: "919415046061",
   whatsappConfirmed: true,
-  // Gmail for now; switch to a domain address (e.g. info@evergreenrecycler.in) once it exists.
-  email: "evergreenewaste2021@gmail.com",
+  email: "admin@indiawms.in",
   gstin: "09BQEPA3569F3ZV",
   address: {
     street: "Rampur Mathura, Mahmudabad",
     locality: "Sitapur",
     region: "Uttar Pradesh",
     postalCode: "261204",
+    country: "IN",
+  },
+  registeredAddress: {
+    street: "Khasra No. 21, Gudamba, Plot No. 721, BKT",
+    locality: "Lucknow",
+    region: "Uttar Pradesh",
+    postalCode: "226026",
     country: "IN",
   },
   mapsUrl: "https://maps.google.com/?q=Mahmudabad,Sitapur,Uttar+Pradesh",
@@ -53,7 +60,8 @@ export const site = {
       id: "https://indiawms.in/#organization",
       city: "Lucknow",
       relationship: "Group company",
-      summary: "EPR credits and EPR compliance for producers, importers and brand owners.",
+      summary:
+        "EPR credits and EPR compliance for producers, importers and brand owners.",
     },
   ],
   social: {
@@ -69,14 +77,19 @@ export function isSet(value: string | undefined | null): value is string {
 
 export const isProduction = process.env.NODE_ENV === "production";
 
-export const SITE_ORIGIN = (process.env.NEXT_PUBLIC_SITE_URL || site.domain).replace(/\/+$/, "");
+export const SITE_ORIGIN = (
+  process.env.NEXT_PUBLIC_SITE_URL || site.domain
+).replace(/\/+$/, "");
 
-export const publicPhone = site.phoneConfirmed || !isProduction ? site.phone : null;
-export const publicWhatsapp = site.whatsappConfirmed || !isProduction ? site.whatsapp : null;
+export const publicPhone =
+  site.phoneConfirmed || !isProduction ? site.phone : null;
+export const publicWhatsapp =
+  site.whatsappConfirmed || !isProduction ? site.whatsapp : null;
 
 export const telHref = (phone: string) => `tel:${phone.replace(/[^\d+]/g, "")}`;
 /** Default prefilled WhatsApp message, so every chat link opens with context. */
-export const WA_DEFAULT_TEXT = "Hello Evergreen, I would like to request a pickup.";
+export const WA_DEFAULT_TEXT =
+  "Hello Evergreen, I would like to request a pickup.";
 export const waHref = (number: string, text: string = WA_DEFAULT_TEXT) =>
   `https://wa.me/${number}?text=${encodeURIComponent(text)}`;
 export const mailHref = (subject = "Enquiry from evergreenrecycler.in") =>

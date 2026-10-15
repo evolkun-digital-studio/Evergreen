@@ -10,21 +10,31 @@ import {
 } from "lucide-react";
 import { site } from "@/config/site";
 import { portraits, type Photo } from "@/content/images";
+import { formatTonnes } from "@/content/stats";
 
 export const about = {
   paragraphs: [
     {
       lead: site.legalName,
-      body: "is one of India's leading companies recycling electrical and electronic (WEEE) waste in accordance with government guidelines. Our integrated, best-in-class technology ensures environmental safety and sustainability.",
+      body: "is an authorised recycler of e-waste, batteries and plastics, operating from Sitapur, Uttar Pradesh. Since 2020, we have helped organisations across India manage retired assets through documented, environmentally responsible recycling.",
     },
     {
-      body: "We handle large quantities of high-quality e-waste and are able to remove all components from electrical items, including metals and hazardous materials such as lead, mercury, cadmium and PCBs, without leaving anything behind. We are ISO 180 certified and adhere to strict environmental regulations for the safe handling and disposal of hazardous products, helping keep our environment green.",
+      body: "Our work covers inspection and physical asset verification, reverse logistics, data destruction and degaussing, refurbishment, material recovery and final certification. Hazardous fractions are segregated and managed through authorised routes, while reusable materials are returned to productive use.",
     },
   ],
   highlights: [
-    { title: "Operating Since", body: "Successfully recycling e-waste since 2020" },
-    { title: "ISO Certified", body: "Adheres to strict environmental regulations for safe hazardous product handling" },
-    { title: "Complete Removal", body: "Removes mercury, lead, cadmium, PCBs and all hazardous components from electrical items" },
+    {
+      title: "Operating since 2020",
+      body: "A documented recycling operation serving organisations across India",
+    },
+    {
+      title: "Authorised capacity",
+      body: "14,400 MT of e-waste, 10,800 MT of batteries and 9,000 MT of plastics per year",
+    },
+    {
+      title: "End-to-end service",
+      body: "Inspection, reverse logistics, secure data destruction, recovery and certificates",
+    },
   ],
 };
 
@@ -38,88 +48,133 @@ export type Leader = {
   bio: string;
   phone?: string;
   linkedin?: string;
-  portrait: Photo;
+  portrait?: Photo;
   /** Organization JSON-LD relation: the owner is also `founder`. */
   founder?: boolean;
 };
 
-/** Order is display order (Owner first). Used by /about and the Organization JSON-LD. */
+/** Order is display order (Founder first). Used by /about and the Organization JSON-LD. */
 export const leadership: Leader[] = [
   {
     id: "irfan-ahmad",
     honorific: site.owner.honorific,
     name: site.owner.name,
     role: site.owner.role,
-    bio: `Has led ${site.legalName} in ${site.address.locality} since ${site.founded}.`,
+    bio: `Founded ${site.legalName} and has led its recycling operations since ${site.founded}.`,
     phone: site.phone,
     portrait: portraits.irfanAhmad,
     founder: true,
   },
   {
-    id: "ramesh-yadav",
+    id: "pradeep-gopala-krishana",
     honorific: "Mr.",
-    name: "Ramesh Yadav",
-    role: "Associate Director",
-    // DUMMY bio (2026-10-10): generic role description, no claims. Replace with the real one when supplied.
-    bio: "Works with the owner on day-to-day operations, compliance and client relationships.",
-    portrait: portraits.rameshYadav,
+    name: "Pradeep Gopala Krishana",
+    role: "Associate Director, ESG Compliance",
+    bio: "Leads ESG and regulatory compliance across recycling and disposal programmes.",
+    portrait: portraits.pradeepGopalaKrishana,
+  },
+  {
+    id: "mukul-agarwal",
+    honorific: site.businessContact.honorific,
+    name: site.businessContact.name,
+    role: site.businessContact.title,
+    bio: "Leads strategic planning and client programmes for responsible waste management.",
+    phone: site.businessContact.phone,
+    portrait: portraits.mukulAgarwal,
+  },
+  {
+    id: "naveen-kumar-gupta",
+    honorific: "Mr.",
+    name: "Naveen Kumar Gupta",
+    role: "Operations Head — PAN India",
+    bio: "Coordinates collection and reverse-logistics operations across India.",
   },
 ];
 
 export const steps = [
   {
-    title: "Request pickup",
-    short: "Call, WhatsApp or use the form.",
-    body: "Contact us by phone, WhatsApp or the online form. Tell us the type of waste, the approximate quantity and the location, and we will schedule a free pickup at a time that suits you.",
+    title: "Inspection and asset verification",
+    short: "Inventory assessed at your site.",
+    body: "We inspect the material and verify the asset inventory at your site so the collection plan, handling method and documentation match what you actually have.",
   },
   {
-    title: "Certified collection",
-    short: "Tagged, documented, safely transported.",
-    body: "Our trained team collects the waste following safety procedures. Every item is tagged and documented, and transported in compliant vehicles with chain-of-custody records.",
+    title: "Reverse logistics",
+    short: "Tracked collection across India.",
+    body: "Our team arranges collection through our fleet and approved logistics partners. Assets are tagged, documented and tracked through the chain of custody.",
   },
   {
-    title: "Sorting and assessment",
-    short: "Sorted by material; hazardous parts set aside.",
-    body: "Materials are sorted by type: electronics, batteries, metals and plastics. Hazardous components are separated for specialised treatment under CPCB and state guidelines.",
+    title: "Data destruction and degaussing",
+    short: "Data sanitised before recovery.",
+    body: "Data-bearing equipment is sanitised by software, degaussing or physical destruction, depending on the media and the agreed disposal route. The work can be arranged on site or at our facility.",
   },
   {
-    title: "Processing and recovery",
-    short: "Dismantled, shredded, materials recovered.",
-    body: "We dismantle and shred the material and recover what can be used again. Precious metals, copper and polymers go back into manufacturing.",
+    title: "Reconditioning and refurbishment",
+    short: "Reusable equipment gets a longer life.",
+    body: "Where reuse is appropriate, equipment is identified, sanitised, tested and reconditioned. Components are repaired or replaced before the asset returns to productive use.",
   },
   {
-    title: "Certificate and report",
-    short: "Recycling certificate for your records.",
-    body: "You receive a recycling certificate with the weight, a material breakdown and a disposal compliance report. It is ready for audits and for your CSR and ESG reporting.",
+    title: "Recycling and material recovery",
+    short: "Materials separated for authorised recovery.",
+    body: "Non-reusable equipment is dismantled and sorted into plastics, metals, glass and hazardous fractions. Recoverable materials are routed back into manufacturing through authorised channels.",
+  },
+  {
+    title: "Certificate and closure report",
+    short: "Evidence ready for your records.",
+    body: "You receive the applicable recycling, disposal or data-destruction certificate, supported by weights and chain-of-custody records for audits and ESG reporting.",
   },
 ];
 
 /** `verify: true` entries stay hidden until the evidence is confirmed. */
-export const registrations: { title: string; detail: string; body: string; verify?: boolean }[] = [
+export const registrations: {
+  title: string;
+  detail: string;
+  body: string;
+  verify?: boolean;
+}[] = [
   {
     title: "GST registration",
     detail: `GSTIN ${site.gstin}`,
-    body: "Registered for GST in Uttar Pradesh.",
+    body: "Government of India registration dated 23 October 2020.",
   },
   {
-    title: "E-waste authorisation",
-    detail: "Uttar Pradesh Pollution Control Board (UPPCB)",
-    body: "Authorised under the E-Waste (Management) Rules, 2022.",
+    title: "E-waste CTE",
+    detail: "UPPCB · 2025–2030",
+    body: `Consent to Establish; stated annual capacity ${formatTonnes(14400)}.`,
   },
   {
-    title: "Battery waste authorisation",
-    detail: "Battery Waste Management Rules",
-    body: "Authorised for the safe processing of waste batteries.",
+    title: "E-waste CTO and EPR",
+    detail: "UPPCB · 2025–2029",
+    body: `Consent to Operate and EPR registration; stated annual capacity ${formatTonnes(14400)}.`,
+  },
+  {
+    title: "Battery CTE",
+    detail: "UPPCB · 2025–2030",
+    body: `Consent to Establish; stated annual capacity ${formatTonnes(10800)}.`,
+  },
+  {
+    title: "Battery CTO and EPR",
+    detail: "UPPCB · CTO 2025–2029 · EPR 2026–2031",
+    body: `Consent to Operate and EPR registration; stated annual capacity ${formatTonnes(10800)}.`,
+  },
+  {
+    title: "Plastic CTE",
+    detail: "UPPCB · 2023–2028",
+    body: `Consent to Establish; stated annual capacity ${formatTonnes(9000)}.`,
+  },
+  {
+    title: "Plastic CTO and EPR",
+    detail: "UPPCB · CTO 2023–2027 · EPR auto-renewal",
+    body: `Consent to Operate and EPR registration; stated annual capacity ${formatTonnes(9000)}.`,
+  },
+  {
+    title: "Hazardous and other waste authorisation",
+    detail: "UPPCB · 2022–2027",
+    body: "Authorisation for the hazardous-waste operations stated in the company profile.",
   },
   {
     title: "MSME registration",
-    detail: "Udyam registration",
+    detail: "Ministry of MSME · Udyam registration",
     body: "Registered as a micro, small and medium enterprise.",
-  },
-  {
-    title: "CPCB EPR portal",
-    detail: "Central Pollution Control Board",
-    body: "Registered on the CPCB EPR portal.",
   },
   {
     title: "ISO 45001:2018",
@@ -177,4 +232,3 @@ export const sustainability = {
     },
   ],
 };
-

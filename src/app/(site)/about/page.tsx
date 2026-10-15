@@ -10,8 +10,7 @@ import { fullAddress, site } from "@/config/site";
 import { pageMetadata } from "@/lib/seo/pages";
 
 const title = "About Evergreen";
-const description =
-  "Ever Green E-Waste Recycling Management is an authorised recycler in Sitapur, Uttar Pradesh, founded in 2021 by Mr. Irfan Ahmad, with PAN India pickup.";
+const description = `Ever Green E-Waste Recycling Management is an authorised recycler in Sitapur, Uttar Pradesh, founded in ${site.founded} by Mr. Irfan Ahmad, with PAN India pickup.`;
 const crumbs = [{ name: "About", path: "/about" }];
 
 export const metadata = pageMetadata({
@@ -47,7 +46,9 @@ export default function AboutPage() {
           <div className="space-y-4 text-ink/85 lg:col-span-8">
             {about.paragraphs.map(p => (
               <p key={p.body} className="text-[18px]">
-                {p.lead && <strong className="font-semibold text-ink">{p.lead}</strong>}
+                {p.lead && (
+                  <strong className="font-semibold text-ink">{p.lead}</strong>
+                )}
                 {p.lead && " "}
                 {p.body}
               </p>

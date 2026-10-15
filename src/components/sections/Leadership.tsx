@@ -24,8 +24,8 @@ export function Leadership({ children }: { children?: React.ReactNode }) {
               compliance and client relationships.
             </p>
           </div>
-          <ul className="mx-auto mt-10 grid max-w-[712px] justify-items-center gap-x-8 gap-y-12 md:mt-12 md:grid-cols-2">
-            {leadership.map((l) => (
+          <ul className="mx-auto mt-10 grid justify-items-center gap-x-8 gap-y-12 sm:grid-cols-2 md:mt-12 lg:grid-cols-4">
+            {leadership.map(l => (
               <LeaderProfile key={l.id} leader={l} />
             ))}
           </ul>
@@ -43,18 +43,30 @@ function LeaderProfile({ leader: l }: { leader: Leader }) {
       id={l.id}
       className="group flex w-full min-w-0 max-w-[340px] scroll-mt-24 flex-col"
     >
-      {/* Natural portrait: no tint or desaturation, on the same light neutral behind both photos. */}
       <div className="relative aspect-[4/5] overflow-hidden rounded-[4px] bg-paper-2">
-        <Image
-          src={l.portrait.src}
-          alt={l.portrait.alt}
-          width={l.portrait.src.width}
-          height={l.portrait.src.height}
-          sizes="(min-width: 380px) 340px, calc(100vw - 40px)"
-          placeholder="blur"
-          loading="lazy"
-          className="h-full w-full object-cover object-top transition-transform duration-700 ease-out md:motion-safe:group-hover:scale-[1.015] motion-reduce:transition-none"
-        />
+        {l.portrait ? (
+          <Image
+            src={l.portrait.src}
+            alt={l.portrait.alt}
+            width={l.portrait.src.width}
+            height={l.portrait.src.height}
+            sizes="(min-width: 1024px) 240px, (min-width: 640px) 340px, calc(100vw - 40px)"
+            placeholder="blur"
+            loading="lazy"
+            className="h-full w-full object-cover object-top transition-transform duration-700 ease-out md:motion-safe:group-hover:scale-[1.015] motion-reduce:transition-none"
+          />
+        ) : (
+          <div
+            className="flex h-full items-center justify-center bg-evergreen-950 text-4xl font-semibold tracking-[-0.04em] text-white"
+            aria-hidden="true"
+          >
+            {l.name
+              .split(" ")
+              .map(part => part[0])
+              .slice(0, 2)
+              .join("")}
+          </div>
+        )}
       </div>
       <div className="flex flex-1 flex-col pt-4">
         <div className="flex items-baseline justify-end gap-4 border-b border-line pb-2 text-[12px] font-semibold uppercase tracking-[0.12em] text-evergreen-700">
