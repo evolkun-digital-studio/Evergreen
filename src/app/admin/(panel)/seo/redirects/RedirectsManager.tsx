@@ -11,10 +11,12 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { formatIst } from "@/lib/time";
 import { deleteRedirectAction, saveRedirectAction } from "../actions";
+import { useConfirm } from "@/components/admin/ConfirmProvider";
 
 type RedirectRow = { id: string; fromPath: string; toPath: string; statusCode: 301 | 302; hits: number; lastHitAt: string | null; automatic: boolean };
 
 export function RedirectsManager({ rows }: { rows: RedirectRow[] }) {
+  const confirm = useConfirm();
   const router = useRouter();
   const [pending, startTransition] = useTransition();
   const [editing, setEditing] = useState<RedirectRow | "new" | null>(null);
@@ -41,8 +43,8 @@ export function RedirectsManager({ rows }: { rows: RedirectRow[] }) {
       router.refresh();
     });
 
-  const del = (row: RedirectRow) => {
-    if (!window.confirm(`Delete the redirect from ${row.fromPath}?`)) return;
+  const del = async (row: RedirectRow) => {
+    if (!(await confirm(`Delete the redirect from ${row.fromPath}?`))) return;
     startTransition(async () => {
       const res = await deleteRedirectAction(row.id);
       if (res.ok) {

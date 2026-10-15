@@ -8,9 +8,24 @@ const DIRECTIVES = new Set(["user-agent", "allow", "disallow", "sitemap", "crawl
 
 export const sitemapUrl = () => `${SITE_URL}/sitemap.xml`;
 
+/** Paths that must never be crawled, whatever the editor text says. */
+const ALWAYS_DISALLOWED = ["/documents", "/api/documents"];
+
+/** Adds any missing ALWAYS_DISALLOWED rule to the `User-agent: *` group (or a new one). */
+function withPrivateRules(body: string): string {
+  const lines = body.split("\n");
+  const has = (p: string) => lines.some((l) => l.replace(/#.*$/, "").trim().toLowerCase().replace(/\s+/g, " ") === `disallow: ${p}`);
+  const missing = ALWAYS_DISALLOWED.filter((p) => !has(p)).map((p) => `Disallow: ${p}`);
+  if (!missing.length) return body;
+  const star = lines.findIndex((l) => /^\s*user-agent\s*:\s*\*\s*$/i.test(l));
+  if (star === -1) return `${body}\n\nUser-agent: *\n${missing.join("\n")}`.trim();
+  lines.splice(star + 1, 0, ...missing);
+  return lines.join("\n");
+}
+
 /** The served file: the editor text plus our sitemap line (always present, never duplicated). */
 export function finalizeRobots(text: string): string {
-  const body = text.replace(/\r\n/g, "\n").trim();
+  const body = withPrivateRules(text.replace(/\r\n/g, "\n").trim());
   const hasSitemap = body.split("\n").some((l) => l.trim().toLowerCase() === `sitemap: ${sitemapUrl()}`.toLowerCase());
   return `${body}\n${hasSitemap ? "" : `\nSitemap: ${sitemapUrl()}\n`}`;
 }

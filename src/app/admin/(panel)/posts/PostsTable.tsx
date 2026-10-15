@@ -22,6 +22,7 @@ import { cn } from "@/lib/utils";
 import type { PostRow } from "@/lib/data/admin-posts";
 import type { Option } from "@/lib/posts/editor-types";
 import { bulkPostAction, duplicatePostAction } from "./actions";
+import { useConfirm } from "@/components/admin/ConfirmProvider";
 
 type Props = {
   rows: PostRow[];
@@ -43,6 +44,7 @@ export function PostsTable({ rows, total, page, pages, tally, filters, canPublis
   const [q, setQ] = useState(params.get("q") ?? "");
   const [pending, startTransition] = useTransition();
   const trash = params.get("view") === "trash";
+  const confirm = useConfirm();
 
   const setParam = (updates: Record<string, string | null>) => {
     const next = new URLSearchParams(params.toString());
@@ -55,9 +57,9 @@ export function PostsTable({ rows, total, page, pages, tally, filters, canPublis
     router.push(`${pathname}?${next.toString()}`);
   };
 
-  const run = (action: string, ids: string[], confirmText?: string) => {
+  const run = async (action: string, ids: string[], confirmText?: string) => {
     if (!ids.length) return;
-    if (confirmText && !window.confirm(confirmText)) return;
+    if (confirmText && !(await confirm(confirmText))) return;
     startTransition(async () => {
       const res = await bulkPostAction(action, ids);
       if (res.ok) {

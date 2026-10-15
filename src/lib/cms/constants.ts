@@ -5,8 +5,11 @@ import { SITE_ORIGIN } from "@/config/site";
 /** Public origin (no trailing slash): NEXT_PUBLIC_SITE_URL, else the confirmed domain in site.ts. */
 export const SITE_URL = SITE_ORIGIN;
 
-export const ROLES = ["ADMIN", "EDITOR", "AUTHOR"] as const;
+export const ROLES = ["ADMIN", "EDITOR", "AUTHOR", "VIEWER"] as const;
 export type Role = (typeof ROLES)[number];
+
+/** VIEWER accounts can only sign in to the Documents library; they never reach the CMS. */
+export const isCmsRole = (role: Role) => role !== "VIEWER";
 
 export const POST_STATUSES = ["DRAFT", "SCHEDULED", "PUBLISHED", "ARCHIVED"] as const;
 export type PostStatus = (typeof POST_STATUSES)[number];
@@ -68,9 +71,12 @@ export const can = {
   publish: (role: Role) => role === "ADMIN" || role === "EDITOR",
   editAnyPost: (role: Role) => role === "ADMIN" || role === "EDITOR",
   manageTaxonomy: (role: Role) => role === "ADMIN" || role === "EDITOR",
-  manageMedia: () => true,
+  manageMedia: (role: Role) => role !== "VIEWER",
   manageAuthors: (role: Role) => role === "ADMIN" || role === "EDITOR",
   manageSeoTools: (role: Role) => role === "ADMIN" || role === "EDITOR",
   manageSettings: (role: Role) => role === "ADMIN",
   manageUsers: (role: Role) => role === "ADMIN",
+  manageLeads: (role: Role) => role === "ADMIN" || role === "EDITOR",
+  manageDocuments: (role: Role) => role === "ADMIN" || role === "EDITOR",
+  viewDocuments: (role: Role) => role === "ADMIN" || role === "EDITOR" || role === "VIEWER",
 };

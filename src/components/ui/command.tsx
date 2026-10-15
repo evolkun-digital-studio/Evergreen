@@ -5,6 +5,7 @@ import { Command as CommandPrimitive } from "cmdk";
 import { Search } from "lucide-react";
 
 import { cn } from "@/lib/utils";
+import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 
 function Command({ className, ...props }: React.ComponentProps<typeof CommandPrimitive>) {
   return (
@@ -14,6 +15,10 @@ function Command({ className, ...props }: React.ComponentProps<typeof CommandPri
       {...props}
     />
   );
+}
+
+function CommandDialog({ children, ...props }: React.ComponentProps<typeof Dialog>) {
+  return <Dialog {...props}><DialogContent className="overflow-hidden p-0 sm:max-w-xl"><DialogTitle className="sr-only">Command palette</DialogTitle>{children}</DialogContent></Dialog>;
 }
 
 function CommandInput({ className, ...props }: React.ComponentProps<typeof CommandPrimitive.Input>) {
@@ -69,4 +74,4 @@ function CommandItem({ className, ...props }: React.ComponentProps<typeof Comman
   );
 }
 
-export { Command, CommandInput, CommandList, CommandEmpty, CommandGroup, CommandItem };
+export { Command, CommandDialog, CommandInput, CommandList, CommandEmpty, CommandGroup, CommandItem };

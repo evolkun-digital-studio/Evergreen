@@ -15,6 +15,7 @@ next-env.d.ts
 # local data and uploads (pnpm db:dev, local storage driver)
 .mongo-data/
 storage/uploads/
+storage/private/
 public/uploads/
 
 # tests and review output

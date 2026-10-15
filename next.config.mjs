@@ -12,6 +12,13 @@ const nextConfig = {
   // Media uploads pass through the proxy (it matches /api); allow up to MEDIA_MAX_UPLOAD_MB.
   experimental: {
     proxyClientMaxBodySize: `${Number(process.env.MEDIA_MAX_UPLOAD_MB || 10) + 1}mb`,
+    // VS Code dev tunnels forward the tunnel host in x-forwarded-host but rewrite Origin to
+    // localhost:3000, which trips the Server Actions CSRF check. Allow it in dev only.
+    ...(process.env.NODE_ENV !== "production" && {
+      serverActions: {
+        allowedOrigins: ["localhost:3000", "**.devtunnels.ms"],
+      },
+    }),
   },
   images: {
     formats: ["image/avif", "image/webp"],

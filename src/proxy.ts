@@ -16,20 +16,45 @@ const NOINDEX = "noindex, nofollow";
 const adminGate = auth(request => {
   const { pathname, search } = request.nextUrl;
   const isAdmin = pathname === "/admin" || pathname.startsWith("/admin/");
-  const isLogin = pathname === "/admin/login";
+  const isPublicAuth =
+    pathname === "/admin/login" ||
+    pathname === "/admin/forgot-password" ||
+    pathname.startsWith("/admin/reset-password/") ||
+    pathname.startsWith("/admin/accept-invite/");
 
-  if (isAdmin && !isLogin && !request.auth) {
+  if (isAdmin && !isPublicAuth && !request.auth) {
     const login = new URL("/admin/login", request.nextUrl);
     login.searchParams.set("callbackUrl", pathname + search);
     const res = NextResponse.redirect(login);
     res.headers.set("X-Robots-Tag", NOINDEX);
     return res;
   }
-  if (isLogin && request.auth)
+  if (isPublicAuth && request.auth)
     return NextResponse.redirect(new URL("/admin", request.nextUrl));
+  // Viewers only have the Documents library.
+  if (isAdmin && !isPublicAuth && request.auth?.user?.role === "VIEWER")
+    return NextResponse.redirect(new URL("/documents", request.nextUrl));
 
   const res = NextResponse.next();
   res.headers.set("X-Robots-Tag", NOINDEX);
+  return res;
+});
+
+// Optimistic gate for the private Documents library; the page and the file route re-check the
+// user and role in the database.
+const documentsGate = auth(request => {
+  const { pathname, search } = request.nextUrl;
+  const isLogin = pathname === "/documents/login";
+  if (!isLogin && !request.auth) {
+    const login = new URL("/documents/login", request.nextUrl);
+    login.searchParams.set("next", pathname + search);
+    const res = NextResponse.redirect(login);
+    res.headers.set("X-Robots-Tag", NOINDEX);
+    return res;
+  }
+  const res = NextResponse.next();
+  res.headers.set("X-Robots-Tag", NOINDEX);
+  res.headers.set("Cache-Control", "private, no-store");
   return res;
 });
 
@@ -55,6 +80,10 @@ export async function proxy(request: NextRequest, event: NextFetchEvent) {
     return adminGate(request, event as never);
   }
 
+  if (pathname === "/documents" || pathname.startsWith("/documents/")) {
+    return documentsGate(request, event as never);
+  }
+
   // Redirects managed in the CMS (SEO Tools → Redirects), including automatic slug-change 301s.
   const hit = await resolveManagedRedirect(new URL(request.url));
   if (hit) {
@@ -73,8 +102,8 @@ export async function proxy(request: NextRequest, event: NextFetchEvent) {
 }
 
 export const config = {
-  // Everything except build assets, local uploads and static files.
+  // Page paths only: redirect lookups do not belong on API or asset requests.
   matcher: [
-    "/((?!_next/static|_next/image|uploads/|.*\\.(?:png|jpe?g|gif|webp|avif|svg|ico|css|js|woff2?|map)$).*)",
+    "/((?!api|_next/static|_next/image|uploads/|favicon.ico|.*\\.(?:webm|mp4|png|jpe?g|gif|webp|avif|svg|ico|css|js|woff2?|map)$).*)",
   ],
 };

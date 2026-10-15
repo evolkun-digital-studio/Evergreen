@@ -1,5 +1,6 @@
 import {
   FileText,
+  FileLock2,
   FolderTree,
   Image,
   LayoutDashboard,
@@ -11,6 +12,7 @@ import {
   Tags,
   UserRound,
   Users,
+  Inbox,
   type LucideIcon,
 } from "lucide-react";
 import type { Permission } from "@/lib/auth/session";
@@ -24,14 +26,32 @@ export const ADMIN_NAV: NavGroup[] = [
     items: [
       { title: "Dashboard", href: "/admin", icon: LayoutDashboard },
       { title: "Posts", href: "/admin/posts", icon: FileText },
-      { title: "Categories", href: "/admin/categories", icon: FolderTree, permission: "manageTaxonomy" },
-      { title: "Tags", href: "/admin/tags", icon: Tags, permission: "manageTaxonomy" },
-      { title: "Media", href: "/admin/media", icon: Image, permission: "manageMedia" },
-      { title: "Authors", href: "/admin/authors", icon: UserRound, permission: "manageAuthors" },
     ],
   },
   {
-    label: "SEO Tools",
+    label: "Library",
+    items: [
+      { title: "Media", href: "/admin/media", icon: Image, permission: "manageMedia" },
+      { title: "Categories", href: "/admin/categories", icon: FolderTree, permission: "manageTaxonomy" },
+      { title: "Tags", href: "/admin/tags", icon: Tags, permission: "manageTaxonomy" },
+      { title: "Documents", href: "/admin/documents", icon: FileLock2, permission: "manageDocuments" },
+    ],
+  },
+  {
+    label: "People",
+    items: [
+      { title: "Authors", href: "/admin/authors", icon: UserRound, permission: "manageAuthors" },
+      { title: "Users", href: "/admin/users", icon: Users, permission: "manageUsers" },
+    ],
+  },
+  {
+    label: "Leads",
+    items: [
+      { title: "Enquiries", href: "/admin/enquiries", icon: Inbox, permission: "manageLeads" },
+    ],
+  },
+  {
+    label: "SEO",
     items: [
       { title: "Broken Links", href: "/admin/seo/broken-links", icon: Link2Off, permission: "manageSeoTools" },
       { title: "Redirects", href: "/admin/seo/redirects", icon: Shuffle, permission: "manageSeoTools" },
@@ -40,10 +60,9 @@ export const ADMIN_NAV: NavGroup[] = [
     ],
   },
   {
-    label: "Admin",
+    label: "Site",
     items: [
       { title: "Settings", href: "/admin/settings", icon: Settings, permission: "manageSettings" },
-      { title: "Users", href: "/admin/users", icon: Users, permission: "manageUsers" },
     ],
   },
 ];

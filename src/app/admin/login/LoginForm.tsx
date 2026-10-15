@@ -6,6 +6,7 @@ import { Loader2, LockKeyhole } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import Link from "next/link";
 import { loginAction, type LoginState } from "./actions";
 
 export function LoginForm() {
@@ -20,7 +21,12 @@ export function LoginForm() {
         <Input id="email" name="email" type="email" autoComplete="username" required autoFocus />
       </div>
       <div className="space-y-2">
-        <Label htmlFor="password">Password</Label>
+        <div className="flex items-center justify-between gap-4">
+          <Label htmlFor="password">Password</Label>
+          <Link href="/admin/forgot-password" className="text-xs font-semibold text-evergreen-700 hover:underline">
+            Forgot password?
+          </Link>
+        </div>
         <Input id="password" name="password" type="password" autoComplete="current-password" required />
       </div>
       {state.error && (

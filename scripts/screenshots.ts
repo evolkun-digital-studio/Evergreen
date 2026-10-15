@@ -4,6 +4,7 @@
  * Example: pnpm tsx scripts/screenshots.ts http://localhost:3100 screenshots / /about
  */
 import { mkdir } from "node:fs/promises";
+import { existsSync } from "node:fs";
 import { chromium } from "@playwright/test";
 
 const [base = "http://localhost:3000", outDir = "screenshots", ...paths] = process.argv.slice(2);
@@ -15,7 +16,8 @@ const viewports = [
 
 async function main() {
   await mkdir(outDir, { recursive: true });
-  const browser = await chromium.launch();
+  const systemChrome = "C:/Program Files/Google/Chrome/Application/chrome.exe";
+  const browser = await chromium.launch(existsSync(systemChrome) ? { executablePath: systemChrome } : undefined);
   for (const vp of viewports) {
     const page = await browser.newPage({ viewport: { width: vp.width, height: vp.height }, deviceScaleFactor: 1 });
     for (const route of routes) {

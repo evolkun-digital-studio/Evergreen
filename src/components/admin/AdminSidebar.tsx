@@ -32,7 +32,8 @@ export function AdminSidebar({ user, signOutAction }: Props) {
     <Sidebar collapsible="icon">
       <SidebarHeader className="px-3 py-4">
         <Link href="/admin" className="flex items-center gap-2 font-display text-base font-semibold text-white">
-          <span className="grid size-8 shrink-0 place-items-center rounded-md bg-evergreen-700 text-sm font-bold">IW</span>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/brand/evergreen-logo.png" alt="Evergreen" className="h-8 w-8 shrink-0 object-contain brightness-0 invert" />
           <span className="truncate group-data-[collapsible=icon]:hidden">Evergreen CMS</span>
         </Link>
       </SidebarHeader>
@@ -47,7 +48,7 @@ export function AdminSidebar({ user, signOutAction }: Props) {
                 <SidebarMenu>
                   {items.map((item) => (
                     <SidebarMenuItem key={item.href}>
-                      <SidebarMenuButton asChild isActive={isActive(item.href)} tooltip={item.title}>
+                      <SidebarMenuButton asChild isActive={isActive(item.href)} tooltip={item.title} className="relative data-[active=true]:before:absolute data-[active=true]:before:inset-y-1 data-[active=true]:before:left-0 data-[active=true]:before:w-1 data-[active=true]:before:rounded-full data-[active=true]:before:bg-moss">
                         <Link href={item.href}>
                           <item.icon />
                           <span>{item.title}</span>
@@ -64,10 +65,10 @@ export function AdminSidebar({ user, signOutAction }: Props) {
       <SidebarFooter>
         <SidebarMenu>
           <SidebarMenuItem>
-            <SidebarMenuButton asChild tooltip="View blog">
-              <a href="/blog" target="_blank" rel="noopener">
+            <SidebarMenuButton asChild tooltip="View site">
+              <a href="/" target="_blank" rel="noopener">
                 <ExternalLink />
-                <span>View blog</span>
+                <span>View site</span>
               </a>
             </SidebarMenuButton>
           </SidebarMenuItem>

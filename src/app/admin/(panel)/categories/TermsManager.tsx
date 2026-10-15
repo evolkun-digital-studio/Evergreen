@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { useForm, useWatch } from "react-hook-form";
 import { toast } from "sonner";
 import { GitMerge, Loader2, Pencil, Plus, Search, Trash2 } from "lucide-react";
+import { useConfirm } from "@/components/admin/ConfirmProvider";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
@@ -51,6 +52,7 @@ export function TermsManager(props: Props) {
 }
 
 function TermsManagerInner({ kind, rows, media: initialMedia, save, remove, merge }: Props) {
+  const confirm = useConfirm();
   const router = useRouter();
   const [editing, setEditing] = useState<TermRow | "new" | null>(null);
   const [q, setQ] = useState("");
@@ -96,9 +98,9 @@ function TermsManagerInner({ kind, rows, media: initialMedia, save, remove, merg
       router.refresh();
     });
 
-  const del = (row: TermRow) => {
+  const del = async (row: TermRow) => {
     const warn = kind === "tag" && row.postCount ? ` It will be removed from ${row.postCount} post(s).` : "";
-    if (!window.confirm(`Delete ${label} “${row.name}”?${warn}`)) return;
+    if (!(await confirm(`Delete ${label} “${row.name}”?${warn}`))) return;
     startTransition(async () => {
       const res = await remove(row.id);
       if (res.ok) {

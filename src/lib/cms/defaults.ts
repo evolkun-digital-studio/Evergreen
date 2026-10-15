@@ -11,10 +11,12 @@ Allow: /
 Disallow: /admin
 Disallow: /api
 Disallow: /blog/preview
+Disallow: /documents
+Disallow: /api/documents
 `;
 
 export const DEFAULT_SETTINGS = {
-  siteTitle: site.name,
+  siteTitle: site.legalName,
   tagline: "E-waste, battery and plastic recycling in Sitapur, Uttar Pradesh",
   logoUrl: `${SITE_URL}${site.logo}`,
   faviconUrl: "",
@@ -48,7 +50,7 @@ export const DEFAULT_SETTINGS = {
   defaultRobotsIndex: true,
   defaultRobotsFollow: true,
   postsPerPage: 12,
-  titleTemplate: "%s | Evergreen",
+  titleTemplate: "%s | Ever Green",
   indexNowEnabled: true,
   googleIndexingEnabled: false,
   blockPublishBelowScore: 0,

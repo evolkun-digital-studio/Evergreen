@@ -6,6 +6,7 @@ import {
   INDEXING_STATUSES,
   LINK_TYPES,
   REDIRECT_CODES,
+  ROLES,
 } from "@/lib/cms/constants";
 
 const { Schema, model, models } = mongoose;
@@ -77,11 +78,31 @@ const RateLimitSchema = new Schema({
 RateLimitSchema.index({ key: 1 }, { unique: true });
 RateLimitSchema.index({ expiresAt: 1 }, { expireAfterSeconds: 0 });
 
+const AccountTokenSchema = new Schema(
+  {
+    purpose: { type: String, enum: ["password-reset", "invitation"], required: true },
+    tokenHash: { type: String, required: true },
+    userId: { type: Schema.Types.ObjectId, ref: "User", default: null },
+    email: { type: String, required: true, lowercase: true, trim: true },
+    name: { type: String, default: "", trim: true },
+    role: { type: String, enum: ROLES, default: "AUTHOR" },
+    createdById: { type: Schema.Types.ObjectId, ref: "User", default: null },
+    expiresAt: { type: Date, required: true },
+    usedAt: { type: Date, default: null },
+    revokedAt: { type: Date, default: null },
+  },
+  { timestamps: true },
+);
+AccountTokenSchema.index({ tokenHash: 1 }, { unique: true });
+AccountTokenSchema.index({ expiresAt: 1 }, { expireAfterSeconds: 0 });
+AccountTokenSchema.index({ purpose: 1, email: 1, createdAt: -1 });
+
 export type PostRevisionDoc = InferSchemaType<typeof PostRevisionSchema> & { _id: Types.ObjectId; createdAt: Date };
 export type RedirectDoc = InferSchemaType<typeof RedirectSchema> & { _id: Types.ObjectId };
 export type LinkCheckDoc = InferSchemaType<typeof LinkCheckSchema> & { _id: Types.ObjectId };
 export type IndexingLogDoc = InferSchemaType<typeof IndexingLogSchema> & { _id: Types.ObjectId; createdAt: Date };
 type RateLimitDoc = InferSchemaType<typeof RateLimitSchema> & { _id: Types.ObjectId };
+export type AccountTokenDoc = InferSchemaType<typeof AccountTokenSchema> & { _id: Types.ObjectId; createdAt: Date };
 
 export const PostRevision: Model<PostRevisionDoc> =
   (models.PostRevision as Model<PostRevisionDoc>) || model<PostRevisionDoc>("PostRevision", PostRevisionSchema);
@@ -93,3 +114,5 @@ export const IndexingLog: Model<IndexingLogDoc> =
   (models.IndexingLog as Model<IndexingLogDoc>) || model<IndexingLogDoc>("IndexingLog", IndexingLogSchema);
 export const RateLimit: Model<RateLimitDoc> =
   (models.RateLimit as Model<RateLimitDoc>) || model<RateLimitDoc>("RateLimit", RateLimitSchema);
+export const AccountToken: Model<AccountTokenDoc> =
+  (models.AccountToken as Model<AccountTokenDoc>) || model<AccountTokenDoc>("AccountToken", AccountTokenSchema);

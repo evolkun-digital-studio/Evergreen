@@ -1,6 +1,7 @@
 import { services } from "@/content/services";
 
-export type NavLink = { href: string; label: string; description?: string };
+/** `locked`: sign-in required; shown with a small lock icon. */
+export type NavLink = { href: string; label: string; description?: string; locked?: boolean };
 
 const serviceLinks: NavLink[] = services.map(s => ({ href: `/services/${s.slug}`, label: s.title }));
 
@@ -10,6 +11,7 @@ export const primaryNav: (NavLink & { children?: NavLink[] })[] = [
   { href: "/about", label: "About" },
   { href: "/services", label: "Services", children: serviceLinks },
   { href: "/process", label: "Our process" },
+  { href: "/documents", label: "Documents", locked: true },
 ];
 
 /** Shown as the highlighted button on the right of the header (and in the mobile menu). */
@@ -29,6 +31,7 @@ export const footerNav = {
     { href: "/certifications", label: "Certifications" },
     { href: "/sustainability", label: "Sustainability" },
     { href: "/epr-calculator", label: "EPR calculator" },
+    { href: "/documents", label: "Documents" },
     { href: "/contact", label: "Contact" },
   ],
   legal: [{ href: "/privacy-policy", label: "Privacy policy" }],

@@ -16,6 +16,7 @@ import { pickVariantUrl, type MediaItem } from "@/lib/media/types";
 import type { MediaUsage } from "@/lib/data/media";
 import { ACCEPTED_TYPES, formatBytes, uploadMedia } from "@/components/admin/media/upload";
 import { deleteMediaAction, listMediaAction, mediaUsageAction, updateMediaAction } from "./actions";
+import { useConfirm } from "@/components/admin/ConfirmProvider";
 
 type Filters = { q: string; type: "all" | "image" | "svg" | "gif"; unused: boolean; missingAlt: boolean };
 const absolute = (url: string) => (url.startsWith("/") ? `${window.location.origin}${url}` : url);
@@ -269,6 +270,7 @@ function MediaDetails({
   onSaved: (m: MediaItem) => void;
   onDeleted: (id: string) => void;
 }) {
+  const confirm = useConfirm();
   const [meta, setMeta] = useState(() =>
     item ? { alt: item.alt, title: item.title, caption: item.caption, description: item.description } : { alt: "", title: "", caption: "", description: "" },
   );
@@ -386,8 +388,8 @@ function MediaDetails({
             className="w-full text-destructive"
             disabled={pending || usage === null || usage.length > 0}
             title={usage?.length ? "Remove it from the items above first" : undefined}
-            onClick={() => {
-              if (!window.confirm("Delete this file and all its variants?")) return;
+            onClick={async () => {
+              if (!(await confirm("Delete this file and all its variants?"))) return;
               startTransition(async () => {
                 const res = await deleteMediaAction(item.id);
                 if (res.ok) {

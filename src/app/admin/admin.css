@@ -1,11 +1,5 @@
 /* Admin-only styles (imported by app/admin/layout.tsx, so they never ship with public pages). */
 
-/* The CMS stays in Manrope: point the display font at Manrope for the whole admin document
-   (body[class] outranks the next/font variable class, and also covers portalled dialogs). */
-body[class] {
-  --font-franie: var(--font-manrope);
-}
-
 .prose-editor {
   color: var(--color-ink);
   font-size: 1.0625rem;

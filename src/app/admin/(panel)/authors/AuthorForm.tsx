@@ -17,6 +17,7 @@ import { SITE_URL } from "@/lib/cms/constants";
 import type { MediaItem } from "@/lib/media/types";
 import type { AuthorInput } from "@/lib/validation/taxonomy";
 import { deleteAuthorAction, saveAuthorAction } from "./actions";
+import { useConfirm } from "@/components/admin/ConfirmProvider";
 
 type FormValues = Omit<AuthorInput, "sameAs"> & { sameAs: string };
 
@@ -29,6 +30,7 @@ export function AuthorForm(props: { id: string | null; initial: AuthorInput; med
 }
 
 function AuthorFormInner({ id, initial, media: initialMedia }: { id: string | null; initial: AuthorInput; media: MediaItem[] }) {
+  const confirm = useConfirm();
   const router = useRouter();
   const [pending, startTransition] = useTransition();
   const [media, setMedia] = useState(() => new Map(initialMedia.map((m) => [m.id, m])));
@@ -57,8 +59,8 @@ function AuthorFormInner({ id, initial, media: initialMedia }: { id: string | nu
       else router.refresh();
     });
 
-  const del = () => {
-    if (!id || !window.confirm("Delete this author profile?")) return;
+  const del = async () => {
+    if (!id || !(await confirm("Delete this author profile?"))) return;
     startTransition(async () => {
       const res = await deleteAuthorAction(id);
       if (res.ok) {

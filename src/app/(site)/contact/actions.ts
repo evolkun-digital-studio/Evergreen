@@ -67,7 +67,7 @@ export async function submitEnquiry(input: EnquiryInput): Promise<EnquiryResult>
       service: data.service,
       message: data.message,
     };
-    await Enquiry.create({ ...doc, userAgent: h.get("user-agent")?.slice(0, 300) ?? "" });
+    await Enquiry.create({ ...doc, source: "pickup", userAgent: h.get("user-agent")?.slice(0, 300) ?? "" });
     await notifyByEmail(doc).catch(err => console.error("Enquiry email failed", err));
     return { ok: true };
   } catch (err) {

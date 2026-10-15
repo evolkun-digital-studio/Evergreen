@@ -2,6 +2,7 @@
 
 import { AuthError, CredentialsSignin } from "next-auth";
 import { signIn } from "@/lib/auth";
+import { isDatabaseConnectionError } from "@/lib/db";
 
 export type LoginState = { error?: string };
 
@@ -19,10 +20,14 @@ export async function loginAction(_prev: LoginState, formData: FormData): Promis
       redirectTo: safeCallbackUrl(formData.get("callbackUrl")),
     });
   } catch (error) {
+    if (isDatabaseConnectionError(error)) return { error: "Service unavailable. Please try again shortly." };
     if (error instanceof CredentialsSignin && error.code === "rate_limited") {
       return { error: "Too many sign-in attempts. Please wait 15 minutes and try again." };
     }
-    if (error instanceof AuthError) return { error: "Incorrect email or password." };
+    if (error instanceof AuthError) {
+      if (isDatabaseConnectionError(error.cause?.err)) return { error: "Service unavailable. Please try again shortly." };
+      return { error: "Incorrect email or password." };
+    }
     throw error; // successful sign-in redirects by throwing
   }
   return {};

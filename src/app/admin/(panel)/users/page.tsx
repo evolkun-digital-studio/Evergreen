@@ -4,7 +4,7 @@ import { PageHeader } from "@/components/admin/PageHeader";
 import { TableSkeleton } from "@/components/admin/skeletons";
 import { requirePageUser } from "@/lib/auth/session";
 import { connectDB } from "@/lib/db";
-import { Author, User } from "@/lib/models";
+import { AccountToken, Author, User } from "@/lib/models";
 import type { Role } from "@/lib/cms/constants";
 import { UsersManager } from "./UsersManager";
 
@@ -24,10 +24,15 @@ export default function UsersPage() {
 async function UsersLoader() {
   const me = await requirePageUser("manageUsers");
   await connectDB();
-  const [users, authors] = await Promise.all([User.find().sort({ name: 1 }).lean(), Author.find().sort({ name: 1 }).select({ name: 1 }).lean()]);
+  const [users, authors, invites] = await Promise.all([
+    User.find().sort({ name: 1 }).lean(),
+    Author.find().sort({ name: 1 }).select({ name: 1 }).lean(),
+    AccountToken.find({ purpose: "invitation", usedAt: null, revokedAt: null, expiresAt: { $gt: new Date() } }).sort({ createdAt: -1 }).lean(),
+  ]);
   return (
     <UsersManager
       currentUserId={me.id}
+      invites={invites.map((invite) => ({ id: invite._id.toString(), name: invite.name, email: invite.email, role: invite.role, expiresAt: invite.expiresAt.toISOString() }))}
       authors={authors.map((a) => ({ id: a._id.toString(), name: a.name }))}
       rows={users.map((u) => ({
         id: u._id.toString(),

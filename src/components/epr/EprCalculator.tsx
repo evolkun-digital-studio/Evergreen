@@ -18,6 +18,7 @@ import { fyOf, fyRange, parseFy } from "@/lib/epr/fy";
 import { buildSummary, fmtKg, scheduleLine, summaryText } from "@/lib/epr/summary";
 import { cn } from "@/lib/utils";
 import { FontSafe } from "@/components/FontSafe";
+import { EprLeadForm } from "./EprLeadForm";
 
 type Target = Extract<CalcResult, { kind: "target" }>;
 
@@ -263,12 +264,9 @@ export function EprCalculator() {
           </p>
         </div>
 
-        <div className="mt-8 flex flex-col gap-5 rounded-xl bg-evergreen-950 p-6 text-white sm:flex-row sm:items-center sm:justify-between sm:p-8">
-          <p className="font-display text-[1.25rem] font-semibold leading-snug text-white">Need EPR certificates for this target?</p>
-          <Link href={contactHref} className="btn shrink-0 bg-moss text-evergreen-950 hover:bg-moss-soft">
-            Talk to Evergreen
-            <ArrowRight aria-hidden="true" className="h-4 w-4" />
-          </Link>
+        <div className="mt-8 flex flex-col gap-5 rounded-xl bg-evergreen-950 p-6 text-white sm:p-8">
+          <div className="flex flex-wrap items-center justify-between gap-3"><p className="font-display text-[1.25rem] font-semibold leading-snug text-white">Need EPR certificates for this target?</p><Link href={contactHref} className="text-sm font-semibold text-moss-soft underline">Use the full contact form <ArrowRight aria-hidden="true" className="inline h-4 w-4" /></Link></div>
+          {target && <EprLeadForm snapshot={{ filingYear: input.filingYear, eeeId: input.eeeId, salesStartYear: input.salesStartYear, quantityKg: input.quantityKg, targetKg: String(target.targetKg) }} />}
         </div>
       </section>
     </div>

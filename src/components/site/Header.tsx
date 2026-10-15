@@ -4,7 +4,7 @@ import { Suspense, useEffect, useId, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Calculator, ChevronDown, Menu, X } from "lucide-react";
+import { Calculator, ChevronDown, Lock, Menu, X } from "lucide-react";
 import { eprNavLink, primaryNav, shortServiceLinks, type NavLink } from "@/config/nav";
 import { site } from "@/config/site";
 import { cn } from "@/lib/utils";
@@ -307,9 +307,10 @@ function HeaderBar({ pathname }: { pathname: string | null }) {
                   key={item.href}
                   href={item.href}
                   aria-current={isActive(pathname, item.href) ? "page" : undefined}
-                  className={linkClass(isActive(pathname, item.href), light)}
+                  className={cn(linkClass(isActive(pathname, item.href), light), item.locked && "gap-1")}
                 >
                   {item.label}
+                  {item.locked && <Lock aria-label="(sign-in required)" className="h-[14px] w-[14px]" />}
                 </Link>
               ),
             )}
@@ -388,11 +389,12 @@ function HeaderBar({ pathname }: { pathname: string | null }) {
                         href={item.href}
                         aria-current={isActive(pathname, item.href) ? "page" : undefined}
                         className={cn(
-                          "block py-3.5 font-display text-base font-medium",
+                          "flex items-center gap-1.5 py-3.5 font-display text-base font-medium",
                           isActive(pathname, item.href) ? "text-evergreen-700" : "text-evergreen-950",
                         )}
                       >
                         {item.label}
+                        {item.locked && <Lock aria-label="(sign-in required)" className="h-[14px] w-[14px]" />}
                       </Link>
                       {item.children && (
                         <ul className="-mt-1 pb-3">

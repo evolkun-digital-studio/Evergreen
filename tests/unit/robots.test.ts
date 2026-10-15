@@ -23,3 +23,16 @@ describe("robots.txt", () => {
     expect(messages).toMatch(/\/admin is not disallowed/);
   });
 });
+
+describe("robots.txt private documents", () => {
+  it("always disallows /documents and /api/documents, even if the editor text omits them", () => {
+    const out = finalizeRobots("User-agent: *\nAllow: /");
+    expect(out).toContain("Disallow: /documents\n");
+    expect(out).toContain("Disallow: /api/documents\n");
+  });
+
+  it("does not duplicate rules that are already present", () => {
+    const out = finalizeRobots(DEFAULT_ROBOTS_TXT);
+    expect(out.match(/Disallow: \/documents$/gm)).toHaveLength(1);
+  });
+});

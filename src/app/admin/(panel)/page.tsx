@@ -1,12 +1,13 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Suspense } from "react";
-import { CalendarClock, FilePen, FileText, FolderTree, Globe, Tags } from "lucide-react";
+import { CalendarClock, FilePen, FileText, FolderTree, Globe, Inbox, Plus, Tags } from "lucide-react";
 import { PageHeader } from "@/components/admin/PageHeader";
 import { ListSkeleton, StatCardsSkeleton } from "@/components/admin/skeletons";
 import { requirePageUser } from "@/lib/auth/session";
 import { connectDB } from "@/lib/db";
-import { Category, LinkCheck, Post, Tag } from "@/lib/models";
+import { Category, Enquiry, LinkCheck, Post, Tag } from "@/lib/models";
+import { Button } from "@/components/ui/button";
 
 export const metadata: Metadata = { title: "Dashboard" };
 
@@ -15,7 +16,7 @@ const dateTime = new Intl.DateTimeFormat("en-IN", { dateStyle: "medium", timeSty
 export default function DashboardPage({ searchParams }: PageProps<"/admin">) {
   return (
     <>
-      <PageHeader title="Dashboard" description="An overview of the Evergreen website content." />
+      <PageHeader title="Dashboard" description="Live content and enquiry activity." actions={<><Button asChild className="bg-moss text-evergreen-950 hover:bg-moss-soft"><Link href="/admin/posts/new"><Plus className="size-4" /> New post</Link></Button><Button asChild variant="outline"><Link href="/admin/enquiries">View enquiries</Link></Button></>} />
       <Suspense fallback={null}>
         <DeniedNotice searchParams={searchParams} />
       </Suspense>
@@ -23,6 +24,7 @@ export default function DashboardPage({ searchParams }: PageProps<"/admin">) {
         <StatCards />
       </Suspense>
       <div className="mt-6 grid gap-6 lg:grid-cols-2">
+        <Suspense fallback={<ListSkeleton title="Latest enquiries" />}><LatestEnquiries /></Suspense>
         <Suspense fallback={<ListSkeleton title="Recent posts" />}>
           <RecentPosts />
         </Suspense>
@@ -59,13 +61,14 @@ async function StatCards() {
   await requirePageUser();
   await connectDB();
   const live = { deletedAt: null };
-  const [total, drafts, published, scheduled, categories, tags] = await Promise.all([
+  const [total, drafts, published, scheduled, categories, tags, enquiries] = await Promise.all([
     Post.countDocuments(live),
     Post.countDocuments({ ...live, status: "DRAFT" }),
     Post.countDocuments({ ...live, status: "PUBLISHED" }),
     Post.countDocuments({ ...live, status: "SCHEDULED" }),
     Category.countDocuments(),
     Tag.countDocuments(),
+    Enquiry.countDocuments({ createdAt: { $gte: daysAgo(7) }, status: "new" }),
   ]);
 
   const stats = [
@@ -75,10 +78,11 @@ async function StatCards() {
     { label: "Scheduled", value: scheduled, icon: CalendarClock, href: "/admin/posts?status=SCHEDULED" },
     { label: "Categories", value: categories, icon: FolderTree, href: "/admin/categories" },
     { label: "Tags", value: tags, icon: Tags, href: "/admin/tags" },
+    { label: "New enquiries · 7d", value: enquiries, icon: Inbox, href: "/admin/enquiries" },
   ];
 
   return (
-    <section aria-label="Content totals" className="grid grid-cols-2 gap-4 md:grid-cols-3 xl:grid-cols-6">
+    <section aria-label="Content totals" className="grid grid-cols-2 gap-4 md:grid-cols-4 xl:grid-cols-7">
       {stats.map((s) => (
         <Link key={s.label} href={s.href} className="rounded-lg border border-line bg-white p-4 transition-colors hover:border-evergreen-600">
           <div className="flex items-center justify-between text-muted-foreground">
@@ -217,6 +221,18 @@ async function BrokenLinksWidget() {
 
 function daysAgo(days: number) {
   return new Date(Date.now() - days * 86_400_000);
+}
+
+async function LatestEnquiries() {
+  await requirePageUser("manageLeads");
+  await connectDB();
+  const rows = await Enquiry.find().sort({ createdAt: -1 }).limit(6).lean();
+  return (
+    <section className="rounded-xl border border-line bg-white p-5">
+      <div className="flex items-center justify-between gap-4"><h2 className="font-display text-base font-semibold text-evergreen-700">Latest enquiries</h2><Link href="/admin/enquiries" className="text-sm font-semibold text-moss-ink">View all</Link></div>
+      {rows.length ? <ul className="mt-4 divide-y divide-line">{rows.map((row) => <li key={row._id.toString()} className="flex items-center justify-between gap-3 py-2.5"><span className="min-w-0"><strong className="block truncate text-sm">{row.name}</strong><span className="block truncate text-xs text-muted-foreground">{row.source.replaceAll("-", " ")} · {row.service}</span></span><span className="text-xs text-muted-foreground">{dateTime.format(row.createdAt)}</span></li>)}</ul> : <div className="mt-4 rounded-lg bg-paper-2 p-4 text-sm text-muted-foreground">No enquiries yet. Public pickup and EPR requests will appear here.</div>}
+    </section>
+  );
 }
 
 async function StalePosts() {

@@ -13,18 +13,20 @@ import { Switch } from "@/components/ui/switch";
 import { ROLES, type Role } from "@/lib/cms/constants";
 import { formatIst } from "@/lib/time";
 import type { Option } from "@/lib/posts/editor-types";
-import { createUserAction, updateUserAction } from "./actions";
+import { inviteUserAction, resendInviteAction, revokeInviteAction, updateUserAction } from "./actions";
 
 type UserRow = { id: string; name: string; email: string; role: Role; active: boolean; authorId: string | null; lastLoginAt: string | null };
+type InviteRow = { id: string; name: string; email: string; role: Role; expiresAt: string };
 
 const ROLE_HELP: Record<Role, string> = {
   ADMIN: "Everything, including settings and users",
   EDITOR: "All posts, can publish; taxonomy, media, authors, SEO tools",
   AUTHOR: "Own drafts only; cannot publish",
+  VIEWER: "Documents library only; no CMS access",
 };
 const selectClass = "h-9 w-full rounded-md border border-input bg-white px-2 text-sm";
 
-export function UsersManager({ rows, authors, currentUserId }: { rows: UserRow[]; authors: Option[]; currentUserId: string }) {
+export function UsersManager({ rows, authors, currentUserId, invites }: { rows: UserRow[]; authors: Option[]; currentUserId: string; invites: InviteRow[] }) {
   const router = useRouter();
   const [pending, startTransition] = useTransition();
   const [creating, setCreating] = useState(false);
@@ -46,7 +48,7 @@ export function UsersManager({ rows, authors, currentUserId }: { rows: UserRow[]
 
   const create = (fd: FormData) =>
     startTransition(async () =>
-      done(await createUserAction({ name: fd.get("name"), email: fd.get("email"), password: fd.get("password"), role: fd.get("role") })),
+      done(await inviteUserAction({ name: fd.get("name"), email: fd.get("email"), role: fd.get("role") })),
     );
 
   const update = (fd: FormData) => {
@@ -70,9 +72,23 @@ export function UsersManager({ rows, authors, currentUserId }: { rows: UserRow[]
     <div className="space-y-4">
       <div className="flex justify-end">
         <Button onClick={() => setCreating(true)}>
-          <Plus className="size-4" /> Add user
+          <Plus className="size-4" /> Invite user
         </Button>
       </div>
+      {invites.length > 0 && (
+        <section className="rounded-xl border border-line bg-white p-4">
+          <h2 className="font-display text-lg font-semibold text-evergreen-700">Pending invitations</h2>
+          <ul className="mt-3 divide-y divide-line">
+            {invites.map((invite) => (
+              <li key={invite.id} className="flex flex-wrap items-center gap-3 py-3 text-sm">
+                <span className="min-w-0 flex-1"><strong>{invite.name}</strong><span className="block text-muted-foreground">{invite.email} · {invite.role.toLowerCase()}</span></span>
+                <Button variant="outline" size="sm" onClick={() => startTransition(async () => done(await resendInviteAction(invite.id)))}>Resend</Button>
+                <Button variant="outline" size="sm" className="text-destructive" onClick={() => startTransition(async () => done(await revokeInviteAction(invite.id)))}>Revoke</Button>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
       <div className="overflow-x-auto rounded-xl border border-line bg-white">
         <Table>
           <TableHeader>
@@ -110,8 +126,8 @@ export function UsersManager({ rows, authors, currentUserId }: { rows: UserRow[]
       <Dialog open={creating} onOpenChange={setCreating}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Add user</DialogTitle>
-            <DialogDescription>An author profile is created for them automatically.</DialogDescription>
+            <DialogTitle>Invite user</DialogTitle>
+            <DialogDescription>They’ll receive a secure link to choose their password. An author profile is created when they accept.</DialogDescription>
           </DialogHeader>
           <form action={create} className="space-y-4">
             <div className="space-y-1.5">
@@ -125,11 +141,6 @@ export function UsersManager({ rows, authors, currentUserId }: { rows: UserRow[]
               {err("email")}
             </div>
             <div className="space-y-1.5">
-              <Label htmlFor="u-pass">Temporary password</Label>
-              <Input id="u-pass" name="password" type="password" minLength={12} required autoComplete="new-password" />
-              {err("password")}
-            </div>
-            <div className="space-y-1.5">
               <Label htmlFor="u-role">Role</Label>
               <select id="u-role" name="role" defaultValue="AUTHOR" className={selectClass}>
                 {ROLES.map((r) => (
@@ -141,7 +152,7 @@ export function UsersManager({ rows, authors, currentUserId }: { rows: UserRow[]
             </div>
             <DialogFooter>
               <Button type="submit" disabled={pending}>
-                {pending && <Loader2 className="size-4 animate-spin" />} Create user
+                {pending && <Loader2 className="size-4 animate-spin" />} Send invitation
               </Button>
             </DialogFooter>
           </form>
