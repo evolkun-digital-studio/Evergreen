@@ -25,8 +25,10 @@ async function main() {
 
   const email = process.env.SEED_ADMIN_EMAIL?.trim().toLowerCase();
   const password = process.env.SEED_ADMIN_PASSWORD;
-  const name = "Evergreen Admin";
-  if (!email || !password) throw new Error("Set SEED_ADMIN_EMAIL and SEED_ADMIN_PASSWORD in .env first.");
+  const name = process.env.SEED_ADMIN_NAME?.trim();
+  if (!email || !password || !name) {
+    throw new Error("Set SEED_ADMIN_EMAIL, SEED_ADMIN_PASSWORD, and SEED_ADMIN_NAME in .env first.");
+  }
   if (password.length < 12) throw new Error("SEED_ADMIN_PASSWORD must be at least 12 characters.");
 
   // Site settings singleton

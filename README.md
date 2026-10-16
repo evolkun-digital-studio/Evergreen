@@ -28,7 +28,7 @@ See `.env.example` for the full list. The ones you need to start:
 | `NEXT_PUBLIC_SITE_URL` | Public origin used for canonicals, sitemaps and structured data |
 | `MONGODB_URI`, `MONGODB_DB` | Database connection. Use the `evergreen` database with its own Atlas user |
 | `AUTH_SECRET` | Session signing key for the CMS |
-| `SEED_ADMIN_EMAIL`, `SEED_ADMIN_PASSWORD` | First admin account created by `pnpm db:seed` |
+| `SEED_ADMIN_EMAIL`, `SEED_ADMIN_PASSWORD`, `SEED_ADMIN_NAME` | First admin account created by `pnpm db:seed` |
 | `STORAGE_DRIVER` | `local`, `s3` or `imagekit` for uploaded media |
 
 ## Company facts
