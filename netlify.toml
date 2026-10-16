@@ -1,0 +1,4 @@
+# The database name also appears in public site content and is not a credential.
+# Keep secrets scanning enabled for connection strings and all other secrets.
+[build.environment]
+  SECRETS_SCAN_OMIT_KEYS = "MONGODB_DB"
