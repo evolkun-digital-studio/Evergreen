@@ -35,3 +35,6 @@ screenshots/
 .DS_Store
 Thumbs.db
 *.log
+
+# Netlify local state and deploy artifacts
+.netlify/
