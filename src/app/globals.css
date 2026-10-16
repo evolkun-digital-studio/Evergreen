@@ -141,6 +141,15 @@ a {
   text-decoration: none;
 }
 
+.scrollbar-hidden {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.scrollbar-hidden::-webkit-scrollbar {
+  display: none;
+}
+
 /* Root scrollbar: dark track while the home video hero is on screen (see Header), so the classic
    Windows scrollbar doesn't look like a white strip beside the video. */
 html[data-over-hero] {

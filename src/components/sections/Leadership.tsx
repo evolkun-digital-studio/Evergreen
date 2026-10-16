@@ -68,11 +68,11 @@ function LeaderProfile({ leader: l }: { leader: Leader }) {
           </div>
         )}
       </div>
-      <div className="flex flex-1 flex-col pt-4">
-        <div className="flex items-baseline justify-end gap-4 border-b border-line pb-2 text-[12px] font-semibold uppercase tracking-[0.12em] text-evergreen-700">
+      <div className="flex flex-1 flex-col pt-4 text-center">
+        <div className="flex items-baseline justify-center gap-4 border-b border-line pb-2 text-[12px] font-semibold uppercase tracking-[0.12em] text-evergreen-700">
           <p>{l.role}</p>
         </div>
-        <h3 className="mt-2 font-display text-[28px] font-medium leading-tight tracking-[-0.025em] text-ink lg:text-[28px]">
+        <h3 className="mt-2 font-display text-[25px] font-medium leading-tight tracking-[-0.025em] text-ink lg:text-[25px]">
           {l.honorific} {l.name}
         </h3>
         {hasBio ? (
@@ -82,7 +82,7 @@ function LeaderProfile({ leader: l }: { leader: Leader }) {
         ) : (
           <ConfirmBadge
             label={`bio for ${l.name} (src/content/company.ts)`}
-            className="mt-3 self-start"
+            className="mt-3 self-center"
           />
         )}
         <p className="mt-4 text-[12px] font-medium leading-relaxed text-evergreen-700">

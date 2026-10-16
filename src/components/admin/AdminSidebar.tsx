@@ -37,7 +37,7 @@ export function AdminSidebar({ user, signOutAction }: Props) {
           <span className="truncate group-data-[collapsible=icon]:hidden">Evergreen CMS</span>
         </Link>
       </SidebarHeader>
-      <SidebarContent>
+      <SidebarContent className="scrollbar-hidden">
         {ADMIN_NAV.map((group) => {
           const items = group.items.filter((item) => !item.permission || can[item.permission](user.role));
           if (!items.length) return null;
