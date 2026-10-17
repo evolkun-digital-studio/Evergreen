@@ -59,7 +59,7 @@ export default function Home() {
             {about.paragraphs.map(p => (
               <p
                 key={p.body}
-                className="mt-5 text-[18px] leading-[1.7] text-ink/90 first:mt-0"
+                className="mt-5 text-[15px] leading-[1.7] text-ink/90 first:mt-0"
               >
                 {p.lead && (
                   <strong className="font-semibold text-ink">{p.lead}</strong>
@@ -134,7 +134,6 @@ export default function Home() {
           <Workflow
             steps={steps.map((s, i) => ({
               title: s.title,
-              caption: s.short,
               photo: stepPhotos[i],
             }))}
           />

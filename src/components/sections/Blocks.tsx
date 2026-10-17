@@ -41,7 +41,7 @@ export function SectionHead({
 }
 
 /** Steps as a row of images with one-line captions. 1 → 2 → 3–5 columns. */
-export function Workflow({ steps }: { steps: WorkflowStep[] }) {
+export function Workflow({ steps }: { steps: (Omit<WorkflowStep, "caption"> & { caption?: string })[] }) {
   const cols = steps.length >= 5 ? "lg:grid-cols-5" : steps.length === 4 ? "lg:grid-cols-4" : "lg:grid-cols-3";
   return (
     <ol className={cn("grid grid-cols-2 gap-x-4 gap-y-8 sm:gap-x-6 sm:gap-y-10", cols)}>
@@ -53,8 +53,8 @@ export function Workflow({ steps }: { steps: WorkflowStep[] }) {
             sizes={`(min-width: 1280px) ${Math.round(1184 / Math.max(steps.length, 3))}px, 46vw`}
           />
           <p className="meta mt-4 text-copper-ink">Step {i + 1}</p>
-          <h3 className="mt-1 text-[1.0625rem] sm:text-[length:var(--fs-h3)]">{s.title}</h3>
-          <p className="mt-2 text-[15px] text-ink-muted sm:text-base">{s.caption}</p>
+          <h3 className="mt-1 text-[0.9375rem] sm:text-[1.0625rem]">{s.title}</h3>
+          {s.caption && <p className="mt-2 text-[15px] text-ink-muted sm:text-base">{s.caption}</p>}
         </li>
       ))}
     </ol>

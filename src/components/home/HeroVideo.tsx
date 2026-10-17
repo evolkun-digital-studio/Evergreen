@@ -106,7 +106,7 @@ export function HeroVideo({ children, facts }: { children: React.ReactNode; fact
         )}
         {/* Readability overlays: one vertical gradient on mobile; side + bottom + top fades on desktop. */}
         <div className="absolute inset-0 bg-[linear-gradient(to_bottom,rgb(10_38_22/0.65),rgb(10_38_22/0.8)_50%,rgb(10_38_22/0.95))] lg:hidden" />
-        <div className="absolute inset-0 hidden bg-[linear-gradient(to_right,rgb(10_38_22/0.92),rgb(10_38_22/0.78)_38%,rgb(10_38_22/0.3)_70%,rgb(10_38_22/0.15))] lg:block" />
+        <div className="absolute inset-0 hidden bg-[linear-gradient(to_right,rgb(10_38_22/0.644),rgb(10_38_22/0.546)_38%,rgb(10_38_22/0.21)_70%,rgb(10_38_22/0.105))] lg:block" />
         <div className="absolute inset-x-0 bottom-0 hidden h-[35%] bg-[linear-gradient(to_top,rgb(10_38_22/0.7),transparent)] lg:block" />
         <div className="absolute inset-x-0 top-0 hidden h-[18%] bg-[linear-gradient(to_bottom,rgb(10_38_22/0.55),transparent)] lg:block" />
       </div>
