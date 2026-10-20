@@ -21,3 +21,4 @@ export {
 export { SiteSettings, type SiteSettingsDoc } from "./settings";
 export { Enquiry, type EnquiryDoc } from "./enquiry";
 export { CompanyDocument, DocumentAccess, type DocumentDoc, type DocumentAccessDoc } from "./document";
+export { Letterhead, type LetterheadDoc } from "./letterhead";

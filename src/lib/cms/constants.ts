@@ -78,5 +78,6 @@ export const can = {
   manageUsers: (role: Role) => role === "ADMIN",
   manageLeads: (role: Role) => role === "ADMIN" || role === "EDITOR",
   manageDocuments: (role: Role) => role === "ADMIN" || role === "EDITOR",
+  manageLetterheads: (role: Role) => role === "ADMIN" || role === "EDITOR",
   viewDocuments: (role: Role) => role === "ADMIN" || role === "EDITOR" || role === "VIEWER",
 };

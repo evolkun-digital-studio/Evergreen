@@ -71,7 +71,7 @@ export default function AboutPage() {
 
       <CapacityBand className="border-y border-line" />
 
-      <Leadership>
+      <Leadership excludeIds={["mukul-agarwal", "naveen-kumar-gupta"]}>
         <p className="mx-auto mt-10 max-w-[712px] border-t border-line pt-5 text-[15px] leading-relaxed text-ink-muted">
           {site.owner.honorific} {site.owner.name} is also a co-founder of{" "}
           {group.name}, a {group.city}-based company that works on EPR credits

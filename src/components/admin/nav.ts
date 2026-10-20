@@ -1,5 +1,6 @@
 import {
   FileText,
+  FilePenLine,
   FileLock2,
   FolderTree,
   Image,
@@ -35,6 +36,12 @@ export const ADMIN_NAV: NavGroup[] = [
       { title: "Categories", href: "/admin/categories", icon: FolderTree, permission: "manageTaxonomy" },
       { title: "Tags", href: "/admin/tags", icon: Tags, permission: "manageTaxonomy" },
       { title: "Documents", href: "/admin/documents", icon: FileLock2, permission: "manageDocuments" },
+    ],
+  },
+  {
+    label: "Tools",
+    items: [
+      { title: "Letterhead Editor", href: "/admin/letterhead", icon: FilePenLine, permission: "manageLetterheads" },
     ],
   },
   {

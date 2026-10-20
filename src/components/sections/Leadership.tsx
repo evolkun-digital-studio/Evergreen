@@ -4,7 +4,15 @@ import { ConfirmBadge } from "@/components/Confirm";
 import { leadership, type Leader } from "@/content/company";
 import { isSet, telHref } from "@/config/site";
 
-export function Leadership({ children }: { children?: React.ReactNode }) {
+export function Leadership({
+  children,
+  excludeIds = [],
+}: {
+  children?: React.ReactNode;
+  excludeIds?: string[];
+}) {
+  const visibleLeadership = leadership.filter(l => !excludeIds.includes(l.id));
+
   return (
     <section
       aria-labelledby="leadership-heading"
@@ -24,8 +32,8 @@ export function Leadership({ children }: { children?: React.ReactNode }) {
               compliance and client relationships.
             </p>
           </div>
-          <ul className="mx-auto mt-10 grid justify-items-center gap-x-8 gap-y-12 sm:grid-cols-2 md:mt-12 lg:grid-cols-4">
-            {leadership.map(l => (
+          <ul className="mx-auto mt-10 grid max-w-[712px] justify-items-center gap-x-8 gap-y-12 sm:grid-cols-2 md:mt-12">
+            {visibleLeadership.map(l => (
               <LeaderProfile key={l.id} leader={l} />
             ))}
           </ul>

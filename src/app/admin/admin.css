@@ -77,3 +77,143 @@
   pointer-events: none;
 }
 .prose-editor .ProseMirror-gapcursor::after { border-top-color: var(--color-evergreen-600); }
+
+/* Letterhead workspace */
+.letterhead-workspace { display: grid; gap: 1rem; }
+.letterhead-library,
+.letterhead-editor-panel,
+.letterhead-preview-panel { border: 1px solid var(--color-line); border-radius: 0.85rem; background: #fff; }
+.letterhead-library { padding: 1rem 1.1rem; }
+.letterhead-library-heading,
+.letterhead-panel-heading,
+.letterhead-preview-toolbar,
+.letterhead-field-label-row { display: flex; align-items: center; justify-content: space-between; gap: 0.75rem; }
+.letterhead-library-heading h2,
+.letterhead-panel-heading h2,
+.letterhead-preview-toolbar h2 { margin: 0.1rem 0 0; font-family: var(--font-franie), var(--font-manrope), sans-serif; font-size: 1.2rem; line-height: 1.2; color: var(--color-evergreen-950); }
+.letterhead-eyebrow { margin: 0; color: var(--color-copper-ink); font-size: 0.66rem; font-weight: 700; letter-spacing: 0.13em; text-transform: uppercase; }
+.letterhead-document-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 0.5rem; margin-top: 1rem; }
+.letterhead-document-row { display: flex; min-width: 0; align-items: stretch; border: 1px solid var(--color-line); border-radius: 0.65rem; background: var(--color-paper-2); transition: border-color 160ms ease, background-color 160ms ease; }
+.letterhead-document-row.is-selected { border-color: var(--color-evergreen-600); background: #f7fbf4; box-shadow: 0 0 0 2px rgba(44, 147, 69, 0.1); }
+.letterhead-document-main { display: flex; min-width: 0; flex: 1; align-items: center; gap: 0.55rem; padding: 0.7rem; color: var(--color-evergreen-700); text-align: left; }
+.letterhead-document-main strong { color: var(--color-evergreen-950); font-size: 0.8rem; }
+.letterhead-document-main small { display: block; margin-top: 0.15rem; color: var(--color-ink-muted); font-size: 0.68rem; }
+.letterhead-row-actions { display: flex; align-items: center; gap: 0.1rem; padding: 0.3rem; }
+.letterhead-row-actions button,
+.letterhead-preview-controls button { display: inline-flex; min-height: 2.25rem; min-width: 2.25rem; align-items: center; justify-content: center; border: 0; border-radius: 0.4rem; background: transparent; color: var(--color-ink-muted); cursor: pointer; }
+.letterhead-row-actions button:hover,
+.letterhead-preview-controls button:hover { background: var(--color-accent); color: var(--color-evergreen-900); }
+.letterhead-empty { margin: 1rem 0 0; color: var(--color-ink-muted); font-size: 0.82rem; }
+.letterhead-split { display: grid; grid-template-columns: minmax(0, 0.82fr) minmax(0, 1fr); gap: 1rem; align-items: start; }
+.letterhead-editor-panel { padding: 1.25rem; }
+.letterhead-preview-panel { min-width: 0; overflow: hidden; }
+.letterhead-panel-heading { padding-bottom: 1rem; border-bottom: 1px solid var(--color-line); }
+.letterhead-status { max-width: 12rem; color: var(--color-ink-muted); font-size: 0.72rem; text-align: right; }
+.letterhead-form-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.85rem; padding-top: 1rem; }
+.letterhead-field-full { grid-column: 1 / -1; }
+.letterhead-recipient-fields { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.75rem; padding: 0.8rem; border: 1px solid var(--color-line); border-radius: 0.65rem; background: #fbfdf9; }
+.letterhead-section-caption { grid-column: 1 / -1; display: flex; align-items: baseline; gap: 0.5rem; padding-bottom: 0.1rem; border-bottom: 1px solid var(--color-line); }
+.letterhead-section-caption span { color: var(--color-evergreen-900); font-size: 0.82rem; font-weight: 700; }
+.letterhead-section-caption small { color: var(--color-ink-muted); font-size: 0.7rem; }
+.letterhead-field { display: grid; gap: 0.35rem; }
+.letterhead-field > span,
+.letterhead-field-label-row > label { color: var(--color-evergreen-900); font-size: 0.76rem; font-weight: 700; }
+.letterhead-field > span > span { color: var(--color-copper-ink); }
+.letterhead-field textarea { min-height: 5.5rem; resize: vertical; }
+.letterhead-rich-field { margin-top: 1rem; border: 1px solid var(--color-line); border-radius: 0.65rem; overflow: hidden; }
+.letterhead-field-label-row { padding: 0.75rem 0.8rem 0.2rem; }
+.letterhead-field-label-row select { border: 1px solid var(--color-line); border-radius: 0.35rem; background: #fff; padding: 0.3rem 0.45rem; color: var(--color-ink-muted); font-size: 0.7rem; }
+.letterhead-rich-toolbar { display: flex; flex-wrap: wrap; align-items: center; gap: 0.25rem; padding: 0.55rem 0.7rem; border-bottom: 1px solid var(--color-line); background: var(--color-paper-2); }
+.letterhead-rich-toolbar span { display: inline-flex; gap: 0.15rem; padding-right: 0.45rem; border-right: 1px solid var(--color-line); }
+.letterhead-rich-toolbar span:last-child { border-right: 0; }
+.letterhead-rich-toolbar button { min-width: 2.1rem; min-height: 2rem; border: 0; border-radius: 0.3rem; background: transparent; color: var(--color-evergreen-700); cursor: pointer; font-size: 0.7rem; font-weight: 700; }
+.letterhead-rich-toolbar button:hover { background: #fff; color: var(--color-evergreen-950); }
+.letterhead-rich-editor { min-height: 15rem; padding: 0.9rem; outline: none; color: var(--color-ink); font-size: 0.88rem; line-height: 1.65; }
+.letterhead-rich-editor:empty::before { content: "Start writing your letter…"; color: rgba(16, 54, 38, 0.38); pointer-events: none; }
+.letterhead-rich-editor:focus { box-shadow: inset 0 0 0 2px rgba(44, 147, 69, 0.18); }
+.letterhead-rich-editor p { margin: 0 0 0.75rem; }
+.letterhead-rich-editor ul { list-style: disc; padding-left: 1.4rem; }
+.letterhead-rich-editor ol { list-style: decimal; padding-left: 1.4rem; }
+.letterhead-helper { margin: 0; padding: 0.55rem 0.8rem; border-top: 1px solid var(--color-line); color: var(--color-ink-muted); font-size: 0.68rem; }
+.letterhead-signoff-grid { margin-top: 0.15rem; }
+.letterhead-signature-field { min-width: 0; }
+.letterhead-remove-signature { display: inline-flex; align-items: center; gap: 0.2rem; border: 0; background: transparent; color: var(--color-copper-ink); cursor: pointer; font-size: 0.7rem; }
+.letterhead-signature-upload { margin-top: 0.35rem; }
+.letterhead-upload-drop { display: flex; min-height: 5.4rem; flex-direction: column; align-items: center; justify-content: center; gap: 0.25rem; border: 1px dashed rgba(26, 107, 55, 0.4); border-radius: 0.55rem; background: #fbfdf9; color: var(--color-evergreen-700); cursor: pointer; }
+.letterhead-upload-drop span { font-size: 0.8rem; font-weight: 700; }
+.letterhead-upload-drop small { color: var(--color-ink-muted); font-size: 0.68rem; }
+.letterhead-upload-drop input,
+.letterhead-upload-replace input { position: absolute; width: 1px; height: 1px; opacity: 0; pointer-events: none; }
+.letterhead-signature-preview { display: flex; align-items: center; gap: 0.75rem; min-height: 5.4rem; padding: 0.65rem 0.8rem; border: 1px solid var(--color-line); border-radius: 0.55rem; background: #fbfdf9; }
+.letterhead-signature-preview img { max-width: 11rem; max-height: 4rem; object-fit: contain; }
+.letterhead-upload-replace { display: inline-flex; align-items: center; gap: 0.3rem; color: var(--color-evergreen-700); cursor: pointer; font-size: 0.72rem; font-weight: 700; }
+.letterhead-signature-size { display: flex; align-items: center; gap: 0.5rem; margin-top: 0.5rem; color: var(--color-ink-muted); font-size: 0.72rem; }
+.letterhead-signature-size input { flex: 1; accent-color: var(--color-evergreen-700); }
+.letterhead-signature-size output { min-width: 2.6rem; text-align: right; }
+.letterhead-form-actions { display: flex; justify-content: flex-end; gap: 0.5rem; margin-top: 1.2rem; padding-top: 1rem; border-top: 1px solid var(--color-line); }
+.letterhead-preview-toolbar { padding: 1.25rem 1.25rem 1rem; }
+.letterhead-preview-controls { display: flex; align-items: center; justify-content: space-between; padding: 0.45rem 1.25rem; border-top: 1px solid var(--color-line); border-bottom: 1px solid var(--color-line); background: var(--color-paper-2); color: var(--color-ink-muted); font-size: 0.7rem; }
+.letterhead-preview-controls > div { display: flex; align-items: center; gap: 0.15rem; }
+.letterhead-fit-button { width: auto !important; padding-inline: 0.6rem; font-size: 0.7rem; }
+.letterhead-preview-scroll { min-height: 48rem; max-height: 77rem; overflow: auto; padding: 1.25rem; background: #e8eeea; }
+.letterhead-preview-note { margin: 0; padding: 0.7rem 1.25rem 1rem; color: var(--color-ink-muted); font-size: 0.68rem; }
+.letter-preview-stack { display: flex; flex-direction: column; align-items: center; gap: 1rem; }
+.letter-page-wrap { width: calc(794px * var(--letter-zoom)); height: calc(1123px * var(--letter-zoom)); flex: 0 0 auto; }
+.letter-page { position: relative; width: 794px; height: 1123px; transform: scale(var(--letter-zoom)); transform-origin: top left; overflow: hidden; background: #fff; box-shadow: 0 10px 28px rgba(10, 38, 22, 0.16); color: #10261c; font-family: Arial, Helvetica, sans-serif; }
+.letter-watermark { position: absolute; inset: 0; display: grid; place-items: center; opacity: 0.065; pointer-events: none; }
+.letter-watermark img { width: 253px; max-height: 253px; object-fit: contain; }
+.letter-page-header { position: absolute; top: 32px; left: 75px; right: 75px; display: flex; align-items: center; min-height: 51px; }
+.letter-brand-logo { width: 267px; height: 51px; object-fit: contain; object-position: left center; }
+.letter-brand-copy { display: grid; gap: 2px; margin-left: 12px; }
+.letter-brand-copy .letter-brand-legal-name { color: #0a2616; font-size: 12px; font-weight: 700; line-height: 1.15; }
+.letter-brand-copy span { color: #4b5e53; font-size: 9px; line-height: 1.2; }
+.letter-page-meta { display: grid; gap: 4px; margin-left: auto; color: #4b5e53; font-size: 10px; line-height: 1.2; text-align: right; }
+.letter-page-meta span { display: flex; align-items: center; justify-content: flex-end; gap: 3px; }
+.letter-accent-line { position: absolute; top: 115px; left: 75px; right: 75px; height: 3px; background: #2c9345; }
+.letter-page-content { position: absolute; top: 149px; right: 75px; bottom: 117px; left: 75px; overflow: hidden; font-size: 14px; line-height: 1.55; }
+.letter-date-line { display: flex; justify-content: flex-end; gap: 1rem; margin-bottom: 16px; color: #4b5e53; font-size: 11px; text-align: right; }
+.letter-recipient { display: grid; gap: 1px; margin-bottom: 18px; font-size: 14px; }
+.letter-recipient-label { color: #1a6b37; font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; }
+.letter-recipient strong { color: #0a2616; }
+.letter-recipient span { white-space: pre-wrap; }
+.letter-subject { margin-bottom: 18px; font-size: 14px; line-height: 1.4; }
+.letter-subject span { font-weight: 700; }
+.letter-body { position: relative; z-index: 1; }
+.letter-body p { margin: 0 0 var(--paragraph-spacing); }
+.letter-body h2, .letter-body h3 { margin: 0 0 var(--paragraph-spacing); color: #1a6b37; font-family: Arial, Helvetica, sans-serif; font-size: 16px; }
+.letter-body ul, .letter-body ol { margin: 0 0 var(--paragraph-spacing); padding-left: 1.4rem; }
+.letter-body blockquote { margin: 0 0 var(--paragraph-spacing); border-left: 2px solid #2c9345; padding-left: 0.75rem; color: #4b5e53; }
+.letter-signoff { display: grid; justify-items: start; gap: 2px; margin-top: 22px; }
+.letter-signoff p { margin: 0 0 5px; }
+.letter-signoff strong { color: #0a2616; }
+.letter-signoff span { color: #4b5e53; }
+.letter-signature { max-height: 72px; object-fit: contain; object-position: left center; }
+.letter-page-footer { position: absolute; right: 75px; bottom: 37px; left: 75px; display: grid; gap: 4px; border-top: 1px solid #dae2dc; padding-top: 10px; color: #4b5e53; font-size: 10px; line-height: 1.2; text-align: center; }
+.letter-page-footer > div { display: none; }
+.letter-page-footer small { position: absolute; right: 0; bottom: 0; font-size: 9px; }
+.letterhead-mobile-tabs { display: none; }
+
+@media (max-width: 1100px) {
+  .letterhead-split { grid-template-columns: minmax(0, 0.9fr) minmax(0, 1fr); }
+  .letterhead-preview-scroll { padding-inline: 0.75rem; }
+}
+@media (max-width: 850px) {
+  .letterhead-mobile-tabs { display: grid; grid-template-columns: 1fr 1fr; gap: 0.25rem; padding: 0.25rem; border: 1px solid var(--color-line); border-radius: 0.55rem; background: var(--color-paper-2); }
+  .letterhead-mobile-tabs button { min-height: 2.75rem; border: 0; border-radius: 0.35rem; background: transparent; color: var(--color-ink-muted); cursor: pointer; font-size: 0.78rem; font-weight: 700; }
+  .letterhead-mobile-tabs button[aria-selected="true"] { background: #fff; color: var(--color-evergreen-900); box-shadow: 0 1px 4px rgba(10, 38, 22, 0.08); }
+  .letterhead-split { display: block; }
+  .letterhead-preview-panel { margin-top: 1rem; }
+  .letterhead-editor-panel.mobile-hidden, .letterhead-preview-panel.mobile-hidden { display: none; }
+  .letterhead-editor-panel.mobile-visible, .letterhead-preview-panel.mobile-visible { display: block; }
+}
+@media (max-width: 560px) {
+  .letterhead-library, .letterhead-editor-panel { padding: 1rem; }
+  .letterhead-document-list { grid-template-columns: 1fr; }
+  .letterhead-form-grid { grid-template-columns: 1fr; }
+  .letterhead-recipient-fields { grid-template-columns: 1fr; }
+  .letterhead-section-caption { grid-column: auto; }
+  .letterhead-field-full { grid-column: auto; }
+  .letterhead-preview-toolbar { align-items: flex-start; flex-direction: column; }
+  .letterhead-preview-toolbar .btn { width: 100%; }
+  .letterhead-preview-scroll { min-height: 35rem; padding: 0.75rem 0.25rem; }
+}
