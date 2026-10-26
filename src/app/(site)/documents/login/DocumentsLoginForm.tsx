@@ -11,7 +11,7 @@ const inputClass =
 
 export function DocumentsLoginForm() {
   const params = useSearchParams();
-  const next = params.get("next") ?? "/documents";
+  const next = params.get("next") ?? "/documents/library";
   const denied = params.get("denied") === "1";
   const [state, formAction, pending] = useActionState<DocumentsLoginState, FormData>(documentsLoginAction, {});
   const error = state.error ?? (denied ? "This account doesn't have access to documents." : undefined);

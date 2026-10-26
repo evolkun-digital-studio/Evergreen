@@ -9,6 +9,15 @@ export const DOCUMENT_CATEGORIES = [
 ] as const;
 export type DocumentCategory = (typeof DOCUMENT_CATEGORIES)[number];
 
+/** One line per category, shown on the public request form so visitors can tell the types apart. */
+export const DOCUMENT_CATEGORY_HINTS: Record<DocumentCategory, string> = {
+  "Certificates & Licences": "Authorisations and licences issued to the company",
+  Registrations: "Company and government registrations",
+  "Company Profile": "Who we are and what we do",
+  "Compliance Reports": "Audit and compliance reports",
+  Other: "Anything that does not fit the types above",
+};
+
 export const DOCUMENT_MAX_BYTES = 20 * 1024 * 1024;
 
 /** Accepted uploads, by MIME type, with the extension stored on the private key. */

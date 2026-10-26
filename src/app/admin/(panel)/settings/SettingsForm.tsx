@@ -11,16 +11,19 @@ import { Form } from "@/components/ui/form";
 import { FormSection, SwitchField, TextareaField, TextField } from "@/components/admin/fields";
 import { settingsSchema, type SettingsInput } from "@/lib/validation/settings";
 import { SITE_URL } from "@/lib/cms/constants";
+import { parseEmailList } from "@/lib/notifications";
 import { saveSettingsAction } from "./actions";
 
 // The form edits `sameAs` as one URL per line.
 const formSchema = settingsSchema.extend({
   organization: settingsSchema.shape.organization.extend({ sameAs: z.string() }),
+  notificationEmails: z.string(),
 });
 type FormValues = z.input<typeof formSchema>;
 
 const toInput = (v: FormValues): unknown => ({
   ...v,
+  notificationEmails: parseEmailList(v.notificationEmails),
   organization: {
     ...v.organization,
     sameAs: v.organization.sameAs
@@ -34,7 +37,11 @@ export function SettingsForm({ initial }: { initial: SettingsInput }) {
   const [pending, startTransition] = useTransition();
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
-    defaultValues: { ...initial, organization: { ...initial.organization, sameAs: initial.organization.sameAs.join("\n") } },
+    defaultValues: {
+      ...initial,
+      organization: { ...initial.organization, sameAs: initial.organization.sameAs.join("\n") },
+      notificationEmails: initial.notificationEmails.join("\n"),
+    },
   });
   const c = form.control;
   const [gtm, ga4] = useWatch({ control: c, name: ["gtmId", "ga4Id"] });
@@ -137,6 +144,18 @@ export function SettingsForm({ initial }: { initial: SettingsInput }) {
             </a>{" "}
             — generated automatically, submit it once in Search Console and Bing Webmaster Tools.
           </p>
+        </FormSection>
+
+        <FormSection title="Notifications" description="Who is emailed when someone requests a document or sends an enquiry.">
+          <div className="md:col-span-2">
+            <TextareaField
+              control={c}
+              name="notificationEmails"
+              label="Alert emails"
+              description="One address per line (commas also work). Leave empty to use ENQUIRY_EMAIL_TO from the server settings. Changes apply at once."
+              rows={3}
+            />
+          </div>
         </FormSection>
 
         <FormSection title="Publishing">

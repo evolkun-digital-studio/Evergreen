@@ -7,6 +7,7 @@ import { AccountToken, User } from "@/lib/models";
 import { createRawToken, expiresInMinutes, hashToken, RESET_TOKEN_MINUTES } from "@/lib/auth/tokens";
 import { hitRateLimit } from "@/lib/rate-limit";
 import { sendTransactionalEmail } from "@/lib/email";
+import { renderEmail } from "@/lib/email-template";
 import { SITE_URL } from "@/lib/cms/constants";
 
 export type ForgotState = { ok?: boolean; error?: string };
@@ -36,7 +37,13 @@ export async function forgotPasswordAction(_previous: ForgotState, formData: For
       const delivery = await sendTransactionalEmail({
         to: user.email,
         subject: "Reset your Evergreen CMS password",
-        text: `Open this link within 30 minutes to reset your password:\n\n${link}\n\nIf you did not request this, ignore this email.`,
+        ...renderEmail({
+          preheader: `Use this link within ${RESET_TOKEN_MINUTES} minutes.`,
+          heading: "Reset your password",
+          paragraphs: [`We received a request to reset the password for your Evergreen CMS account. The link below works for ${RESET_TOKEN_MINUTES} minutes.`],
+          button: { label: "Reset password", url: link },
+          notes: ["If you did not ask for this, you can ignore this email. Your password will not change."],
+        }),
       });
       if (delivery === "unconfigured" && process.env.NODE_ENV !== "production") console.log(`[password reset link] ${link}`);
     }

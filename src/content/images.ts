@@ -31,7 +31,7 @@ import plasticSorting from "../../public/images/stock/plastic-sorting.webp";
 import plasticBales from "../../public/images/stock/plastic-bales.webp";
 import plasticFlakes from "../../public/images/stock/plastic-flakes.webp";
 import paperwork from "../../public/images/stock/process-paperwork.webp";
-import yardAerial from "../../public/images/stock/yard-bales-aerial.webp";
+import yardProcess from "../../public/images/home/yard-conveyor.jpg";
 import hddBroken from "../../public/images/stock/secure-hdd-broken.webp";
 import craneScrap from "../../public/images/stock/industrial-crane-scrap.webp";
 import irfanAhmad from "../../public/images/evergreen/irfan-ahmad.jpg";
@@ -218,8 +218,8 @@ export const library = {
     stock: true,
   },
   yard: {
-    src: yardAerial,
-    alt: "Aerial view of baled recyclable material stacked in rows on a concrete yard",
+    src: yardProcess,
+    alt: "An overhead material handler feeding mixed scrap onto a conveyor at a recycling facility",
     stock: true,
   },
 } satisfies Record<string, Photo>;

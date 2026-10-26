@@ -14,6 +14,7 @@ import {
   UserRound,
   Users,
   Inbox,
+  KeyRound,
   type LucideIcon,
 } from "lucide-react";
 import type { Permission } from "@/lib/auth/session";
@@ -36,6 +37,7 @@ export const ADMIN_NAV: NavGroup[] = [
       { title: "Categories", href: "/admin/categories", icon: FolderTree, permission: "manageTaxonomy" },
       { title: "Tags", href: "/admin/tags", icon: Tags, permission: "manageTaxonomy" },
       { title: "Documents", href: "/admin/documents", icon: FileLock2, permission: "manageDocuments" },
+      { title: "Access Requests", href: "/admin/document-requests", icon: KeyRound, permission: "manageDocuments" },
     ],
   },
   {

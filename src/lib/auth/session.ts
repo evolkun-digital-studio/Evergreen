@@ -43,7 +43,7 @@ export const getCurrentUser = cache(async (): Promise<SessionUser | null> => {
 export async function requirePageUser(permission?: Permission): Promise<SessionUser> {
   const user = await getCurrentUser();
   if (!user) redirect("/admin/login");
-  if (!isCmsRole(user.role)) redirect("/documents");
+  if (!isCmsRole(user.role)) redirect("/documents/library");
   if (permission && !can[permission](user.role)) redirect("/admin?denied=1");
   return user;
 }
@@ -59,7 +59,7 @@ export async function requireActionUser(permission?: Permission): Promise<Sessio
 }
 
 /** For the Documents library: sends signed-out visitors to its own login, then back to `next`. */
-export async function requireDocumentsUser(next = "/documents"): Promise<SessionUser> {
+export async function requireDocumentsUser(next = "/documents/library"): Promise<SessionUser> {
   const user = await getCurrentUser();
   if (!user) redirect(`/documents/login?next=${encodeURIComponent(next)}`);
   if (!can.viewDocuments(user.role)) redirect("/documents/login?denied=1");

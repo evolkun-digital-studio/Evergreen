@@ -6,14 +6,15 @@ import { Enquiry } from "@/lib/models";
 import { hitRateLimit } from "@/lib/rate-limit";
 import { enquirySchema, type EnquiryInput } from "@/lib/validation/enquiry";
 import { site } from "@/config/site";
+import { logServerError } from "@/lib/log";
+import { sendTransactionalEmail } from "@/lib/email";
+import { getNotificationRecipients } from "@/lib/data/settings";
 
 export type EnquiryResult = { ok: true } | { ok: false; error: string; fieldErrors?: Record<string, string> };
 
 async function notifyByEmail(e: { name: string; phone: string; email: string; company: string; service: string; message: string }) {
-  const key = process.env.RESEND_API_KEY;
-  const to = process.env.ENQUIRY_EMAIL_TO;
-  const from = process.env.ENQUIRY_EMAIL_FROM;
-  if (!key || !to || !from) return;
+  const to = await getNotificationRecipients();
+  if (!to.length) return;
   const text = [
     `Name: ${e.name}`,
     `Phone: ${e.phone}`,
@@ -23,18 +24,12 @@ async function notifyByEmail(e: { name: string; phone: string; email: string; co
     "",
     e.message,
   ].join("\n");
-  const res = await fetch("https://api.resend.com/emails", {
-    method: "POST",
-    headers: { Authorization: `Bearer ${key}`, "Content-Type": "application/json" },
-    body: JSON.stringify({
-      from,
-      to: to.split(",").map(s => s.trim()),
-      subject: `Pickup request: ${e.service} (${e.name})`,
-      text,
-      ...(e.email ? { reply_to: e.email } : {}),
-    }),
+  await sendTransactionalEmail({
+    to,
+    subject: `Pickup request: ${e.service} (${e.name})`,
+    text,
+    ...(e.email ? { replyTo: e.email } : {}),
   });
-  if (!res.ok) console.error("Enquiry email failed", res.status, await res.text());
 }
 
 export async function submitEnquiry(input: EnquiryInput): Promise<EnquiryResult> {
@@ -68,10 +63,10 @@ export async function submitEnquiry(input: EnquiryInput): Promise<EnquiryResult>
       message: data.message,
     };
     await Enquiry.create({ ...doc, source: "pickup", userAgent: h.get("user-agent")?.slice(0, 300) ?? "" });
-    await notifyByEmail(doc).catch(err => console.error("Enquiry email failed", err));
+    await notifyByEmail(doc).catch((error) => logServerError("[enquiry email]", error));
     return { ok: true };
-  } catch (err) {
-    console.error("Enquiry failed", err);
+  } catch (error) {
+    logServerError("[enquiry]", error);
     return { ok: false, error: `Something went wrong. Please call or WhatsApp us on ${site.phone}.` };
   }
 }

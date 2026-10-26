@@ -17,7 +17,7 @@ async function RedirectIfSignedIn({ searchParams }: { searchParams: Promise<{ ne
   await connection(); // the session read below is request-time only
   const [user, { next }] = await Promise.all([getCurrentUser().catch(() => null), searchParams]);
   if (user && can.viewDocuments(user.role)) {
-    redirect(next && /^\/documents(\/|\?|$)/.test(next) && !next.startsWith("/documents/login") ? next : "/documents");
+    redirect(next && /^\/documents(\/|\?|$)/.test(next) && !next.startsWith("/documents/login") ? next : "/documents/library");
   }
   return null;
 }

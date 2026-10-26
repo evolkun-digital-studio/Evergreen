@@ -1,6 +1,6 @@
 /**
  * Regenerates the favicon set and default Open Graph image from the supplied logo.
- * Run with: pnpm brand:assets
+ * Run with: npm run brand:assets
  * Source file: public/brand/evergreen-logo.png
  */
 import { readFile } from "node:fs/promises";

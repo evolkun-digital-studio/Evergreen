@@ -1,6 +1,6 @@
 /**
  * Captures the content/typography review set requested for the Evergreen refresh.
- * Usage: pnpm tsx scripts/content-screenshots.ts [baseUrl] [outDir]
+ * Usage: npm exec tsx scripts/content-screenshots.ts [baseUrl] [outDir]
  */
 import { mkdir } from "node:fs/promises";
 import { chromium, type Page } from "@playwright/test";

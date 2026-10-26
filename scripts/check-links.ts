@@ -12,7 +12,7 @@
  * plus interaction checks: the mobile menu closes on Esc and on navigation, the Services dropdown
  * opens and closes by keyboard.
  *
- * Usage: pnpm links:check [baseUrl]   (default http://localhost:3100; start the app first)
+ * Usage: npm run links:check -- [baseUrl]   (default http://localhost:3100; start the app first)
  * Options: --no-external (skip fetching external URLs)
  * Exit code 1 when any error is found. The JSON report is written to reports/links.json.
  */

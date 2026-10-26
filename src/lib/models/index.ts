@@ -20,5 +20,12 @@ export {
 } from "./ops";
 export { SiteSettings, type SiteSettingsDoc } from "./settings";
 export { Enquiry, type EnquiryDoc } from "./enquiry";
-export { CompanyDocument, DocumentAccess, type DocumentDoc, type DocumentAccessDoc } from "./document";
+export {
+  CompanyDocument,
+  DocumentAccess,
+  DocumentAccessRequest,
+  type DocumentDoc,
+  type DocumentAccessDoc,
+  type DocumentAccessRequestDoc,
+} from "./document";
 export { Letterhead, type LetterheadDoc } from "./letterhead";

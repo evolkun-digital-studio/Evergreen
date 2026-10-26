@@ -31,8 +31,7 @@ function defaultFilingYear() {
   return filingYears.find(f => parseFy(f) === Math.min(Math.max(y, FIRST_FILING_YEAR), LAST_FILING_YEAR))!;
 }
 
-// At four columns, labels reserve two lines so the fields line up.
-const labelClass = "mb-1.5 block text-[14px] font-semibold leading-snug text-ink xl:flex xl:min-h-[2.75em] xl:items-end";
+const labelClass = "mb-1.5 block text-[14px] font-semibold leading-snug text-ink";
 const helpClass = "mt-1.5 text-[13px] leading-snug text-ink-muted";
 
 function FieldError({ id, message }: { id: string; message?: string }) {
@@ -100,9 +99,14 @@ export function EprCalculator() {
   }
   async function pdf() {
     if (!target) return;
-    const { downloadPdf } = await import("./pdf");
-    await downloadPdf(input, target, shareUrl());
-    setStatus("PDF downloaded.");
+    setStatus("Preparing PDF…");
+    try {
+      const { downloadPdf } = await import("./pdf");
+      await downloadPdf(input, target, shareUrl());
+      setStatus("PDF downloaded.");
+    } catch {
+      setStatus("PDF could not be created. Please try again.");
+    }
   }
   function reset() {
     setInput({ ...EMPTY, filingYear: defaultFilingYear() });
@@ -118,37 +122,47 @@ export function EprCalculator() {
     : "/contact";
 
   return (
-    <div className="space-y-10">
+    <div className="flex flex-col gap-6 xl:gap-8">
+    <div className="grid items-start gap-6 xl:grid-cols-[minmax(19rem,0.72fr)_minmax(0,1.28fr)] xl:gap-8">
       <form
         noValidate
         onSubmit={e => e.preventDefault()}
-        aria-label="EPR calculator inputs"
-        className="grid gap-6 rounded-xl border border-line bg-paper p-5 sm:p-8 md:grid-cols-2 xl:grid-cols-4"
+        aria-labelledby={`${uid}-inputs`}
+        className="overflow-hidden rounded-xl border border-line bg-paper xl:sticky xl:top-24"
       >
-        <div>
-          <label htmlFor={ids.fy} className={labelClass}>
-            E-waste annual filing year
-          </label>
-          <select
-            id={ids.fy}
-            className="field h-[50px]"
-            value={input.filingYear}
-            onChange={e => set("filingYear")(e.target.value)}
-            onBlur={blur("filingYear")}
-            aria-invalid={!!shown("filingYear") || undefined}
-            aria-describedby={shown("filingYear") ? `${ids.fy}-err` : undefined}
-          >
-            {!input.filingYear && <option value="">Select a year</option>}
-            {filingYears.map(y => (
-              <option key={y} value={y}>
-                {y}
-              </option>
-            ))}
-          </select>
-          <FieldError id={`${ids.fy}-err`} message={shown("filingYear")} />
+        <div className="border-b border-line bg-white px-5 py-5 sm:px-6">
+          <p className="eyebrow">Calculator inputs</p>
+          <h2 id={`${uid}-inputs`} className="mt-2 text-[1.375rem]">
+            Enter your EEE sales details
+          </h2>
+          <p className="mt-2 text-[14px] leading-relaxed text-ink-muted">Your estimate updates automatically as you complete the four fields.</p>
         </div>
 
-        <div>
+        <div className="grid gap-5 p-5 sm:grid-cols-2 sm:p-6 xl:grid-cols-1">
+          <div className="min-w-0">
+            <label htmlFor={ids.fy} className={labelClass}>
+              E-waste annual filing year
+            </label>
+            <select
+              id={ids.fy}
+              className="field h-[50px]"
+              value={input.filingYear}
+              onChange={e => set("filingYear")(e.target.value)}
+              onBlur={blur("filingYear")}
+              aria-invalid={!!shown("filingYear") || undefined}
+              aria-describedby={shown("filingYear") ? `${ids.fy}-err` : undefined}
+            >
+              {!input.filingYear && <option value="">Select a year</option>}
+              {filingYears.map(y => (
+                <option key={y} value={y}>
+                  {y}
+                </option>
+              ))}
+            </select>
+            <FieldError id={`${ids.fy}-err`} message={shown("filingYear")} />
+          </div>
+
+          <div className="min-w-0">
           <label htmlFor={ids.eee} className={labelClass}>
             Electrical and electronic equipment (EEE)
           </label>
@@ -164,9 +178,9 @@ export function EprCalculator() {
             describedBy={shown("eeeId") ? `${ids.eee}-err` : undefined}
           />
           <FieldError id={`${ids.eee}-err`} message={shown("eeeId")} />
-        </div>
+          </div>
 
-        <div>
+          <div className="min-w-0">
           <label htmlFor={ids.start} className={labelClass}>
             Sales started in
           </label>
@@ -189,9 +203,9 @@ export function EprCalculator() {
             ))}
           </select>
           <FieldError id={`${ids.start}-err`} message={shown("salesStartYear")} />
-        </div>
+          </div>
 
-        <div>
+          <div className="min-w-0">
           <label htmlFor={ids.kg} className={labelClass}>
             {qYear?.schedule === "IV" ? `Sales in ${qYear.year} (kg)` : "EEE placed on the market in target year (kg)"}
           </label>
@@ -211,15 +225,29 @@ export function EprCalculator() {
             {qYear ? (qYear.schedule === "III" ? `For ${qYear.year}. Up to 4 decimals.` : `Schedule IV base year. Up to 4 decimals.`) : "Up to 4 decimals."}
           </p>
           <FieldError id={`${ids.kg}-err`} message={shown("quantityKg")} />
+          </div>
+        </div>
+
+        <div className="flex flex-wrap items-center justify-between gap-3 border-t border-line bg-paper-2 px-5 py-4 sm:px-6">
+          <p className="text-[13px] text-ink-muted">Enter all quantities in kilograms.</p>
+          <button type="button" onClick={reset} className="btn btn-secondary btn-sm bg-white">
+            <RotateCcw aria-hidden="true" className="h-4 w-4" />
+            Reset
+          </button>
         </div>
       </form>
 
-      <section aria-labelledby={`${uid}-results`}>
-        <div className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1">
-          <h2 id={`${uid}-results`} className="text-[1.375rem]">
-            Results
-          </h2>
-          <p className="min-h-[1.5em] text-[15px] font-semibold text-evergreen-700">{target ? scheduleLine(target, input.filingYear) : ""}</p>
+      <section aria-labelledby={`${uid}-results`} className="min-w-0 rounded-xl border border-line bg-paper p-5 sm:p-6 lg:p-8">
+        <div className="flex flex-col gap-3 border-b border-line pb-5 sm:flex-row sm:items-end sm:justify-between">
+          <div>
+            <p className="eyebrow">Your estimate</p>
+            <h2 id={`${uid}-results`} className="mt-2 text-[1.5rem]">
+              Estimated EPR obligations
+            </h2>
+          </div>
+          <p className="min-h-[1.75rem] rounded-full bg-evergreen-700/[0.08] px-3 py-1 text-[13px] font-semibold text-evergreen-700">
+            {target ? scheduleLine(target, input.filingYear) : "Complete the inputs to calculate"}
+          </p>
         </div>
         <div aria-live="polite" aria-atomic="false" className="mt-5">
           <ResultTiles result={result} />
@@ -237,24 +265,20 @@ export function EprCalculator() {
           {target && <HowCalculated input={input} r={target} />}
         </div>
 
-        <div className="mt-6 grid grid-cols-2 gap-3 sm:flex sm:flex-wrap sm:items-center">
-          <button type="button" onClick={reset} className="btn btn-secondary btn-sm">
-            <RotateCcw aria-hidden="true" className="h-4 w-4" />
-            Reset
+        <div className="mt-6 grid gap-3 sm:grid-cols-3">
+          <button type="button" onClick={pdf} disabled={!target} className="btn btn-primary btn-sm disabled:opacity-50">
+            <Download aria-hidden="true" className="h-4 w-4" />
+            Download PDF
           </button>
           <button type="button" onClick={copy} disabled={!target} className="btn btn-secondary btn-sm disabled:opacity-50">
             <Copy aria-hidden="true" className="h-4 w-4" />
             Copy results
           </button>
-          <button type="button" onClick={pdf} disabled={!target} className="btn btn-secondary btn-sm disabled:opacity-50">
-            <Download aria-hidden="true" className="h-4 w-4" />
-            Download PDF
-          </button>
           <button type="button" onClick={share} className="btn btn-secondary btn-sm">
             <Link2 aria-hidden="true" className="h-4 w-4" />
             Share link
           </button>
-          <p role="status" className="col-span-2 min-h-[1.25rem] text-[14px] text-evergreen-700 empty:-mt-3 sm:ml-1 sm:empty:mt-0">
+          <p role="status" className="min-h-[1.25rem] text-[14px] text-evergreen-700 empty:-mt-3 sm:col-span-3 sm:empty:mt-0">
             {status && (
               <span className="inline-flex items-center gap-1.5">
                 <Check aria-hidden="true" className="h-4 w-4" />
@@ -263,12 +287,13 @@ export function EprCalculator() {
             )}
           </p>
         </div>
-
-        <div className="mt-8 flex flex-col gap-5 rounded-xl bg-evergreen-950 p-6 text-white sm:p-8">
-          <div className="flex flex-wrap items-center justify-between gap-3"><p className="font-display text-[1.25rem] font-semibold leading-snug text-white">Need EPR certificates for this target?</p><Link href={contactHref} className="text-sm font-semibold text-moss-soft underline">Use the full contact form <ArrowRight aria-hidden="true" className="inline h-4 w-4" /></Link></div>
-          {target && <EprLeadForm snapshot={{ filingYear: input.filingYear, eeeId: input.eeeId, salesStartYear: input.salesStartYear, quantityKg: input.quantityKg, targetKg: String(target.targetKg) }} />}
-        </div>
       </section>
+    </div>
+
+      <div className="flex flex-col gap-5 rounded-xl bg-evergreen-950 p-6 text-white sm:p-8">
+        <div className="flex flex-wrap items-center justify-between gap-3"><p className="font-display text-[1.25rem] font-semibold leading-snug text-white">Need EPR certificates for this target?</p><Link href={contactHref} className="text-sm font-semibold text-moss-soft underline">Use the full contact form <ArrowRight aria-hidden="true" className="inline h-4 w-4" /></Link></div>
+        {target && <EprLeadForm snapshot={{ filingYear: input.filingYear, eeeId: input.eeeId, salesStartYear: input.salesStartYear, quantityKg: input.quantityKg, targetKg: String(target.targetKg) }} />}
+      </div>
     </div>
   );
 }
@@ -277,8 +302,8 @@ function Tile({ label, value, main = false, sub }: { label: string; value: strin
   return (
     <div
       className={cn(
-        "flex h-[112px] flex-col justify-between rounded-xl border border-line bg-white p-4 sm:h-[124px] sm:p-5",
-        main && "order-first col-span-2 border-evergreen-700/30 bg-evergreen-700/[0.04] lg:order-none lg:col-span-1",
+        "flex min-h-[112px] flex-col justify-between rounded-xl border border-line bg-white p-4 sm:min-h-[124px] sm:p-5",
+        main && "order-first col-span-2 min-h-[148px] border-evergreen-700/30 bg-evergreen-700/[0.05] sm:min-h-[156px]",
       )}
     >
       <p className="text-[13px] font-medium leading-snug text-ink-muted">{label}</p>
@@ -296,7 +321,8 @@ function ResultTiles({ result }: { result: CalcResult }) {
   const r = result.kind === "target" ? result : null;
   const dash = "—";
   return (
-    <div className="grid grid-cols-2 gap-3 lg:grid-cols-[1fr_1fr_1fr_1.5fr_1fr]">
+    <div className="grid grid-cols-2 gap-3">
+      <Tile label="Estimated recycling target (kg)" value={r ? fmtKg(r.targetKg) : result.kind === "not-applicable" ? "Not applicable" : dash} main />
       <Tile label="Years of sales operations" value={r ? String(r.yearsOfSalesOperations) : dash} />
       <Tile
         label="EEE average life (years)"
@@ -304,7 +330,6 @@ function ResultTiles({ result }: { result: CalcResult }) {
         sub={r?.item.averageLifeStatus === "draft" ? "CPCB draft list" : undefined}
       />
       <Tile label={r?.schedule === "IV" ? "Base sales year" : "Target year"} value={r ? r.targetYear : dash} />
-      <Tile label="Recycling target (kg)" value={r ? fmtKg(r.targetKg) : result.kind === "not-applicable" ? "Not applicable" : dash} main />
       <Tile label="Filing-year target (kg)" value={r ? fmtKg(r.filingYearTargetKg) : dash} />
     </div>
   );

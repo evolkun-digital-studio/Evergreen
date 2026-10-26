@@ -144,16 +144,13 @@ export function ShareLinks({ url, title }: { url: string; title: string }) {
 export function ServiceCta() {
   return (
     <section aria-labelledby="cta-title" className="rounded-xl border border-line bg-white p-8 md:p-10">
-      <h2 id="cta-title">Request a free pickup</h2>
+      <h2 id="cta-title">Recycling services from Evergreen</h2>
       <p className="mt-3 max-w-xl text-ink/80">
         {site.legalName} recycles e-waste, batteries, plastics and industrial scrap from its authorised facility in{" "}
         {site.address.locality}, {site.address.region}.
       </p>
       <div className="mt-6 flex flex-wrap items-center gap-3">
-        <Link href="/contact" className="btn btn-primary">
-          Request a free pickup
-        </Link>
-        <Link href="/services" className="btn btn-secondary">
+        <Link href="/services" className="btn btn-primary">
           Our services
         </Link>
         {publicPhone && (

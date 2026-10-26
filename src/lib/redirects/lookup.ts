@@ -2,6 +2,7 @@
 // is refreshed from MongoDB at most once a minute and never waits more than 1.5 s for the DB.
 // Uses the raw collection (no models) so the proxy bundle stays free of `server-only` code.
 import { connectDB, isDbConfigured } from "@/lib/db-core";
+import { logServerError } from "@/lib/log";
 
 type RedirectEntry = { to: string; code: 301 | 302 };
 
@@ -40,7 +41,7 @@ export async function findRedirect(pathname: string): Promise<RedirectEntry | nu
   if (Date.now() - loadedAt > TTL_MS) {
     loading ??= load()
       .catch((error) => {
-        console.error("[redirects] refresh failed:", error);
+        logServerError("[redirects] refresh failed", error);
         loadedAt = Date.now() - TTL_MS + RETRY_MS; // retry soon, keep serving the last table
       })
       .finally(() => {

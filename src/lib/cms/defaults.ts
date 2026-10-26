@@ -54,6 +54,8 @@ export const DEFAULT_SETTINGS = {
   indexNowEnabled: true,
   googleIndexingEnabled: false,
   blockPublishBelowScore: 0,
+  /** Who is emailed about new document requests and enquiries; empty falls back to ENQUIRY_EMAIL_TO. */
+  notificationEmails: [] as string[],
 };
 
 export type SiteSettingsData = typeof DEFAULT_SETTINGS & {

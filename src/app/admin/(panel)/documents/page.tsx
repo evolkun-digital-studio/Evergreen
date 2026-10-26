@@ -13,7 +13,7 @@ export default function AdminDocumentsPage() {
     <>
       <PageHeader
         title="Documents"
-        description="Private certificates, registrations and reports. Files are stored outside the public site and only signed-in users can open them on /documents."
+        description="Private certificates, registrations and reports. Files are stored outside the public site. Visitors request access on /documents and open files through an emailed link once you approve them under Access Requests."
       />
       <Suspense fallback={<TableSkeleton rows={4} columns={5} />}>
         <DocumentsLoader />

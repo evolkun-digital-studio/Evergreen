@@ -9,7 +9,7 @@ const DIRECTIVES = new Set(["user-agent", "allow", "disallow", "sitemap", "crawl
 export const sitemapUrl = () => `${SITE_URL}/sitemap.xml`;
 
 /** Paths that must never be crawled, whatever the editor text says. */
-const ALWAYS_DISALLOWED = ["/documents", "/api/documents"];
+const ALWAYS_DISALLOWED = ["/admin", "/api", "/api/documents", "/blog/preview", "/documents"];
 
 /** Adds any missing ALWAYS_DISALLOWED rule to the `User-agent: *` group (or a new one). */
 function withPrivateRules(body: string): string {
@@ -28,6 +28,12 @@ export function finalizeRobots(text: string): string {
   const body = withPrivateRules(text.replace(/\r\n/g, "\n").trim());
   const hasSitemap = body.split("\n").some((l) => l.trim().toLowerCase() === `sitemap: ${sitemapUrl()}`.toLowerCase());
   return `${body}\n${hasSitemap ? "" : `\nSitemap: ${sitemapUrl()}\n`}`;
+}
+
+/** Staging and preview deployments must never be indexed. Production is explicitly opted in. */
+export function robotsForEnvironment(text: string, deployment = process.env.SITE_ENV): string {
+  if (deployment !== "production") return "User-agent: *\nDisallow: /\n";
+  return finalizeRobots(text);
 }
 
 export function validateRobots(text: string): RobotsIssue[] {

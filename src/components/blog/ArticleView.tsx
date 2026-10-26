@@ -80,9 +80,10 @@ export function ArticleView({
   return (
     <article className="pb-20">
       <div className="container pt-8 lg:pt-12">
+        <div className="mx-auto max-w-[1040px]">
         {post.seo.breadcrumbEnabled && <Breadcrumbs items={articleCrumbs(post)} />}
 
-        <header className="mt-6 max-w-3xl">
+        <header className="mt-6 [&>h1]:max-w-[860px] [&>section]:max-w-[860px]">
           {post.category && (
             <Link
               href={`/blog/category/${post.category.slug}`}
@@ -104,7 +105,7 @@ export function ArticleView({
             </section>
           )}
 
-          <div className="mt-6 flex flex-wrap items-center gap-x-6 gap-y-3 text-sm text-ink/85">
+          <div className="mt-6 flex flex-wrap items-center gap-x-6 gap-y-3 border-y border-line py-4 text-sm text-ink/85">
             <Link href={`/blog/author/${post.author.slug}`} className="flex items-center gap-2.5 font-medium text-evergreen-700 hover:underline" rel="author">
               <Avatar author={post.author} size={36} />
               {post.author.name}
@@ -138,7 +139,7 @@ export function ArticleView({
         </header>
 
         {post.image && (
-          <figure className="mt-8 max-w-5xl">
+          <figure className="mt-8">
             <Picture
               media={post.image}
               alt={post.imageAlt}
@@ -151,7 +152,7 @@ export function ArticleView({
           </figure>
         )}
 
-        <div className="mt-10 grid gap-12 lg:grid-cols-[minmax(0,720px)_260px] lg:justify-between">
+        <div className={showToc ? "mt-10 grid gap-10 lg:grid-cols-[minmax(0,1fr)_240px] lg:gap-14" : "mt-10 max-w-[760px]"}>
           <div className="min-w-0 space-y-8">
             {takeaways.length > 0 && !post.blocks.takeaways && (
               <section aria-labelledby="key-takeaways-title" className="key-takeaways">
@@ -215,6 +216,7 @@ export function ArticleView({
               <TocSidebar items={post.toc} />
             </aside>
           )}
+        </div>
         </div>
       </div>
 

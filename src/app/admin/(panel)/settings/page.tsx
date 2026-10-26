@@ -45,6 +45,7 @@ async function SettingsLoader() {
         indexNowEnabled: s.indexNowEnabled,
         googleIndexingEnabled: s.googleIndexingEnabled,
         blockPublishBelowScore: s.blockPublishBelowScore,
+        notificationEmails: s.notificationEmails ?? [],
       }}
     />
   );

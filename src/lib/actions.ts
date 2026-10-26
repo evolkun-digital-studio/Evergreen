@@ -1,6 +1,7 @@
 import "server-only";
 import { z } from "zod";
 import { PermissionError, UserFacingError } from "@/lib/errors";
+import { logServerError } from "@/lib/log";
 
 export { UserFacingError };
 
@@ -27,7 +28,7 @@ export async function runAction<T>(fn: () => Promise<T>, message?: string): Prom
     if ((error as { code?: number }).code === 11000) {
       return { ok: false, error: "Something with that slug or key already exists." };
     }
-    console.error("[action]", error);
+    logServerError("[action]", error);
     return { ok: false, error: "Something went wrong. Please try again." };
   }
 }

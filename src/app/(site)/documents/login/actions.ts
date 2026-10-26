@@ -9,7 +9,7 @@ export type DocumentsLoginState = { error?: string };
 /** Same-origin /documents paths only; rejects "//evil.com", absolute URLs and the login page. */
 function safeNext(value: FormDataEntryValue | null): string {
   const url = typeof value === "string" ? value : "";
-  return /^\/documents(\/|\?|$)/.test(url) && !url.startsWith("/documents/login") ? url : "/documents";
+  return /^\/documents(\/|\?|$)/.test(url) && !url.startsWith("/documents/login") ? url : "/documents/library";
 }
 
 // Same Auth.js credentials provider (and per-IP / per-email rate limits) as the admin login.

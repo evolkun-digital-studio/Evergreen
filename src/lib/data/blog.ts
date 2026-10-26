@@ -9,6 +9,7 @@ import { NODES, type PMNode } from "@/lib/content/types";
 import { toMediaItem } from "@/lib/data/media";
 import type { MediaItem } from "@/lib/media/types";
 import { defined } from "@/lib/utils";
+import { logServerError } from "@/lib/log";
 
 // Public, cached readers. Every function is `use cache` + tagged so publishing expires exactly
 // what changed. Values are plain JSON (ids/dates as strings): cached results must serialise.
@@ -104,7 +105,7 @@ async function safe<T>(fallback: T, fn: () => Promise<T>): Promise<T> {
     cacheLife("max");
     return value;
   } catch (error) {
-    console.error("[blog data]", error);
+    logServerError("[blog data]", error);
     cacheLife("minutes");
     return fallback;
   }

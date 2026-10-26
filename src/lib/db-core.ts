@@ -5,11 +5,20 @@ import mongoose from "mongoose";
 type MongooseCache = {
   conn: typeof mongoose | null;
   promise: Promise<typeof mongoose> | null;
+  failure: DatabaseConnectionError | null;
+  retryAt: number;
 };
 
 // Cached on globalThis so hot reloads and warm serverless invocations reuse one pool.
 const globalForMongoose = globalThis as unknown as { __mongoose?: MongooseCache };
-const cache: MongooseCache = (globalForMongoose.__mongoose ??= { conn: null, promise: null });
+const cache: MongooseCache = (globalForMongoose.__mongoose ??= {
+  conn: null,
+  promise: null,
+  failure: null,
+  retryAt: 0,
+});
+cache.failure ??= null;
+cache.retryAt ??= 0;
 
 export type DatabaseConnectionErrorCode = "missing_uri" | "wrong_database" | "bad_auth" | "unreachable" | "unknown";
 
@@ -85,6 +94,7 @@ export function isDbConfigured(): boolean {
 
 export async function connectDB(): Promise<typeof mongoose> {
   if (cache.conn && cache.conn.connection.readyState === 1) return cache.conn;
+  if (cache.failure && Date.now() < cache.retryAt) throw cache.failure;
 
   const uri = process.env.MONGODB_URI;
   if (!uri) throw new DatabaseConnectionError("MONGODB_URI is not set", "missing_uri");
@@ -104,14 +114,19 @@ export async function connectDB(): Promise<typeof mongoose> {
       dbName,
       bufferCommands: false,
       maxPoolSize: 10,
-      serverSelectionTimeoutMS: 10_000,
-      // Indexes are created explicitly by `pnpm db:indexes`; building them on boot slows cold starts.
+      serverSelectionTimeoutMS: 3_000,
+      connectTimeoutMS: 3_000,
+      // Indexes are created explicitly by `npm run db:indexes`; building them on boot slows cold starts.
       autoIndex: false,
     });
     cache.conn = await cache.promise;
+    cache.failure = null;
+    cache.retryAt = 0;
   } catch (error) {
     cache.promise = null;
-    throw sanitizedConnectionError(error);
+    cache.failure = sanitizedConnectionError(error);
+    cache.retryAt = Date.now() + 30_000;
+    throw cache.failure;
   }
   return cache.conn;
 }

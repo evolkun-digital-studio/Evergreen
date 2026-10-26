@@ -1,6 +1,6 @@
 /**
  * Builds src/data/epr/*.json from the official PDFs in reference/epr/.
- * Usage: pnpm epr:data   (add --check to compare with the committed JSON without writing)
+ * Usage: npm run epr:data -- --check to compare with the committed JSON without writing
  *
  * Every number in the output is read from a PDF. The script knows the table layouts
  * (column positions, which codes have sub-types) but never supplies a value itself.

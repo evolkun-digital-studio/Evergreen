@@ -11,27 +11,67 @@ const MOSS: [number, number, number] = [182, 212, 51];
 const INK: [number, number, number] = [16, 38, 28];
 const MUTED: [number, number, number] = [75, 94, 83];
 
+async function loadBrandLogo() {
+  const response = await fetch(site.logo);
+  if (!response.ok) throw new Error("Could not load the Evergreen logo for the PDF.");
+  const blob = await response.blob();
+
+  return new Promise<string>((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(String(reader.result));
+    reader.onerror = () => reject(reader.error ?? new Error("Could not read the Evergreen logo."));
+    reader.readAsDataURL(blob);
+  });
+}
+
+// jsPDF's built-in Helvetica has no icon glyphs, so the contact icons are drawn as vector shapes (10pt box).
+function drawGlobeIcon(doc: jsPDF, cx: number, cy: number) {
+  const r = 5;
+  doc.setDrawColor(...EVERGREEN_700);
+  doc.setLineWidth(0.8);
+  doc.circle(cx, cy, r, "S");
+  doc.ellipse(cx, cy, 2.2, r, "S");
+  doc.line(cx - r, cy, cx + r, cy);
+  doc.line(cx - 4.1, cy - 2.5, cx + 4.1, cy - 2.5);
+  doc.line(cx - 4.1, cy + 2.5, cx + 4.1, cy + 2.5);
+}
+
+function drawPhoneIcon(doc: jsPDF, cx: number, cy: number) {
+  doc.setDrawColor(...EVERGREEN_700);
+  doc.setFillColor(...EVERGREEN_700);
+  doc.setLineWidth(0.8);
+  doc.roundedRect(cx - 3.2, cy - 5, 6.4, 10, 1.4, 1.4, "S");
+  doc.line(cx - 1.2, cy - 3.3, cx + 1.2, cy - 3.3);
+  doc.circle(cx, cy + 3.1, 0.55, "F");
+}
+
 export async function downloadPdf(input: CalcInput, r: Extract<CalcResult, { kind: "target" }>, url: string) {
   const s = buildSummary(input, r);
+  const logo = await loadBrandLogo();
   const doc = new jsPDF({ unit: "pt", format: "a4" });
   const W = doc.internal.pageSize.getWidth();
   const M = 48;
   let y = 0;
 
-  // Header band
-  doc.setFillColor(...EVERGREEN_950);
-  doc.rect(0, 0, W, 86, "F");
+  // Branded header
+  doc.setFillColor(248, 250, 248);
+  doc.rect(0, 0, W, 92, "F");
+  doc.addImage(logo, "PNG", M, 17, 168, 43);
   doc.setFillColor(...MOSS);
-  doc.rect(M, 70, 64, 3, "F");
-  doc.setTextColor(255, 255, 255);
-  doc.setFont("helvetica", "bold");
-  doc.setFontSize(20);
-  doc.text(site.name, M, 44);
+  doc.rect(M, 78, W - 2 * M, 3, "F");
   doc.setFont("helvetica", "normal");
   doc.setFontSize(10);
-  doc.text(site.legalName, M, 60);
-  doc.text(new URL(site.domain).host, W - M, 44, { align: "right" });
-  y = 122;
+  const ICON = 10;
+  const ICON_GAP = 7;
+  const contactLine = (text: string, baseline: number, color: [number, number, number], icon: typeof drawGlobeIcon) => {
+    doc.setTextColor(...color);
+    doc.text(text, W - M, baseline, { align: "right" });
+    icon(doc, W - M - doc.getTextWidth(text) - ICON_GAP - ICON / 2, baseline - 3.4);
+    doc.setLineWidth(0.2);
+  };
+  contactLine(new URL(site.domain).host, 35, EVERGREEN_950, drawGlobeIcon);
+  contactLine(site.phone, 52, MUTED, drawPhoneIcon);
+  y = 126;
 
   doc.setTextColor(...INK);
   doc.setFont("helvetica", "bold");

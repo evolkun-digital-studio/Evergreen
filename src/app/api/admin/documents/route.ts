@@ -7,6 +7,7 @@ import { PermissionError, requireActionUser } from "@/lib/auth/session";
 import { DOCUMENT_CATEGORIES, type DocumentCategory } from "@/lib/documents/constants";
 import { DocumentUploadError, readDocumentUpload } from "@/lib/documents/upload";
 import { newDocumentKey, privateStorage, privateStorageFor } from "@/lib/documents/storage";
+import { logServerError } from "@/lib/log";
 
 // Multipart upload for the Documents library (a route handler, so 20 MB files aren't limited by
 // the Server Action body size). Without `id` it creates a document; with `id` it replaces the file.
@@ -32,7 +33,7 @@ export async function POST(request: Request) {
       const previous = { key: existing.fileKey, driver: existing.storageDriver };
       existing.set(fileFields);
       await existing.save();
-      await privateStorageFor(previous.driver).delete(previous.key).catch((e) => console.error("[documents] old file not removed", e));
+      await privateStorageFor(previous.driver).delete(previous.key).catch((error) => logServerError("[documents] old file not removed", error));
     } else {
       const category = String(form.get("category") ?? "");
       await CompanyDocument.create({
@@ -46,7 +47,7 @@ export async function POST(request: Request) {
   } catch (error) {
     if (error instanceof PermissionError) return NextResponse.json({ error: error.message }, { status: 403 });
     if (error instanceof DocumentUploadError) return NextResponse.json({ error: error.message }, { status: 422 });
-    console.error("[documents upload]", error);
+    logServerError("[documents upload]", error);
     return NextResponse.json({ error: "Upload failed. Please try again." }, { status: 500 });
   }
 }

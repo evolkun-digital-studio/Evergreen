@@ -1,5 +1,8 @@
 import mongoose from "mongoose";
+import { cookies } from "next/headers";
 import { connectDB } from "@/lib/db";
+import { GRANT_COOKIE } from "@/lib/documents/grant";
+import { findGrantedDocument, resolveGrant } from "@/lib/data/document-requests";
 import { getCurrentUser } from "@/lib/auth/session";
 import { can } from "@/lib/cms/constants";
 import { CompanyDocument, DocumentAccess, type DocumentDoc } from "@/lib/models";
@@ -24,20 +27,29 @@ function disposition(type: "inline" | "attachment", fileName: string) {
 }
 
 export async function GET(request: Request, ctx: RouteContext<"/api/documents/[id]/file">) {
-  const user = await getCurrentUser().catch(() => null);
-  if (!user) return deny(401, "Sign in to view this document.");
-  if (!can.viewDocuments(user.role)) return deny(403, "You don't have access to documents.");
-
   const { id } = await ctx.params;
-  // Managers can open inactive or restricted documents from the admin panel; everyone else only
-  // sees active documents shared with their role. Unknown and hidden ids both look like 404.
+  const user = await getCurrentUser().catch(() => null);
+
   let doc: DocumentDoc | null;
-  if (can.manageDocuments(user.role)) {
-    if (!mongoose.isValidObjectId(id)) return deny(404, "Not found");
-    await connectDB();
-    doc = await CompanyDocument.findById(id).lean<DocumentDoc>();
+  let accessor: { userId: string | null; requestId: string | null; email: string };
+  if (user) {
+    if (!can.viewDocuments(user.role)) return deny(403, "You don't have access to documents.");
+    // Managers can open inactive or restricted documents from the admin panel; everyone else only
+    // sees active documents shared with their role. Unknown and hidden ids both look like 404.
+    if (can.manageDocuments(user.role)) {
+      if (!mongoose.isValidObjectId(id)) return deny(404, "Not found");
+      await connectDB();
+      doc = await CompanyDocument.findById(id).lean<DocumentDoc>();
+    } else {
+      doc = await findVisibleDocument(id, user.role);
+    }
+    accessor = { userId: user.id, requestId: null, email: user.email };
   } else {
-    doc = await findVisibleDocument(id, user.role);
+    // No session: an emailed-link grant, re-validated here so revoking or expiring cuts access at once.
+    const grant = await resolveGrant((await cookies()).get(GRANT_COOKIE)?.value).catch(() => null);
+    if (!grant) return deny(401, "Sign in or use your emailed link to view this document.");
+    doc = await findGrantedDocument(grant, id);
+    accessor = { userId: null, requestId: grant.requestId, email: grant.email };
   }
   if (!doc) return deny(404, "Not found");
 
@@ -45,7 +57,7 @@ export async function GET(request: Request, ctx: RouteContext<"/api/documents/[i
   if (!file) return deny(404, "Not found");
 
   const download = new URL(request.url).searchParams.get("download") === "1";
-  await DocumentAccess.create({ documentId: doc._id, userId: user.id, email: user.email, action: download ? "download" : "view" });
+  await DocumentAccess.create({ documentId: doc._id, ...accessor, action: download ? "download" : "view" });
 
   return new Response(file.body, {
     headers: {

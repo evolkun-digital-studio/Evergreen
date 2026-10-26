@@ -26,7 +26,8 @@ export function DocumentsLibrary({
 }: {
   documents: DocumentItem[];
   user: { name: string; email: string };
-  signOutAction: () => Promise<void>;
+  /** Omitted for emailed-link visitors, who have no session to end. */
+  signOutAction?: () => Promise<void>;
 }) {
   const [query, setQuery] = useState("");
   const [category, setCategory] = useState<string | null>(null);
@@ -48,15 +49,21 @@ export function DocumentsLibrary({
           <h1 className="font-display text-3xl font-semibold text-evergreen-950 sm:text-4xl">Documents</h1>
           <p className="mt-2 text-[15px] text-ink-muted">Company certificates, registrations and reports for authorised users.</p>
         </div>
-        <form action={signOutAction} className="flex min-w-0 flex-wrap items-center gap-x-2 text-[13px] text-ink-muted sm:justify-end sm:pt-2">
-          <span className="min-w-0 [overflow-wrap:anywhere]">
-            Signed in as <strong className="font-semibold text-evergreen-950">{user.email}</strong>
-          </span>
-          <span aria-hidden="true">·</span>
-          <button type="submit" className="inline-flex items-center gap-1 font-semibold text-evergreen-700 hover:underline">
-            <LogOut className="size-3.5" aria-hidden="true" /> Sign out
-          </button>
-        </form>
+        {signOutAction ? (
+          <form action={signOutAction} className="flex min-w-0 flex-wrap items-center gap-x-2 text-[13px] text-ink-muted sm:justify-end sm:pt-2">
+            <span className="min-w-0 [overflow-wrap:anywhere]">
+              Signed in as <strong className="font-semibold text-evergreen-950">{user.email}</strong>
+            </span>
+            <span aria-hidden="true">·</span>
+            <button type="submit" className="inline-flex items-center gap-1 font-semibold text-evergreen-700 hover:underline">
+              <LogOut className="size-3.5" aria-hidden="true" /> Sign out
+            </button>
+          </form>
+        ) : (
+          <p className="min-w-0 text-[13px] text-ink-muted [overflow-wrap:anywhere] sm:pt-2">
+            Shared with <strong className="font-semibold text-evergreen-950">{user.email}</strong>
+          </p>
+        )}
       </div>
 
       {documents.length === 0 ? (

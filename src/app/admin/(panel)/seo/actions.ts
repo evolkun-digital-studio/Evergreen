@@ -14,6 +14,7 @@ import { notifyIndexing, type IndexingAction } from "@/lib/indexing";
 import { runLinkScan } from "@/lib/seo/link-checker";
 import { DEFAULT_ROBOTS_TXT } from "@/lib/cms/defaults";
 import { SITE_URL } from "@/lib/cms/constants";
+import { logServerError } from "@/lib/log";
 
 // --- Redirects ---------------------------------------------------------------------------------
 
@@ -120,7 +121,7 @@ export async function scanLinksAction() {
       try {
         await runLinkScan();
       } catch (error) {
-        console.error("[link scan]", error);
+        logServerError("[link scan]", error);
       }
     });
   }, "Scan started. Results appear here in a minute or two.");

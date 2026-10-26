@@ -7,7 +7,7 @@
  *   - JSON-LD: one script with one @graph; every @id reference resolves inside the graph;
  *     required properties for Organization, Service, FAQPage, BreadcrumbList, WebApplication, ImageObject
  *
- * Usage: pnpm seo:check [baseUrl]  (default http://localhost:3100). Blog archive pages are skipped
+ * Usage: npm run seo:check -- [baseUrl]  (default http://localhost:3100). Blog archive pages are skipped
  * (their metadata comes from the CMS). Writes reports/seo.json.
  */
 import { mkdir, writeFile } from "node:fs/promises";

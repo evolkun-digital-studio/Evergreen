@@ -8,6 +8,7 @@ import { runAction, UserFacingError } from "@/lib/actions";
 import { hashPassword } from "@/lib/auth/password";
 import { createRawToken, expiresInMinutes, hashToken, INVITE_TOKEN_HOURS } from "@/lib/auth/tokens";
 import { sendTransactionalEmail } from "@/lib/email";
+import { renderEmail } from "@/lib/email-template";
 import { SITE_URL, ROLES } from "@/lib/cms/constants";
 import { AccountToken } from "@/lib/models";
 import { userCreateSchema, userUpdateSchema } from "@/lib/validation/taxonomy";
@@ -29,7 +30,17 @@ async function issueInvite(data: z.infer<typeof inviteSchema>, createdById: stri
     expiresAt: expiresInMinutes(INVITE_TOKEN_HOURS * 60),
   });
   const link = `${SITE_URL}/admin/accept-invite/${raw}`;
-  const delivery = await sendTransactionalEmail({ to: data.email, subject: "You’re invited to Evergreen CMS", text: `Accept your invitation within ${INVITE_TOKEN_HOURS} hours:\n\n${link}` });
+  const delivery = await sendTransactionalEmail({
+    to: data.email,
+    subject: "You’re invited to Evergreen CMS",
+    ...renderEmail({
+      preheader: `Accept your invitation within ${INVITE_TOKEN_HOURS} hours.`,
+      heading: "You’re invited to Evergreen CMS",
+      greeting: `Hello ${data.name},`,
+      paragraphs: [`You have been invited to join the Evergreen CMS. Accept the invitation within ${INVITE_TOKEN_HOURS} hours to set your password.`],
+      button: { label: "Accept invitation", url: link },
+    }),
+  });
   if (delivery === "unconfigured" && process.env.NODE_ENV !== "production") console.log(`[invite link] ${link}`);
 }
 

@@ -1,6 +1,6 @@
 /**
  * Typed access to the EPR data in src/data/epr/. Those files are generated from the official
- * PDFs by `pnpm epr:data` (scripts/build-epr-data.ts); do not edit them by hand.
+ * PDFs by `npm run epr:data` (scripts/build-epr-data.ts); do not edit them by hand.
  */
 import itemsJson from "@/data/epr/eee-items.json";
 import compositionJson from "@/data/epr/metal-composition.json";

@@ -12,7 +12,7 @@ next-env.d.ts
 .env
 .env*.local
 .env.local
-.env.example
+!.env.example
 # local data and uploads (pnpm db:dev, local storage driver)
 .mongo-data/
 storage/uploads/
@@ -39,3 +39,5 @@ Thumbs.db
 
 # Netlify local state and deploy artifacts
 .netlify/
+production-build/
+production-build.zip

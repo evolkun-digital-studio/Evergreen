@@ -10,6 +10,7 @@ import { runAction, UserFacingError } from "@/lib/actions";
 import { ROLES } from "@/lib/cms/constants";
 import { DOCUMENT_CATEGORIES } from "@/lib/documents/constants";
 import { privateStorageFor } from "@/lib/documents/storage";
+import { logServerError } from "@/lib/log";
 import { listDocumentAccess } from "@/lib/data/documents";
 
 const updateSchema = z.object({
@@ -53,7 +54,7 @@ export async function deleteDocumentAction(id: string) {
     const doc = await CompanyDocument.findByIdAndDelete(id).lean();
     if (!doc) return;
     await DocumentAccess.deleteMany({ documentId: doc._id });
-    await privateStorageFor(doc.storageDriver).delete(doc.fileKey).catch((e) => console.error("[documents] file not removed", e));
+    await privateStorageFor(doc.storageDriver).delete(doc.fileKey).catch((error) => logServerError("[documents] file not removed", error));
     revalidatePath("/documents");
   }, "Document deleted");
 }

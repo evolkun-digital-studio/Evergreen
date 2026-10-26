@@ -3,6 +3,7 @@ import mongoose from "mongoose";
 import { requireActionUser, PermissionError } from "@/lib/auth/session";
 import { newLetterheadSignatureKey, privateStorage } from "@/lib/letterhead/storage";
 import { LetterheadUploadError, readSignatureUpload } from "@/lib/letterhead/upload";
+import { logServerError } from "@/lib/log";
 
 function isSafeKey(key: string) {
   return key.startsWith("letterheads/signatures/") && !key.includes("..") && !key.includes("\\");
@@ -21,7 +22,7 @@ export async function POST(request: Request) {
   } catch (error) {
     if (error instanceof LetterheadUploadError) return NextResponse.json({ error: error.message }, { status: 400 });
     if (error instanceof PermissionError) return NextResponse.json({ error: error.message }, { status: 403 });
-    console.error("[letterhead signature upload]", error);
+    logServerError("[letterhead signature upload]", error);
     return NextResponse.json({ error: "Signature upload failed. Please try again." }, { status: 500 });
   }
 }

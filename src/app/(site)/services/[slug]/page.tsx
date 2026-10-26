@@ -84,9 +84,6 @@ export default async function ServicePage(
       <PageHeader title={s.title} lead={s.lead} crumbs={crumbs} photo={photo}>
         {cap && <CapacityNote material={cap.material} tonnes={cap.tonnes} />}
         <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-          <Link href="/contact" className="btn btn-primary">
-            Request a free pickup
-          </Link>
           <Link href="/epr-calculator" className="btn btn-secondary">
             Calculate your EPR target
           </Link>

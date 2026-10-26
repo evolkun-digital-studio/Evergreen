@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { finalizeRobots, sitemapUrl, validateRobots } from "@/lib/seo/robots";
+import { finalizeRobots, robotsForEnvironment, sitemapUrl, validateRobots } from "@/lib/seo/robots";
 import { DEFAULT_ROBOTS_TXT } from "@/lib/cms/defaults";
 
 describe("robots.txt", () => {
@@ -34,5 +34,18 @@ describe("robots.txt private documents", () => {
   it("does not duplicate rules that are already present", () => {
     const out = finalizeRobots(DEFAULT_ROBOTS_TXT);
     expect(out.match(/Disallow: \/documents$/gm)).toHaveLength(1);
+  });
+});
+
+describe("robots.txt deployment environment", () => {
+  it("blocks all crawling outside production", () => {
+    expect(robotsForEnvironment(DEFAULT_ROBOTS_TXT, "staging")).toBe("User-agent: *\nDisallow: /\n");
+  });
+
+  it("allows public pages and advertises the sitemap in production", () => {
+    const out = robotsForEnvironment(DEFAULT_ROBOTS_TXT, "production");
+    expect(out).toContain("Allow: /");
+    expect(out).toContain("Disallow: /admin");
+    expect(out).toContain(`Sitemap: ${sitemapUrl()}`);
   });
 });

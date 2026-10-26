@@ -1,7 +1,7 @@
 /**
  * Desktop (1440px) and mobile (390px) screenshots for phase reviews.
- * Usage: pnpm tsx scripts/screenshots.ts <baseUrl> <outDir> [path ...]
- * Example: pnpm tsx scripts/screenshots.ts http://localhost:3100 screenshots / /about
+ * Usage: npm exec tsx scripts/screenshots.ts <baseUrl> <outDir> [path ...]
+ * Example: npm exec tsx scripts/screenshots.ts http://localhost:3100 screenshots / /about
  */
 import { mkdir } from "node:fs/promises";
 import { existsSync } from "node:fs";

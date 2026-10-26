@@ -22,9 +22,9 @@ export type DocumentItem = {
 
 export type DocumentAccessItem = { id: string; email: string; action: "view" | "download"; at: string };
 
-type Lean = DocumentDoc & { createdAt: Date; updatedAt: Date };
+export type Lean = DocumentDoc & { createdAt: Date; updatedAt: Date };
 
-function toItem(doc: Lean, uploaders = new Map<string, string>()): DocumentItem {
+export function toItem(doc: Lean, uploaders = new Map<string, string>()): DocumentItem {
   return {
     id: doc._id.toString(),
     title: doc.title,

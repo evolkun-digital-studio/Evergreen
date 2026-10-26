@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Rss } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import type { PostCard as Card, PublicTerm } from "@/lib/data/blog";
 import { cn } from "@/lib/utils";
 import { Breadcrumbs, type Crumb } from "./Breadcrumbs";
@@ -12,7 +12,7 @@ import { FontSafe } from "@/components/FontSafe";
 function FeaturedPost({ post }: { post: Card }) {
   return (
     <article className="group relative grid overflow-hidden rounded-3xl border border-line bg-white md:grid-cols-[1.2fr_1fr]">
-      <div className="aspect-[1200/630] bg-paper-2 md:aspect-auto">
+      <div className="relative aspect-[1200/630] bg-paper-2 md:aspect-auto md:min-h-[22rem]">
         {post.image ? (
           <Picture
             media={post.image}
@@ -32,10 +32,13 @@ function FeaturedPost({ post }: { post: Card }) {
             <FontSafe>{post.title}</FontSafe>
           </Link>
         </h2>
-        {post.excerpt && <p className="mt-3 text-ink/85">{post.excerpt}</p>}
+        {post.excerpt && <p className="mt-3 line-clamp-4 text-ink/85">{post.excerpt}</p>}
         <p className="mt-5 text-sm text-ink/80">
           {post.authorName} · <time dateTime={post.publishedAt}>{formatDate(post.publishedAt)}</time>
           {post.readingTimeMinutes > 0 && ` · ${post.readingTimeMinutes} min read`}
+        </p>
+        <p className="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-evergreen-700">
+          Read article <ArrowRight className="size-4 transition-transform group-hover:translate-x-1" aria-hidden />
         </p>
       </div>
     </article>
@@ -99,38 +102,35 @@ export function ListingShell({
   jsonLd?: string;
 }) {
   return (
-    <div className="container pb-20 pt-8 lg:pt-12">
+    <div className="pb-20">
       {jsonLd && <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLd }} />}
-      <Breadcrumbs items={crumbs} />
-      <header className="mt-6 flex flex-wrap items-end justify-between gap-6">
-        <div className="max-w-3xl">
-          {eyebrow && <p className="meta text-moss-ink">{eyebrow}</p>}
-          <h1 className="mt-2 text-evergreen-700">
-            <FontSafe>{title}</FontSafe>
-          </h1>
-          {description && <p className="lead mt-4 text-ink/85">{description}</p>}
+      <section className="border-b border-line bg-white">
+        <div className="container pb-10 pt-8 lg:pb-14 lg:pt-12">
+          <Breadcrumbs items={crumbs} />
+          <header className="mt-6 max-w-3xl">
+            {eyebrow && <p className="meta text-moss-ink">{eyebrow}</p>}
+            <h1 className="mt-2 text-evergreen-700">
+              <FontSafe>{title}</FontSafe>
+            </h1>
+            {description && <p className="lead mt-4 text-ink/85">{description}</p>}
+          </header>
+          {aside && <div className="mt-8">{aside}</div>}
+          {chips && <div className="mt-8">{chips}</div>}
         </div>
-        <a href="/blog/feed.xml" className="inline-flex min-h-11 items-center gap-2 text-sm font-medium text-moss-ink hover:underline">
-          <Rss className="size-4" aria-hidden /> RSS feed
-        </a>
-      </header>
-      {aside && <div className="mt-8">{aside}</div>}
-      {chips && <div className="mt-8">{chips}</div>}
-      {featured && (
-        <div className="mt-10">
-          <FeaturedPost post={featured} />
-        </div>
-      )}
-      {posts.length ? (
-        <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {posts.map((p, i) => (
-            <PostCard key={p.id} post={p} priority={!featured && i === 0} />
-          ))}
-        </div>
-      ) : (
-        !featured && <p className="mt-12 rounded-2xl border border-line bg-white p-10 text-center text-ink/80">No articles have been published here yet.</p>
-      )}
-      <Pagination base={base} page={page} pages={pages} />
+      </section>
+      <div className="container pt-10 lg:pt-14">
+        {featured && <FeaturedPost post={featured} />}
+        {posts.length ? (
+          <div className={cn("grid gap-6 sm:grid-cols-2 lg:grid-cols-3", featured && "mt-10")}>
+            {posts.map((p, i) => (
+              <PostCard key={p.id} post={p} priority={!featured && i === 0} />
+            ))}
+          </div>
+        ) : (
+          !featured && <p className="rounded-2xl border border-line bg-white p-10 text-center text-ink/80">No articles have been published here yet.</p>
+        )}
+        <Pagination base={base} page={page} pages={pages} />
+      </div>
     </div>
   );
 }

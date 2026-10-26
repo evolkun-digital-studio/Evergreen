@@ -9,6 +9,7 @@ import { Letterhead } from "@/lib/models";
 import { privateStorage, privateStorageFor } from "@/lib/letterhead/storage";
 import { toLetterheadRecord } from "@/lib/data/letterheads";
 import { runAction, UserFacingError } from "@/lib/actions";
+import { logServerError } from "@/lib/log";
 
 const signatureKey = z
   .string()
@@ -52,7 +53,7 @@ function assertId(id: string | undefined) {
 async function removeSignatureIfUnused(key: string | null | undefined, storageDriver = "local") {
   if (!key) return;
   const stillUsed = await Letterhead.exists({ signatureKey: key });
-  if (!stillUsed) await privateStorageFor(storageDriver).delete(key).catch((error: unknown) => console.error("[letterhead] signature cleanup", error));
+  if (!stillUsed) await privateStorageFor(storageDriver).delete(key).catch((error: unknown) => logServerError("[letterhead] signature cleanup", error));
 }
 
 export async function saveLetterheadAction(input: unknown) {

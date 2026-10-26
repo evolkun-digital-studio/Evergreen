@@ -3,8 +3,8 @@
  * (anything outside A–Z a–z 0–9, space and ! , - . ?). Such characters would fall back to the
  * adjusted Arial mid-word — rephrase the text or wrap it in <FontSafe>.
  *
- * Usage: pnpm fonts:check [baseUrl] [path ...]
- * Example: pnpm fonts:check http://localhost:3100 / /blog
+ * Usage: npm run fonts:check -- [baseUrl] [path ...]
+ * Example: npm run fonts:check -- http://localhost:3100 / /blog
  * Exit code 1 when problems are found.
  */
 import { chromium } from "@playwright/test";

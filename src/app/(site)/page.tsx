@@ -179,7 +179,7 @@ export default function Home() {
 
       <SustainabilityBand />
 
-      <EntityBlock className="border-t-0" />
+      {/* <EntityBlock className="border-t-0" /> */}
     </>
   );
 }

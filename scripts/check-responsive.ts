@@ -6,7 +6,7 @@
  *   - header bar taller than one row (wrapping), phone visible below 1280 px
  *   - headings and paragraphs whose boxes overlap a sibling's
  *
- * Usage: pnpm responsive:check [baseUrl]  (default http://localhost:3100). Writes reports/responsive.json.
+ * Usage: npm run responsive:check -- [baseUrl]  (default http://localhost:3100). Writes reports/responsive.json.
  */
 import { mkdir, writeFile } from "node:fs/promises";
 import { chromium } from "@playwright/test";

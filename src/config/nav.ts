@@ -11,7 +11,7 @@ export const primaryNav: (NavLink & { children?: NavLink[] })[] = [
   { href: "/about", label: "About" },
   { href: "/services", label: "Services", children: serviceLinks },
   { href: "/process", label: "Our process" },
-  { href: "/documents", label: "Documents", locked: true },
+  { href: "/documents", label: "Documents" },
 ];
 
 /** Shown as the highlighted button on the right of the header (and in the mobile menu). */
@@ -32,6 +32,7 @@ export const footerNav = {
     { href: "/sustainability", label: "Sustainability" },
     { href: "/epr-calculator", label: "EPR calculator" },
     { href: "/documents", label: "Documents" },
+    { href: "/blog", label: "Blog" },
     { href: "/contact", label: "Contact" },
   ],
   legal: [{ href: "/privacy-policy", label: "Privacy policy" }],

@@ -25,7 +25,7 @@ import {
 } from "@/config/site";
 import { pageMetadata } from "@/lib/seo/pages";
 
-const title = "Request a free pickup";
+const title = "Contact Evergreen";
 const description =
   "Request a pickup of e-waste, batteries, plastic or industrial scrap from anywhere in India. Plant in Sitapur, UP. Call +91 94150 46061 or +91 81159 37040.";
 const crumbs = [{ name: "Contact", path: "/contact" }];

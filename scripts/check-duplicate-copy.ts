@@ -2,7 +2,7 @@
  * Flags any run of 6+ consecutive words that Evergreen's visible copy shares with the
  * IndiaWMS website. Two sites with copied text compete with each other in search.
  *
- * Usage:  pnpm copy:check [path-to-indiawms-src]
+ * Usage: npm run copy:check -- [path-to-indiawms-src]
  * Default IndiaWMS source: ../indiawms-premium/src (or INDIAWMS_SRC).
  * Exit code 1 when overlaps are found.
  */

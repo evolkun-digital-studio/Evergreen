@@ -98,7 +98,7 @@ function LeaderProfile({ leader: l }: { leader: Leader }) {
             ? "Leadership · Strategy · Operations"
             : "Operations · Compliance · Client Relations"}
         </p>
-        {(l.phone || l.linkedin) && (
+        {/* {(l.phone || l.linkedin) && (
           <div className="mt-5 flex flex-wrap items-center gap-x-5 gap-y-2 border-t border-line pt-4">
             {l.phone && (
               <a
@@ -121,7 +121,7 @@ function LeaderProfile({ leader: l }: { leader: Leader }) {
               </a>
             )}
           </div>
-        )}
+        )} */}
       </div>
     </li>
   );

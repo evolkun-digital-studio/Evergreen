@@ -4,6 +4,7 @@ import { Media } from "@/lib/models";
 import { PermissionError, requireActionUser } from "@/lib/auth/session";
 import { maxUploadBytes, processUpload, UploadError } from "@/lib/media/process";
 import { toMediaItem } from "@/lib/data/media";
+import { logServerError } from "@/lib/log";
 
 // Multipart upload endpoint for the Media Library. A route handler (not a Server Action) so
 // large files aren't constrained by the Server Action body limit. One file per request; the
@@ -31,7 +32,7 @@ export async function POST(request: Request) {
   } catch (error) {
     if (error instanceof PermissionError) return NextResponse.json({ error: error.message }, { status: 403 });
     if (error instanceof UploadError) return NextResponse.json({ error: error.message }, { status: 422 });
-    console.error("[media upload]", error);
+    logServerError("[media upload]", error);
     return NextResponse.json({ error: "Upload failed. Please try again." }, { status: 500 });
   }
 }

@@ -51,6 +51,7 @@ export const settingsSchema = z.object({
   indexNowEnabled: z.boolean(),
   googleIndexingEnabled: z.boolean(),
   blockPublishBelowScore: z.coerce.number().int().min(0).max(100),
+  notificationEmails: z.array(z.string().trim().toLowerCase().email("Each entry must be a valid email address")).max(10, "Use at most 10 addresses"),
 });
 
 export type SettingsInput = z.infer<typeof settingsSchema>;

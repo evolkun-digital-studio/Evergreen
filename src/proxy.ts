@@ -1,9 +1,5 @@
 import NextAuth from "next-auth";
-import {
-  NextResponse,
-  type NextFetchEvent,
-  type NextRequest,
-} from "next/server";
+import { NextResponse } from "next/server";
 import { authConfig } from "@/lib/auth/config";
 import { resolveManagedRedirect } from "@/lib/redirects/client";
 
@@ -13,52 +9,9 @@ const { auth } = NextAuth(authConfig);
 
 const NOINDEX = "noindex, nofollow";
 
-const adminGate = auth(request => {
-  const { pathname, search } = request.nextUrl;
-  const isAdmin = pathname === "/admin" || pathname.startsWith("/admin/");
-  const isPublicAuth =
-    pathname === "/admin/login" ||
-    pathname === "/admin/forgot-password" ||
-    pathname.startsWith("/admin/reset-password/") ||
-    pathname.startsWith("/admin/accept-invite/");
-
-  if (isAdmin && !isPublicAuth && !request.auth) {
-    const login = new URL("/admin/login", request.nextUrl);
-    login.searchParams.set("callbackUrl", pathname + search);
-    const res = NextResponse.redirect(login);
-    res.headers.set("X-Robots-Tag", NOINDEX);
-    return res;
-  }
-  if (isPublicAuth && request.auth)
-    return NextResponse.redirect(new URL("/admin", request.nextUrl));
-  // Viewers only have the Documents library.
-  if (isAdmin && !isPublicAuth && request.auth?.user?.role === "VIEWER")
-    return NextResponse.redirect(new URL("/documents", request.nextUrl));
-
-  const res = NextResponse.next();
-  res.headers.set("X-Robots-Tag", NOINDEX);
-  return res;
-});
-
-// Optimistic gate for the private Documents library; the page and the file route re-check the
-// user and role in the database.
-const documentsGate = auth(request => {
-  const { pathname, search } = request.nextUrl;
-  const isLogin = pathname === "/documents/login";
-  if (!isLogin && !request.auth) {
-    const login = new URL("/documents/login", request.nextUrl);
-    login.searchParams.set("next", pathname + search);
-    const res = NextResponse.redirect(login);
-    res.headers.set("X-Robots-Tag", NOINDEX);
-    return res;
-  }
-  const res = NextResponse.next();
-  res.headers.set("X-Robots-Tag", NOINDEX);
-  res.headers.set("Cache-Control", "private, no-store");
-  return res;
-});
-
-export async function proxy(request: NextRequest, event: NextFetchEvent) {
+// Auth.js wraps the exported proxy so its request.auth type and cookie handling stay aligned
+// with the installed v5 API. Page/data layers still perform authoritative database checks.
+export const proxy = auth(async (request) => {
   const { pathname, search } = request.nextUrl;
 
   // IndexNow key verification file: /<INDEXNOW_KEY>.txt
@@ -72,16 +25,44 @@ export async function proxy(request: NextRequest, event: NextFetchEvent) {
     });
   }
 
-  if (
-    pathname === "/admin" ||
-    pathname.startsWith("/admin/") ||
-    pathname.startsWith("/api/")
-  ) {
-    return adminGate(request, event as never);
+  const isAdmin = pathname === "/admin" || pathname.startsWith("/admin/");
+  const isPublicAuth =
+    pathname === "/admin/login" ||
+    pathname === "/admin/forgot-password" ||
+    pathname.startsWith("/admin/reset-password/") ||
+    pathname.startsWith("/admin/accept-invite/");
+  if (isAdmin) {
+    if (!isPublicAuth && !request.auth) {
+      const login = new URL("/admin/login", request.nextUrl);
+      login.searchParams.set("callbackUrl", pathname + search);
+      const response = NextResponse.redirect(login);
+      response.headers.set("X-Robots-Tag", NOINDEX);
+      return response;
+    }
+    if (isPublicAuth && request.auth) return NextResponse.redirect(new URL("/admin", request.nextUrl));
+    if (!isPublicAuth && request.auth?.user?.role === "VIEWER") {
+      return NextResponse.redirect(new URL("/documents/library", request.nextUrl));
+    }
+    const response = NextResponse.next();
+    response.headers.set("X-Robots-Tag", NOINDEX);
+    return response;
   }
 
   if (pathname === "/documents" || pathname.startsWith("/documents/")) {
-    return documentsGate(request, event as never);
+    // Only the staff library needs a session. The request form, the emailed-link route and the
+    // shared list are public; the grant itself is verified against the database on each request.
+    const isStaffLibrary = pathname === "/documents/library" || pathname.startsWith("/documents/library/");
+    if (isStaffLibrary && !request.auth) {
+      const login = new URL("/documents/login", request.nextUrl);
+      login.searchParams.set("next", pathname + search);
+      const response = NextResponse.redirect(login);
+      response.headers.set("X-Robots-Tag", NOINDEX);
+      return response;
+    }
+    const response = NextResponse.next();
+    response.headers.set("X-Robots-Tag", NOINDEX);
+    response.headers.set("Cache-Control", "private, no-store");
+    return response;
   }
 
   // Redirects managed in the CMS (SEO Tools → Redirects), including automatic slug-change 301s.
@@ -99,7 +80,7 @@ export async function proxy(request: NextRequest, event: NextFetchEvent) {
     return res;
   }
   return NextResponse.next();
-}
+});
 
 export const config = {
   // Page paths only: redirect lookups do not belong on API or asset requests.

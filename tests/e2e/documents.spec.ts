@@ -17,17 +17,41 @@ async function signIn(page: Page, who: { email?: string; password?: string }) {
   await page.getByLabel("Email").fill(who.email!);
   await page.getByLabel("Password").fill(who.password!);
   await page.getByRole("button", { name: "Sign in" }).click();
-  await page.waitForURL(/\/documents$/);
+  await page.waitForURL(/\/documents\/library$/);
 }
 
 test.describe("logged out", () => {
-  test("/documents shows the login page and leaks nothing", async ({ page }) => {
+  test("/documents is the public request form and leaks nothing", async ({ page }) => {
     const res = await page.goto("/documents");
-    await expect(page).toHaveURL(/\/documents\/login\?next=%2Fdocuments/);
-    await expect(page.getByRole("heading", { name: "Document access" })).toBeVisible();
-    await expect(page.getByText("Access is limited to Evergreen staff and authorised partners.")).toBeVisible();
+    await expect(page).toHaveURL(/\/documents$/);
+    await expect(page.getByRole("heading", { name: "Request document access" })).toBeVisible();
     expect(res?.headers()["x-robots-tag"]).toContain("noindex");
     await expect(page.locator('meta[name="robots"]')).toHaveAttribute("content", /noindex/);
+    await expect(page.getByRole("link", { name: "Download" })).toHaveCount(0);
+  });
+
+  test("the staff library still needs a sign-in", async ({ page }) => {
+    await page.goto("/documents/library");
+    await expect(page).toHaveURL(/\/documents\/login\?next=%2Fdocuments%2Flibrary/);
+    await expect(page.getByRole("heading", { name: "Document access" })).toBeVisible();
+  });
+
+  test("submitting the form shows the confirmation message", async ({ page }) => {
+    await page.goto("/documents");
+    await page.waitForLoadState("networkidle"); // the submit handler exists only after hydration
+    await page.getByLabel("Your name").fill("E2E Requester");
+    await page.getByLabel("Email", { exact: true }).fill(`e2e-${Date.now()}@example.com`);
+    await page.getByLabel("Reason").fill("Automated end-to-end check of the request form.");
+    await page.getByRole("button", { name: "Send request" }).click();
+    await expect(page.getByText("Thanks. Admin will respond to you very soon by email.")).toBeVisible({ timeout: 20_000 });
+  });
+
+  test("an unknown or malformed emailed link goes back to the request page", async ({ page }) => {
+    for (const token of ["65f000000000000000000000.nope", "garbage"]) {
+      await page.goto(`/documents/access/${token}`);
+      await expect(page).toHaveURL(/\/documents\?link=invalid$/);
+      await expect(page.getByText("This link is no longer valid. You can request access again.")).toBeVisible();
+    }
   });
 
   test("file route returns 401", async ({ request }) => {
@@ -54,7 +78,7 @@ test.describe("logged out", () => {
 });
 
 test.describe("signed in", () => {
-  test("admin uploads a PDF; it appears on /documents; view and download work; sign out locks it again", async ({ page }) => {
+  test("admin uploads a PDF; it appears on /documents/library; view and download work; sign out locks it again", async ({ page }) => {
     test.skip(!admin.email || !admin.password, "E2E_ADMIN_EMAIL / E2E_ADMIN_PASSWORD not set");
     await signIn(page, admin);
 
@@ -63,7 +87,7 @@ test.describe("signed in", () => {
     await page.getByTestId("document-upload").setInputFiles(FIXTURE);
     await expect(testRows(page).first()).toBeVisible({ timeout: 20_000 });
 
-    await page.goto("/documents");
+    await page.goto("/documents/library");
     const item = page.getByRole("listitem").filter({ hasText: /e2e certificate/i }).first();
     await expect(item).toBeVisible();
     const fileHref = await item.getByRole("link", { name: "View" }).getAttribute("href");
@@ -101,8 +125,8 @@ test.describe("signed in", () => {
     await signIn(page, viewer);
     await expect(page.getByRole("heading", { name: "Documents", level: 1 })).toBeVisible();
     await page.goto("/admin");
-    await expect(page).toHaveURL(/\/documents$/);
+    await expect(page).toHaveURL(/\/documents\/library$/);
     await page.goto("/admin/documents");
-    await expect(page).toHaveURL(/\/documents$/);
+    await expect(page).toHaveURL(/\/documents\/library$/);
   });
 });

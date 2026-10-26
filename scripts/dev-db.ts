@@ -1,6 +1,6 @@
 // Local development database: a single-node MongoDB replica set (transactions work) with data
 // persisted in ./.mongo-data. Use it when you don't have Atlas or Docker handy:
-//   pnpm db:dev      then set MONGODB_URI=mongodb://127.0.0.1:27017/?replicaSet=rs0
+//   npm run db:dev   then set MONGODB_URI=mongodb://127.0.0.1:27017/?replicaSet=rs0
 import { mkdirSync } from "node:fs";
 import { MongoMemoryReplSet } from "mongodb-memory-server";
 
