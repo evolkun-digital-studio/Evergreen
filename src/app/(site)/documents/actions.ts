@@ -4,6 +4,8 @@ import mongoose from "mongoose";
 import { headers } from "next/headers";
 import { connectDB, isDbConfigured } from "@/lib/db";
 import { CompanyDocument, DocumentAccessRequest } from "@/lib/models";
+import { hitRateLimit } from "@/lib/rate-limit";
+import { REQUEST_LIMITS } from "@/lib/documents/request-limits";
 import { documentRequestSchema, type DocumentRequestInput } from "@/lib/validation/document-request";
 import { adminAlertEmail, notifyAdmins, receiptEmail, sendToRequester } from "@/lib/documents/request-emails";
 import { site } from "@/config/site";
@@ -30,6 +32,14 @@ export async function submitDocumentRequest(input: DocumentRequestInput): Promis
     const h = await headers();
     const ip = h.get("x-forwarded-for")?.split(",")[0]?.trim() || h.get("x-real-ip") || "unknown";
     await connectDB();
+    const [byIp, byEmail] = await Promise.all([
+      hitRateLimit(`docreq:ip:${ip}`, REQUEST_LIMITS.perIp.max, REQUEST_LIMITS.perIp.windowSeconds),
+      hitRateLimit(`docreq:email:${data.email}`, REQUEST_LIMITS.perEmail.max, REQUEST_LIMITS.perEmail.windowSeconds),
+    ]);
+    if (!byIp.ok || !byEmail.ok) {
+      return { ok: false, error: `You have sent several requests recently. Please try again in a while, or call us on ${site.phone}.` };
+    }
+
     // Keep only documents that exist and are active. Ticking none means the admin decides what to share,
     // guided by the types and the note the visitor gave (or the whole library if they gave neither).
     const wanted = [...new Set(data.documentIds.filter((id) => mongoose.isValidObjectId(id)))];

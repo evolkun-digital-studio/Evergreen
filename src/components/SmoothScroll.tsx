@@ -28,8 +28,6 @@ function SmoothScrollEffects() {
   const pathname = usePathname();
 
   useEffect(() => {
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-
     const lenis = new Lenis({
       duration: 1.2,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
@@ -43,6 +41,9 @@ function SmoothScrollEffects() {
       autoToggle: true,
       allowNestedScroll: true,
       stopInertiaOnNavigate: true,
+      // Lenis observes this media query live and switches programmatic
+      // scrolling to immediate movement when reduced motion is requested.
+      respectReducedMotion: true,
     });
 
     window.__lenis = lenis;

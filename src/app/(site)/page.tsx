@@ -2,7 +2,8 @@ import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { Hero } from "@/components/home/Hero";
 import { SustainabilityBand } from "@/components/home/SustainabilityBand";
-import { ServiceList } from "@/components/sections/ServiceList";
+import { PickupSteps } from "@/components/sections/PickupSteps";
+import { RecycleShowcase } from "@/components/sections/RecycleShowcase";
 import { StatsRow } from "@/components/sections/StatsRow";
 import { Registrations } from "@/components/sections/Registrations";
 import { Industries } from "@/components/sections/Industries";
@@ -11,7 +12,6 @@ import {
   EntityBlock,
   MaterialsStrip,
   SectionHead,
-  Workflow,
 } from "@/components/sections/Blocks";
 import { PageJsonLd } from "@/components/PageJsonLd";
 import { Photo } from "@/components/Photo";
@@ -87,19 +87,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section
-        aria-labelledby="services-heading"
-        className="section bg-paper-2"
-      >
-        <div className="container">
-          <SectionHead
-            id="services-heading"
-            title="What we recycle"
-            link={{ href: "/services", label: "All services" }}
-          />
-          <ServiceList />
-        </div>
-      </section>
+      <RecycleShowcase headingId="services-heading" />
 
       <section aria-labelledby="materials-heading" className="section">
         <div className="container">
@@ -131,7 +119,7 @@ export default function Home() {
             lead="Six documented stages from inspection to a recycling or destruction certificate."
             link={{ href: "/process", label: "Our recycling process" }}
           />
-          <Workflow
+          <PickupSteps
             steps={steps.map((s, i) => ({
               title: s.title,
               photo: stepPhotos[i],

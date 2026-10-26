@@ -101,6 +101,8 @@
 }
 html {
   scroll-behavior: smooth;
+  /* Keep hash-link targets visible below the sticky site header. */
+  scroll-padding-top: var(--header-h);
   /* Never fake italic or bold: only real Franie/Manrope faces render. */
   font-synthesis: none;
 }
