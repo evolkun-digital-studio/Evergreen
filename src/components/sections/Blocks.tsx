@@ -3,8 +3,9 @@ import { ArrowRight, ArrowUpRight } from "lucide-react";
 import { ConfirmBadge } from "@/components/Confirm";
 import { FontSafe } from "@/components/FontSafe";
 import { Photo } from "@/components/Photo";
+import { MaterialsCarousel } from "@/components/sections/MaterialsCarousel";
 import type { Photo as PhotoData } from "@/content/images";
-import { library, materialPhotos } from "@/content/images";
+import { library } from "@/content/images";
 import { CAPACITY_LABEL, capacity, formatTonnes } from "@/content/stats";
 import type { Faq, Source, WorkflowStep } from "@/content/services";
 import { entity } from "@/content/entity";
@@ -149,21 +150,9 @@ export function CapacityNote({ material, tonnes }: { material: string; tonnes: n
   );
 }
 
-/** Home "Materials we recover": four 1:1 tiles, 2×2 on mobile. */
+/** Home "Materials we recover" carousel. */
 export function MaterialsStrip() {
-  return (
-    <ul className="grid grid-cols-2 gap-x-4 gap-y-8 lg:grid-cols-4 lg:gap-x-6">
-      {materialPhotos.map(m => (
-        <li key={m.label}>
-          <Link href={m.href} className="group block">
-            <Photo photo={m.photo} ratio="1/1" sizes="(min-width: 1280px) 280px, (min-width: 1024px) 22vw, 45vw" />
-            <h3 className="mt-4 text-[1.125rem] group-hover:text-evergreen-700">{m.label}</h3>
-            <p className="meta mt-1 font-normal text-ink-muted">{m.caption}</p>
-          </Link>
-        </li>
-      ))}
-    </ul>
-  );
+  return <MaterialsCarousel />;
 }
 
 /**

@@ -89,7 +89,10 @@ export default function Home() {
 
       <RecycleShowcase headingId="services-heading" />
 
-      <section aria-labelledby="materials-heading" className="section">
+      <section
+        aria-labelledby="materials-heading"
+        className="section overflow-hidden bg-paper-2"
+      >
         <div className="container">
           <SectionHead
             id="materials-heading"
