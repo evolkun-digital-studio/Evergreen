@@ -55,7 +55,7 @@ const linkClass = (active: boolean, light: boolean) =>
 const eprButtonClass = (light: boolean, active: boolean) =>
   cn(
     "inline-flex h-9 items-center justify-center gap-1.5 whitespace-nowrap rounded-[8px] px-3.5 text-center font-display text-[12px] transition-colors",
-    light ? "bg-moss text-white hover:bg-moss-soft" : "bg-evergreen-700 text-white hover:bg-evergreen-800",
+    light ? "bg-moss text-white hover:bg-moss" : "bg-evergreen-900 text-white hover:bg-evergreen-900",
     active && (light ? "ring-2 ring-moss ring-offset-2 ring-offset-evergreen-950" : "ring-2 ring-evergreen-700 ring-offset-2 ring-offset-white"),
   );
 
