@@ -29,15 +29,18 @@ export type CalcInput = {
   filingYear: string;
   eeeId: string;
   salesStartYear: string;
-  /** Kilograms as typed, up to 4 decimals. */
-  quantityKg: string;
+  /**
+   * Sales history: kilograms as typed (up to 4 decimals), keyed by financial year. Only the
+   * reference year's entry is used, so a figure entered for one year never stands in for another.
+   */
+  sales: Record<string, string>;
+  /**
+   * Importers of used EEE: kilograms reaching end of life, keyed by filing year. Kept apart from
+   * `sales` so a new-EEE sales figure is never read as a used-EEE quantity, or the other way round.
+   */
+  usedEee?: Record<string, string>;
   /** Defaults to "producer". */
   producerType?: ProducerType;
-  /**
-   * The financial year `quantityKg` was entered for. When it no longer matches the year the
-   * calculation needs, the quantity is ignored rather than carried over to another year.
-   */
-  quantityYear?: string;
 };
 
 export type FieldErrors = Partial<Record<keyof CalcInput, string>>;
@@ -124,7 +127,13 @@ export type Target = { kind: "target" } & Plan & {
   notes: string[];
 };
 
-export type CalcResult = { kind: "invalid"; errors: FieldErrors } | { kind: "not-applicable"; item: EeeItem; reason: string } | Target;
+/**
+ * Everything is valid but the quantity the calculation needs has not been entered yet. This is a
+ * neutral state, not an error, and the empty field is not read as 0.
+ */
+export type Incomplete = { kind: "incomplete" } & Plan & { field: "sales" | "usedEee" };
+
+export type CalcResult = { kind: "invalid"; errors: FieldErrors } | { kind: "not-applicable"; item: EeeItem; reason: string } | Incomplete | Target;
 
 export function scheduleIIIPercent(data: Pick<EprData, "targets">, filing: number): number {
   const row = data.targets.scheduleIII.find(r => {
@@ -211,24 +220,24 @@ export function calculate(input: CalcInput, data: EprData): CalcResult {
   if (p.kind !== "plan") return p;
   const pl: Plan = p;
 
+  // Only a regulatory zero (no sales in the reference year) is automatic. An empty field is
+  // "not entered yet", never 0.
   let quantityKg = Dec.ZERO;
   if (pl.salesInReferenceYear) {
+    const field = pl.schedule === "used-import" ? "usedEee" : "sales";
+    const typed = (field === "usedEee" ? input.usedEee?.[pl.referenceYear] : input.sales[pl.referenceYear]) ?? "";
+    if (typed.trim() === "") return { ...p, kind: "incomplete", field };
     const errors: FieldErrors = {};
-    if (input.quantityYear && input.quantityYear !== pl.referenceYear) {
-      errors.quantityKg = `Enter the quantity for ${pl.referenceYear}.`;
-    } else {
-      collect(errors, "quantityKg", quantityField, input.quantityKg);
-    }
-    if (errors.quantityKg) return { kind: "invalid", errors };
-    const q = input.quantityKg.trim();
-    quantityKg = Dec.parse(q.startsWith(".") ? `0${q}` : q.replace(/\.$/, ""));
+    collect(errors, field, quantityField, typed);
+    if (errors[field]) return { kind: "invalid", errors };
+    quantityKg = parseQuantity(typed);
   }
 
   const targetKg = quantityKg.mul(Dec.int(pl.targetPercent).percent());
   const filing = parseFy(pl.filingYear)!;
   const notes: string[] = [];
   if (!pl.salesInReferenceYear) {
-    notes.push(`No sales recorded for ${pl.referenceYear}: sales started in ${input.salesStartYear}, after the reference sales year, so the reference quantity and the recycling target are 0 kg.`);
+    notes.push(`${noSalesMessage(pl.referenceYear, input.salesStartYear)} The reference quantity and the recycling target are 0 kg.`);
   }
   if (pl.schedule === "used-import") {
     notes.push("Importers of used EEE carry a 100% EPR obligation for the imported material after end of life, if it is not re-exported (Schedule III note 2). Enter the quantity reaching end of life in the filing year; CPCB fixes that timing on the EPR portal.");
@@ -250,15 +259,67 @@ export function calculate(input: CalcInput, data: EprData): CalcResult {
   return { ...p, kind: "target", quantityKg, targetKg, metals, notes };
 }
 
-/** The quantity the user should enter next, or why none is needed. Drives the quantity field. */
-export function quantityFieldFor(p: PlanResult): { year: string; label: string; disabled: boolean } | null {
-  if (p.kind !== "plan") return null;
-  if (p.schedule === "used-import") return { year: p.referenceYear, label: `Used EEE imported and reaching end of life in ${p.referenceYear} (kg)`, disabled: false };
-  const label = p.schedule === "III" ? `EEE placed on the market in ${p.referenceYear} (kg)` : `Sales in ${p.referenceYear} (kg)`;
-  return { year: p.referenceYear, label, disabled: !p.salesInReferenceYear };
+/** Parses a quantity that has passed `quantityField` validation (".5" and "5." are allowed). */
+export function parseQuantity(typed: string): Dec {
+  const q = typed.trim();
+  return Dec.parse(q.startsWith(".") ? `0${q}` : q.replace(/\.$/, ""));
 }
 
-export const scheduleName = (s: Schedule) => (s === "used-import" ? "Used EEE imports" : `Schedule ${s}`);
+export const noSalesMessage = (year: string, start: string) => `No sales in ${year} because operations started in ${start}.`;
+
+/** One row of the sales history form. */
+export type SalesRow = {
+  year: string;
+  label: string;
+  /** The Schedule III or IV reference year this filing's target is based on (badged in the form). */
+  reference: boolean;
+  /** False for years before sales began: nothing can be entered, and the row explains why. */
+  applicable: boolean;
+};
+
+/**
+ * The sales history rows to show: the reference year, plus any other year that already holds a
+ * figure (kept, but not used for this filing). Newest first.
+ */
+export function salesRows(p: PlanResult, input: Pick<CalcInput, "sales" | "salesStartYear">): SalesRow[] {
+  if (p.kind !== "plan") return [];
+  // Used-EEE imports: a single quantity for the filing year, not a sales history.
+  if (p.schedule === "used-import") {
+    return [{ year: p.referenceYear, label: `Used EEE reaching end of life in FY ${p.referenceYear} (kg)`, reference: false, applicable: true }];
+  }
+  const start = parseFy(input.salesStartYear);
+  const years = new Set([p.referenceYear, ...Object.keys(input.sales).filter(y => parseFy(y) !== null && input.sales[y] !== "")]);
+  return [...years]
+    .sort((a, b) => parseFy(b)! - parseFy(a)!)
+    .map(year => {
+      const reference = year === p.referenceYear;
+      const label = reference && p.schedule === "III" ? `EEE placed on the market in ${year} (kg)` : `Sales in ${year} (kg)`;
+      const applicable = start === null || parseFy(year)! >= start;
+      return { year, label, reference, applicable };
+    });
+}
+
+export const scheduleName = (s: Schedule) => (s === "used-import" ? "Schedule III note (2): used EEE imports" : `Schedule ${s}`);
+
+/** What `referenceYear` means for the schedule: a sales year, or the year used EEE is assessed at end of life. */
+export const yearLabel = (s: Schedule) => (s === "used-import" ? "End-of-life assessment year" : "Reference sales year");
+
+/** The provision of the E-Waste (Management) Rules, 2022 (G.S.R. 801(E)) that sets this target. */
+export function legalProvision(s: Schedule): string {
+  const rules = "E-Waste (Management) Rules, 2022 (G.S.R. 801(E)), rule 13 read with";
+  if (s === "used-import") return `${rules} Schedule III, note (2): importers of used EEE have a 100% EPR obligation for the imported material after end of life, if not re-exported`;
+  if (s === "III") return `${rules} Schedule III: a percentage of the quantity of an EEE placed in the market in year Y − X, where X is the average life of that product`;
+  return `${rules} Schedule IV, for producers whose years of sales operations are less than the average life of the product (note (1) moves them to Schedule III once the two are equal)`;
+}
+
+/** The formula behind the recycling target, in words. */
+export function targetFormula(r: Pick<Plan, "schedule" | "referenceYear" | "targetPercent">): string {
+  if (r.schedule === "used-import") return `Recycling target = used EEE reaching end of life in FY ${r.referenceYear} and not re-exported × 100%`;
+  if (r.schedule === "III") return `Recycling target = EEE placed on the market in ${r.referenceYear} (Y − X) × ${r.targetPercent}%`;
+  return `Recycling target = sales in ${r.referenceYear} × ${r.targetPercent}%`;
+}
+
+export const METAL_FORMULA = "Key metal (kg) = recycling target × Annexure I composition % × phase-in % (phase-in applies to gold only; CPCB framework of 21 September 2023, paragraphs 6 and 8)";
 
 /**
  * The calculation as numbered steps. Every figure comes from `r`, so these always match the result
@@ -268,7 +329,8 @@ export function explain(r: Target, input: Pick<CalcInput, "salesStartYear">, fmt
   const steps: string[] = [];
   if (r.schedule === "used-import") {
     steps.push(`Importer of used EEE: Schedule III note (2) sets a 100% obligation for imported material after end of life, if not re-exported.`);
-    steps.push(`Quantity reaching end of life in ${r.referenceYear}: ${fmt(r.quantityKg)} kg.`);
+    steps.push(`End-of-life assessment year = the filing year, ${r.referenceYear}.`);
+    steps.push(`Used EEE reaching end of life in FY ${r.referenceYear} and not re-exported: ${fmt(r.quantityKg)} kg.`);
   } else {
     steps.push(`Years of sales operations: ${input.salesStartYear} to ${r.filingYear}, counted inclusively = ${r.yearsOfSalesOperations}.`);
     steps.push(
@@ -279,7 +341,7 @@ export function explain(r: Target, input: Pick<CalcInput, "salesStartYear">, fmt
     steps.push(
       r.salesInReferenceYear
         ? `Quantity in ${r.referenceYear}: ${fmt(r.quantityKg)} kg.`
-        : `Sales started in ${input.salesStartYear}, after ${r.referenceYear}. No sales recorded for that financial year, so the quantity is 0 kg.`,
+        : `${noSalesMessage(r.referenceYear, input.salesStartYear)} The quantity is 0 kg.`,
     );
   }
   steps.push(`Recycling target = ${fmt(r.quantityKg)} kg × ${r.targetPercent}% = ${fmt(r.targetKg)} kg.`);

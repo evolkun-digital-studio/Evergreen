@@ -45,8 +45,23 @@ function drawPhoneIcon(doc: jsPDF, cx: number, cy: number) {
   doc.circle(cx, cy + 3.1, 0.55, "F");
 }
 
+/**
+ * jsPDF's built-in Helvetica only encodes WinAnsi: "−" (U+2212) and "≥" garble the whole line. "×"
+ * and "–" are in WinAnsi and stay.
+ */
+const pdfSafe = (t: string) => t.replace(/−/g, "-").replace(/≥/g, ">=").replace(/≤/g, "<=");
+
 export async function downloadPdf(input: CalcInput, r: Target, url: string) {
-  const s = buildSummary(input, r);
+  const raw = buildSummary(input, r);
+  const pair = ([k, v]: [string, string]): [string, string] => [pdfSafe(k), pdfSafe(v)];
+  const s = {
+    ...raw,
+    inputs: raw.inputs.map(pair),
+    results: raw.results.map(pair),
+    basis: raw.basis.map(pair),
+    steps: raw.steps.map(pdfSafe),
+    notes: raw.notes.map(pdfSafe),
+  };
   const logo = await loadBrandLogo();
   const doc = new jsPDF({ unit: "pt", format: "a4" });
   const W = doc.internal.pageSize.getWidth();
@@ -104,18 +119,25 @@ export async function downloadPdf(input: CalcInput, r: Target, url: string) {
     doc.line(M, y, W - M, y);
     y += 16;
   };
+  const VALUE_X = 250;
   const rows = (pairs: [string, string][]) => {
     doc.setFontSize(10.5);
     for (const [k, v] of pairs) {
+      // Both columns wrap; the taller one sets the row height, checked before drawing so a label
+      // never lands on a different page from its value.
+      doc.setFont("helvetica", "normal");
+      const keyLines = doc.splitTextToSize(k, VALUE_X - M - 14) as string[];
+      doc.setFont("helvetica", "bold");
+      const valueLines = doc.splitTextToSize(v, W - M - VALUE_X) as string[];
+      const height = 15 * Math.max(keyLines.length, valueLines.length);
+      room(height);
       doc.setTextColor(...MUTED);
       doc.setFont("helvetica", "normal");
-      doc.text(k, M, y);
+      doc.text(keyLines, M, y);
       doc.setTextColor(...INK);
       doc.setFont("helvetica", "bold");
-      const lines = doc.splitTextToSize(v, W - M - 250) as string[];
-      room(15 * lines.length);
-      doc.text(lines, 250, y);
-      y += 15 * lines.length + 3;
+      doc.text(valueLines, VALUE_X, y);
+      y += height + 3;
     }
     y += 10;
   };
@@ -124,6 +146,8 @@ export async function downloadPdf(input: CalcInput, r: Target, url: string) {
   rows(s.inputs);
   section("Results");
   rows(s.results);
+  section("Legal basis and formula");
+  rows(s.basis);
 
   section("How this was calculated");
   doc.setFontSize(10);
@@ -197,5 +221,5 @@ export async function downloadPdf(input: CalcInput, r: Target, url: string) {
   doc.setTextColor(...EVERGREEN_700);
   doc.textWithLink("Open this calculation online", M, y, { url });
 
-  doc.save(`epr-estimate-${r.item.code}-${input.filingYear}.pdf`);
+  doc.save(`epr-estimate-${r.item.id}-${r.filingYear}.pdf`);
 }

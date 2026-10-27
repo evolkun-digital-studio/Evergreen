@@ -8,11 +8,17 @@ import {
   FIRST_FILING_YEAR,
   FIRST_SALES_YEAR,
   LAST_FILING_YEAR,
+  METAL_FORMULA,
   calculate,
   explain,
+  legalProvision,
+  noSalesMessage,
   plan,
-  quantityFieldFor,
+  quantityField,
+  salesRows,
   scheduleName,
+  targetFormula,
+  yearLabel,
   type CalcInput,
   type CalcResult,
   type ProducerType,
@@ -28,7 +34,7 @@ import { EprLeadForm } from "./EprLeadForm";
 
 /** Everything except the quantity, which is stored per financial year (see `quantities`). */
 type Fields = Pick<CalcInput, "filingYear" | "eeeId" | "salesStartYear"> & { producerType: ProducerType };
-type FieldKey = keyof Fields | "quantityKg";
+type FieldKey = keyof Fields | "sales" | "usedEee";
 
 const EMPTY: Fields = { filingYear: "", eeeId: "", salesStartYear: "", producerType: "producer" };
 const PARAMS: Record<keyof Fields, string> = { filingYear: "fy", eeeId: "eee", salesStartYear: "start", producerType: "type" };
@@ -70,8 +76,10 @@ export function EprCalculator() {
   const uid = useId();
   const ids = { fy: `${uid}-fy`, type: `${uid}-type`, eee: `${uid}-eee`, start: `${uid}-start`, kg: `${uid}-kg` };
   const [fields, setFields] = useState<Fields>(EMPTY);
-  /** Quantities keyed by the financial year they were entered for, so a figure never moves to another year. */
-  const [quantities, setQuantities] = useState<Record<string, string>>({});
+  /** Sales history keyed by financial year, so a figure never moves to another year. */
+  const [sales, setSales] = useState<Record<string, string>>({});
+  /** Used-EEE quantities keyed by filing year; kept apart from new-EEE sales. */
+  const [usedEee, setUsedEee] = useState<Record<string, string>>({});
   const [touched, setTouched] = useState<Partial<Record<FieldKey, boolean>>>({});
   const [status, setStatus] = useState("");
   /** Set once the URL has been read into state; the URL is not written before then, or it would wipe a shared link. */
@@ -88,22 +96,35 @@ export function EprCalculator() {
       salesStartYear: get(PARAMS.salesStartYear),
       producerType: get(PARAMS.producerType) === "used" ? "used-importer" : "producer",
     };
-    // Older links carry no quantity year: attach the quantity to the year these inputs need.
-    const kg = get("kg");
-    const year = get("ky") || quantityFieldFor(plan({ ...restored, quantityKg: "" }, eprData))?.year;
+    // "sales=2024-25:1000,2023-24:50". Older links carry a single "kg" (and maybe "ky", its year):
+    // attach it to the reference year these inputs need.
+    const byYear = (param: string) => {
+      const out: Record<string, string> = {};
+      for (const pair of (q.get(param) ?? "").split(",").slice(0, 40)) {
+        const [year, kg] = pair.split(":");
+        if (year && kg && parseFy(year) !== null) out[year] = kg.slice(0, 40);
+      }
+      return out;
+    };
+    const history = byYear("sales");
+    const legacyYear = get("ky") || (get("kg") ? salesRows(plan({ ...restored, sales: {} }, eprData), { sales: {}, salesStartYear: restored.salesStartYear })[0]?.year : undefined);
+    if (get("kg") && legacyYear) history[legacyYear] ??= get("kg");
     // One-off sync from the URL after hydration (reading it during render would break the static HTML).
     // eslint-disable-next-line react-hooks/set-state-in-effect
     setFields(restored);
-    if (kg && year) setQuantities({ [year]: kg });
-    if (q.size) setTouched({ filingYear: true, eeeId: true, salesStartYear: true, producerType: true, quantityKg: true });
+    setSales(history);
+    setUsedEee(byYear("used"));
+    if (q.size) setTouched({ filingYear: true, eeeId: true, salesStartYear: true, producerType: true });
     setRestored(true);
   }, []);
 
-  const planned = useMemo(() => plan({ ...fields, quantityKg: "" }, eprData), [fields]);
-  const qField = quantityFieldFor(planned);
-  const quantityKg = qField && !qField.disabled ? (quantities[qField.year] ?? "") : "";
-  const input: CalcInput = { ...fields, quantityKg, quantityYear: qField?.year };
-  const result = useMemo(() => calculate({ ...fields, quantityKg, quantityYear: qField?.year }, eprData), [fields, quantityKg, qField?.year]);
+  const input: CalcInput = useMemo(() => ({ ...fields, sales, usedEee }), [fields, sales, usedEee]);
+  const planned = useMemo(() => plan(input, eprData), [input]);
+  const rows = salesRows(planned, input);
+  const result = useMemo(() => calculate(input, eprData), [input]);
+  const isUsed = fields.producerType === "used-importer";
+  /** The quantity map the visible rows read and write. */
+  const values = isUsed ? usedEee : sales;
 
   // Keep the URL in step with the inputs so it can be shared or bookmarked.
   useEffect(() => {
@@ -113,28 +134,38 @@ export function EprCalculator() {
     if (fields.producerType === "used-importer") q.set(PARAMS.producerType, "used");
     if (fields.eeeId) q.set(PARAMS.eeeId, fields.eeeId);
     if (fields.salesStartYear && fields.producerType === "producer") q.set(PARAMS.salesStartYear, fields.salesStartYear);
-    if (quantityKg && qField) {
-      q.set("kg", quantityKg);
-      q.set("ky", qField.year);
+    for (const [param, map] of [["sales", sales], ["used", usedEee]] as const) {
+      const entries = Object.entries(map).filter(([, kg]) => kg !== "");
+      if (entries.length) q.set(param, entries.map(([year, kg]) => `${year}:${kg}`).join(","));
     }
     const url = `${window.location.pathname}${q.size ? `?${q}` : ""}`;
     window.history.replaceState(window.history.state, "", url);
-  }, [restored, fields, quantityKg, qField]);
+  }, [restored, fields, sales, usedEee]);
 
   const errors = result.kind === "invalid" ? result.errors : {};
   const shown = (k: FieldKey) => {
-    const filled = k === "quantityKg" ? quantityKg !== "" : fields[k] !== "";
-    return (touched[k] || filled) && errors[k] ? errors[k] : undefined;
+    // Quantities only ever carry an error once something has been typed (see rowError).
+    if (k === "sales" || k === "usedEee") return errors[k];
+    return (touched[k] || fields[k] !== "") && errors[k] ? errors[k] : undefined;
   };
   const salesYears = useMemo(() => fyRange(FIRST_SALES_YEAR, parseFy(fields.filingYear) ?? LAST_FILING_YEAR), [fields.filingYear]);
   const set = (k: keyof Fields) => (v: string) => {
     setFields(prev => ({ ...prev, [k]: v }));
     setStatus("");
   };
-  const setQuantity = (v: string) => {
-    if (!qField) return;
-    setQuantities(prev => ({ ...prev, [qField.year]: v }));
+  const setValue = (year: string) => (v: string) => {
+    (isUsed ? setUsedEee : setSales)(prev => ({ ...prev, [year]: v }));
     setStatus("");
+  };
+  /**
+   * Three states per quantity: empty (neutral, no error), a valid number of 0 or more, or invalid
+   * (error). Empty is never an error and never read as 0.
+   */
+  const rowError = (year: string) => {
+    const v = values[year] ?? "";
+    if (v.trim() === "") return undefined;
+    const r = quantityField.safeParse(v);
+    return r.success ? undefined : r.error.issues[0].message;
   };
   const blur = (k: FieldKey) => () => setTouched(t => ({ ...t, [k]: true }));
 
@@ -163,7 +194,8 @@ export function EprCalculator() {
   }
   function reset() {
     setFields({ ...EMPTY, filingYear: defaultFilingYear() });
-    setQuantities({});
+    setSales({});
+    setUsedEee({});
     setTouched({});
     setStatus("Calculator reset.");
   }
@@ -176,17 +208,14 @@ export function EprCalculator() {
     : "/contact";
 
   const isProducer = fields.producerType === "producer";
-  const quantityHelp = !qField
-    ? isProducer
-      ? "Choose the filing year, EEE item and sales start year first."
-      : "Choose the filing year and EEE item first."
-    : qField.disabled
-      ? "No sales recorded for this financial year."
-      : planned.kind === "plan" && planned.schedule === "III"
-        ? `Schedule III reference year (Y − X). Up to 4 decimals.`
-        : planned.kind === "plan" && planned.schedule === "IV"
-          ? `Schedule IV reference sales year. Up to 4 decimals.`
-          : "Up to 4 decimals.";
+  const referenceHelp =
+    planned.kind !== "plan"
+      ? ""
+      : planned.schedule === "III"
+        ? `Used for ${planned.filingYear}: Schedule III reference year (Y − X). Up to 4 decimals.`
+        : planned.schedule === "IV"
+          ? `Used for ${planned.filingYear}: Schedule IV reference sales year. Up to 4 decimals.`
+          : `Assessed in filing year ${planned.filingYear}, if not re-exported. Up to 4 decimals.`;
 
   return (
     <div className="flex flex-col gap-6 xl:gap-8">
@@ -200,7 +229,7 @@ export function EprCalculator() {
         <div className="border-b border-line bg-white px-5 py-5 sm:px-6">
           <p className="eyebrow">Calculator inputs</p>
           <h2 id={`${uid}-inputs`} className="mt-2 text-[1.375rem]">
-            Enter your EEE sales details
+            {isUsed ? "Enter your used EEE import details" : "Enter your EEE sales details"}
           </h2>
           <p className="mt-2 text-[14px] leading-relaxed text-ink-muted">Your estimate updates automatically as you complete the fields.</p>
         </div>
@@ -299,31 +328,85 @@ export function EprCalculator() {
           </div>
           )}
 
-          <div className="min-w-0">
-          <div className={labelClass}>
-            <label htmlFor={ids.kg}>{qField?.label ?? "Sales in reference year (kg)"}</label>
-            <InfoTip label="About the reference sales year">
-              The reference sales year is the year whose quantity your target is based on. Under Schedule III it is the filing year minus the item&rsquo;s average life (Y − X); under Schedule IV it is two years before the filing year (fixed years for 2023-24 and 2024-25). It is worked out for you.
-            </InfoTip>
-          </div>
-          <input
-            id={ids.kg}
-            className="field h-[50px] tabular-nums disabled:cursor-not-allowed disabled:opacity-60"
-            inputMode="decimal"
-            autoComplete="off"
-            placeholder={qField?.disabled ? "0" : "0.0000"}
-            disabled={!qField || qField.disabled}
-            value={quantityKg}
-            onChange={e => setQuantity(e.target.value.replace(/,/g, ""))}
-            onBlur={blur("quantityKg")}
-            aria-invalid={!!shown("quantityKg") || undefined}
-            aria-describedby={`${ids.kg}-help${shown("quantityKg") ? ` ${ids.kg}-err` : ""}`}
-          />
-          <p id={`${ids.kg}-help`} className={cn(helpClass, qField?.disabled && "font-medium text-ink")}>
-            {quantityHelp}
-          </p>
-          <FieldError id={`${ids.kg}-err`} message={shown("quantityKg")} />
-          </div>
+          <fieldset className="min-w-0 sm:col-span-2 xl:col-span-1">
+            <legend className={labelClass}>
+              {isUsed ? "Used EEE import details" : "Sales history"}
+              {isUsed ? (
+                <InfoTip label="About used EEE imports">
+                  Importers of used EEE carry a 100% EPR obligation for the imported material after end of life, if it is not re-exported (Schedule III note 2). Enter the quantity reaching end of life in the filing year.
+                </InfoTip>
+              ) : (
+                <InfoTip label="About the reference sales year">
+                  The reference sales year is the year whose quantity your target is based on. Under Schedule III it is the filing year minus the item&rsquo;s average life (Y − X); under Schedule IV it is two years before the filing year (fixed years for 2023-24 and 2024-25). It is worked out for you, and only that year&rsquo;s figure is used.
+                </InfoTip>
+              )}
+            </legend>
+            {rows.length === 0 ? (
+              <p className={helpClass}>
+                {isProducer ? "Choose the filing year, EEE item and sales start year to see which year’s sales are needed." : "Choose the filing year and EEE item to see which quantity is needed."}
+              </p>
+            ) : (
+              <ul className="space-y-4">
+                {rows.map(row => {
+                  const id = `${ids.kg}-${row.year}`;
+                  const error = row.applicable ? rowError(row.year) : undefined;
+                  /** The row this filing's calculation reads. */
+                  const used = isUsed || row.reference;
+                  const waiting = used && row.applicable && result.kind === "incomplete";
+                  return (
+                    <li key={row.year}>
+                      <div className="mb-1.5 flex flex-wrap items-center justify-between gap-x-2 gap-y-1">
+                        {row.applicable ? (
+                          <label htmlFor={id} className="text-[14px] font-medium leading-snug text-ink">
+                            {row.label}
+                          </label>
+                        ) : (
+                          <span id={`${id}-label`} className="text-[14px] font-medium leading-snug text-ink">
+                            {row.label}
+                          </span>
+                        )}
+                        {row.reference && (
+                          <span className="rounded-full bg-evergreen-700/[0.08] px-2 py-0.5 text-[12px] font-semibold text-evergreen-700">Reference year</span>
+                        )}
+                      </div>
+                      {row.applicable ? (
+                        <input
+                          id={id}
+                          className="field h-[50px] tabular-nums"
+                          inputMode="decimal"
+                          autoComplete="off"
+                          placeholder="0.0000"
+                          value={values[row.year] ?? ""}
+                          onChange={e => setValue(row.year)(e.target.value.replace(/,/g, ""))}
+                          aria-invalid={!!error || undefined}
+                          aria-describedby={`${id}-help${error ? ` ${id}-err` : ""}`}
+                        />
+                      ) : (
+                        <p
+                          role="note"
+                          aria-labelledby={`${id}-label`}
+                          aria-describedby={`${id}-help`}
+                          className="field flex h-[50px] items-center border-dashed font-medium text-ink-muted"
+                        >
+                          Not applicable
+                        </p>
+                      )}
+                      <p id={`${id}-help`} className={cn(helpClass, !row.applicable && "text-ink")}>
+                        {!row.applicable
+                          ? noSalesMessage(row.year, fields.salesStartYear)
+                          : waiting
+                            ? "Enter quantity to calculate."
+                            : used
+                              ? referenceHelp
+                              : `Saved for ${row.year}. Not used for this filing year.`}
+                      </p>
+                      <FieldError id={`${id}-err`} message={error} />
+                    </li>
+                  );
+                })}
+              </ul>
+            )}
+          </fieldset>
         </div>
 
         <div className="flex flex-wrap items-center justify-between gap-3 border-t border-line bg-paper-2 px-5 py-4 sm:px-6">
@@ -344,7 +427,7 @@ export function EprCalculator() {
             </h2>
           </div>
           <p className="min-h-[1.75rem] rounded-full bg-evergreen-700/[0.08] px-3 py-1 text-[13px] font-semibold text-evergreen-700">
-            {target ? scheduleLine(target) : "Complete the inputs to calculate"}
+            {target ? scheduleLine(target) : result.kind === "incomplete" ? "Enter quantity to calculate" : "Complete the inputs to calculate"}
           </p>
         </div>
         <div aria-live="polite" aria-atomic="false" className="mt-5">
@@ -418,26 +501,32 @@ function Tile({ label, value, main = false, sub }: { label: string; value: strin
 }
 
 function ResultTiles({ result }: { result: CalcResult }) {
-  const r = result.kind === "target" ? result : null;
+  const t = result.kind === "target" ? result : null;
+  // While the quantity is still empty, the schedule, years and percentage are already known.
+  const r = t ?? (result.kind === "incomplete" ? result : null);
   const na = result.kind === "not-applicable";
   const dash = "—";
   return (
     <div className="grid grid-cols-2 gap-3">
       <Tile
         label="Estimated recycling target (kg)"
-        value={r ? fmtKg(r.targetKg) : na ? "Not applicable" : dash}
-        sub={r ? "Estimate only, not an official CPCB assessment" : undefined}
+        value={t ? fmtKg(t.targetKg) : na ? "Not applicable" : dash}
+        sub={t ? "Estimate only, not an official CPCB assessment" : result.kind === "incomplete" ? "Enter quantity to calculate" : undefined}
         main
       />
       <Tile label="Applicable schedule" value={r ? (r.schedule === "used-import" ? "Used EEE" : r.schedule) : dash} sub={r?.schedule === "used-import" ? "Schedule III note 2" : undefined} />
       <Tile label="Applicable target percentage" value={r ? `${r.targetPercent}%` : dash} />
       <Tile label="Filing year" value={r ? r.filingYear : dash} />
       <Tile
-        label="Reference sales year"
+        label={yearLabel(r?.schedule ?? "IV")}
         value={r ? r.referenceYear : dash}
-        sub={r && !r.salesInReferenceYear ? "No sales recorded for this financial year" : undefined}
+        sub={r && !r.salesInReferenceYear ? "No sales that year: 0 kg" : undefined}
       />
-      <Tile label="Years of sales operations" value={r ? (r.yearsOfSalesOperations === null ? "Not used" : String(r.yearsOfSalesOperations)) : dash} />
+      {r?.schedule === "used-import" ? (
+        <Tile label="Obligation basis" value="End of life" sub="If not re-exported" />
+      ) : (
+        <Tile label="Years of sales operations" value={r ? String(r.yearsOfSalesOperations) : dash} />
+      )}
       <Tile
         label="EEE average life (years)"
         value={r ? String(r.averageLife) : na ? String(result.item.averageLifeYears) : dash}
@@ -557,6 +646,8 @@ function HowCalculated({ input, r }: { input: CalcInput; r: Target }) {
         ))}
       </ol>
       <div className="space-y-1 border-t border-line px-5 py-4 text-[13px] leading-snug text-ink-muted">
+        <p>Legal provision: {legalProvision(r.schedule)}.</p>
+        <p>{targetFormula(r)}. {METAL_FORMULA}.</p>
         <p>
           Targets: {r.schedule === "used-import" ? "Schedule III note (2)" : `Schedule ${r.schedule}`}, E-Waste (Management) Rules, 2022 (G.S.R. 801(E), in force 1 April 2023; Schedules unchanged by later amendments).
         </p>

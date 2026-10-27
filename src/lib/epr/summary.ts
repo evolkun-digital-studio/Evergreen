@@ -1,6 +1,6 @@
 /** Plain-language summary of a calculation, shared by "Copy results" and the PDF download. */
-import { explain, scheduleName, type CalcInput, type Target } from "./calculate";
-import { itemLabel, regulatoryStatus, type EprData } from "./data";
+import { METAL_FORMULA, explain, legalProvision, noSalesMessage, scheduleName, targetFormula, yearLabel, type CalcInput, type Target } from "./calculate";
+import { regulatoryStatus, shortLabel, type EprData } from "./data";
 import { groupIndian, type Dec } from "./decimal";
 
 const trimZeros = (fixed: string) => (fixed.includes(".") ? fixed.replace(/\.?0+$/, "") : fixed);
@@ -27,7 +27,7 @@ export const DISCLAIMER = "This is an estimate to help with planning, not an off
 export const TRANSPARENCY = "Calculations are based on the applicable E-Waste (Management) Rules and CPCB guidelines. Final obligations are subject to official CPCB portal assessment and regulatory updates.";
 
 export function scheduleLine(r: Target): string {
-  if (r.schedule === "used-import") return `Used EEE imports: 100% for ${r.filingYear}`;
+  if (r.schedule === "used-import") return `Schedule III note (2): 100% of used EEE reaching end of life in ${r.filingYear}`;
   return r.schedule === "III"
     ? `Schedule III: ${r.targetPercent}% of ${r.referenceYear} quantity for ${r.filingYear}`
     : `Schedule IV: ${r.targetPercent}% of ${r.referenceYear} sales for ${r.filingYear}`;
@@ -36,29 +36,45 @@ export function scheduleLine(r: Target): string {
 export type Summary = {
   inputs: [string, string][];
   results: [string, string][];
+  /** Legal provision and formulas. */
+  basis: [string, string][];
   metals: [string, string, string, string][];
   steps: string[];
   notes: string[];
 };
 
 export function buildSummary(input: CalcInput, r: Target): Summary {
-  const quantityLabel = r.schedule === "used-import" ? `Used EEE reaching end of life in ${r.referenceYear}` : r.schedule === "III" ? `EEE placed on the market in ${r.referenceYear}` : `Sales in ${r.referenceYear}`;
+  const used = r.schedule === "used-import";
+  const quantityLabel = used
+    ? `Used EEE reaching end of life in FY ${r.referenceYear} (not re-exported)`
+    : r.schedule === "III"
+      ? `EEE placed on the market in ${r.referenceYear}`
+      : `Sales in ${r.referenceYear}`;
+  const rows = (...pairs: ([string, string] | false)[]) => pairs.filter((x): x is [string, string] => x !== false);
   return {
-    inputs: [
+    inputs: rows(
       ["Filing year", r.filingYear],
-      ["Producer type", r.producerType === "used-importer" ? "Importer of used EEE" : "Producer (manufacturer, brand owner or importer of new EEE)"],
-      ["EEE item", `${r.item.code} · ${itemLabel(r.item)}`],
-      ...(r.producerType === "producer" ? ([["Sales started in", input.salesStartYear]] as [string, string][]) : []),
-      [quantityLabel, r.salesInReferenceYear ? `${fmtKg(r.quantityKg)} kg` : "No sales recorded for this financial year (0 kg)"],
-    ],
-    results: [
+      ["Producer type", used ? "Importer of used EEE" : "Producer (manufacturer, brand owner or importer of new EEE)"],
+      ["EEE code", r.item.code],
+      ["Equipment", r.item.name],
+      // ITEW1 and other codes cover more than one product with different average lives.
+      !!r.item.variant && ["Subcategory", r.item.variant],
+      !used && ["Sales started in", input.salesStartYear],
+      [quantityLabel, r.salesInReferenceYear ? `${fmtKg(r.quantityKg)} kg` : `${noSalesMessage(r.referenceYear, input.salesStartYear)} (0 kg)`],
+    ),
+    results: rows(
       ["Applicable schedule", scheduleName(r.schedule)],
       ["Estimated recycling target", `${fmtKg(r.targetKg)} kg`],
       ["Filing year", r.filingYear],
-      ["Reference sales year", r.referenceYear],
-      ...(r.yearsOfSalesOperations === null ? [] : ([["Years of sales operations", String(r.yearsOfSalesOperations)]] as [string, string][])),
-      ["EEE average life (years)", `${r.averageLife}${r.item.averageLifeStatus === "draft" ? " (CPCB draft list)" : ""}`],
+      [yearLabel(r.schedule), r.referenceYear],
+      r.yearsOfSalesOperations !== null && ["Years of sales operations", String(r.yearsOfSalesOperations)],
+      ["EEE average life (years)", `${r.averageLife} (${shortLabel(r.item)}${r.item.averageLifeStatus === "draft" ? ", CPCB draft list" : ""})`],
       ["Applicable target percentage", `${r.targetPercent}%`],
+    ),
+    basis: [
+      ["Legal provision", legalProvision(r.schedule)],
+      ["Target formula", targetFormula(r)],
+      ["Key-metal formula", METAL_FORMULA],
     ],
     metals: r.metals.map(m => [
       `${m.name} (${m.symbol})`,
@@ -79,6 +95,8 @@ export function summaryText(s: Summary, data: Pick<EprData, "meta">, url?: strin
     pad(s.inputs),
     "",
     pad(s.results),
+    "",
+    pad(s.basis),
     "",
     "How this was calculated",
     ...s.steps.map((step, i) => `${i + 1}. ${step}`),
