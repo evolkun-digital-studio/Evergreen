@@ -40,14 +40,14 @@ export default function ProcessPage() {
         name={title}
         description={description}
         crumbs={crumbs}
-        image={library.yard}
+        image={library.ourProcess}
         extra={[howTo]}
       />
       <PageHeader
         title={title}
         lead="Six documented stages from on-site inspection to the certificate you file for audits."
         crumbs={crumbs}
-        photo={library.yard}
+        photo={library.ourProcess}
       />
 
       <section aria-labelledby="steps-heading" className="section">

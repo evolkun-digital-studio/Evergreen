@@ -116,7 +116,7 @@ export function CapacityBand({
                     {c.material}
                   </Link>
                 </dt>
-                <dd className="stat-value tabular-nums text-evergreen-900 sm:mt-2 lg:mt-0">
+                <dd className="stat-value text-[1.875rem] tabular-nums text-evergreen-900 sm:mt-2 lg:mt-0">
                   <FontSafe>{formatTonnes(c.tonnes)}</FontSafe>
                 </dd>
               </div>
