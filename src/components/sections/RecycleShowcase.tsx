@@ -103,7 +103,7 @@ function ServicePanel({
             <h3
               className={cn(
                 "font-display font-medium text-white",
-                "text-[1.125rem] sm:text-[1.15rem]",
+                "text-[15px] sm:text-[15px]",
                 "leading-[1.15] tracking-[-0.015em]",
               )}
             >

@@ -4,7 +4,7 @@ import { Suspense, useEffect, useId, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Calculator, ChevronDown, Lock, Menu, X } from "lucide-react";
+import { Calculator, ChevronDown, ChevronRight, Lock, Menu, X } from "lucide-react";
 import { eprNavLink, primaryNav, shortServiceLinks, type NavLink } from "@/config/nav";
 import { site } from "@/config/site";
 import { cn } from "@/lib/utils";
@@ -54,7 +54,7 @@ const linkClass = (active: boolean, light: boolean) =>
 /** EPR Calculator button: moss over the video hero, evergreen-700 on the white header; ring when active. */
 const eprButtonClass = (light: boolean, active: boolean) =>
   cn(
-    "inline-flex h-9 items-center justify-center gap-1.5 whitespace-nowrap rounded-[8px] px-3.5 text-center font-display text-[12px] font-semibold transition-colors",
+    "inline-flex h-9 items-center justify-center gap-1.5 whitespace-nowrap rounded-[8px] px-3.5 text-center font-display text-[12px] transition-colors",
     light ? "bg-moss text-evergreen-950 hover:bg-moss-soft" : "bg-evergreen-700 text-white hover:bg-evergreen-800",
     active && (light ? "ring-2 ring-moss ring-offset-2 ring-offset-evergreen-950" : "ring-2 ring-evergreen-700 ring-offset-2 ring-offset-white"),
   );
@@ -62,7 +62,7 @@ const eprButtonClass = (light: boolean, active: boolean) =>
 const CLOSE_DELAY = 150;
 
 /**
- * Services dropdown: 340px off-white panel 14px below the trigger, aligned to its left edge (nudged to
+ * Services dropdown: 360px white panel 10px below the trigger, centred beneath it (nudged to
  * stay inside the viewport). Opens on hover (closes 150ms after the pointer leaves) and on click/Enter;
  * closes on Esc, outside click and blur; ArrowDown/ArrowUp/Home/End move between items.
  */
@@ -176,30 +176,41 @@ function ServicesMenu({
         onKeyDown={onPanelKey}
         style={{ marginLeft: shift }}
         className={cn(
-          "absolute left-0 top-[calc(100%+14px)] z-10 w-[340px] rounded-[24px] bg-[#f7f7f4] px-7 py-[30px] before:absolute before:inset-x-0 before:-top-[14px] before:h-[14px] before:content-[''] transition-[opacity,transform,visibility] duration-150 motion-reduce:transition-none",
+          "absolute left-1/2 top-[calc(100%+10px)] z-10 w-[300px] -translate-x-1/2 rounded-xl border border-line bg-white p-2  before:absolute before:inset-x-0 before:-top-[10px] before:h-[10px] before:content-[''] transition-[opacity,transform,visibility] duration-100 motion-reduce:transition-none",
           EASE,
           open ? "visible translate-y-0 opacity-100" : "pointer-events-none invisible -translate-y-1 opacity-0",
         )}
       >
-        <ul className="flex flex-col gap-4">
+         
+        <ul className="flex flex-col gap-1">
           {shortServiceLinks.map(child => (
             <li key={child.href}>
               <Link
                 href={child.href}
-                aria-current={pathname === child.href ? "page" : undefined}
-                className="flex min-h-6 items-center rounded-[4px] font-display text-[16px] font-normal leading-[1.4] text-[#193a2b] transition-colors hover:text-evergreen-700 focus-visible:bg-paper-2"
+                aria-current={isActive(pathname, child.href) ? "page" : undefined}
+                className={cn(
+                  "group flex min-h-11 w-full items-center justify-between gap-4 rounded-lg px-3 font-display text-[12px] font-medium leading-[1.35] transition-colors",
+                  isActive(pathname, child.href)
+                    ? "bg-paper-2 text-evergreen-700"
+                    : "text-evergreen-950 hover:bg-paper-2 hover:text-evergreen-700 focus-visible:bg-paper-2",
+                )}
               >
-                {child.label}
+                <span>{child.label}</span>
+                <ChevronRight
+                  aria-hidden="true"
+                  className="h-3.5 w-3.5 shrink-0 text-evergreen-700/55 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:text-evergreen-700 motion-reduce:transition-none"
+                />
               </Link>
             </li>
           ))}
         </ul>
-        <div className="mb-[19px] mt-[22px] border-t border-line" />
+        <div className="mx-3 my-2 border-t border-line" />
         <Link
           href={item.href}
-          className="flex min-h-6 items-center gap-2 rounded-[4px] text-[14px] font-normal leading-[1.4] text-evergreen-700 transition-colors hover:text-evergreen-800 focus-visible:bg-paper-2"
+          className="group flex min-h-11 items-center justify-between gap-3 rounded-lg px-3 font-display text-[13px] leading-none text-evergreen-700 transition-colors hover:bg-paper-2 hover:text-evergreen-800 focus-visible:bg-paper-2"
         >
-          All services <span aria-hidden="true">→</span>
+          <span>Explore all services</span>
+          <ChevronRight aria-hidden="true" className="h-3.5 w-3.5 transition-transform duration-200 group-hover:translate-x-0.5 motion-reduce:transition-none" />
         </Link>
       </div>
     </div>
@@ -316,15 +327,18 @@ function HeaderBar({ pathname }: { pathname: string | null }) {
             )}
           </nav>
 
-          <Link
-            href={eprNavLink.href}
-            aria-current={isActive(pathname, eprNavLink.href) ? "page" : undefined}
-            className={cn(eprButtonClass(light, isActive(pathname, eprNavLink.href)), "hidden justify-self-end lg:inline-flex")}
-          >
-            <Calculator aria-hidden="true" className="h-[15px] w-[15px]" />
-            {eprNavLink.label}
-          </Link>
-
+       <Link
+  href={eprNavLink.href}
+  aria-current={isActive(pathname, eprNavLink.href) ? "page" : undefined}
+  className={cn(
+    eprButtonClass(light, isActive(pathname, eprNavLink.href)),
+    "hidden justify-self-end lg:inline-flex",
+    "!bg-white text-evergreen-950 hover:!bg-gray-100"
+  )}
+>
+  <Calculator aria-hidden="true" className="h-[15px] w-[15px]" />
+  {eprNavLink.label}
+</Link>
           <button
             type="button"
             className={cn(
