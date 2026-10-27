@@ -418,6 +418,36 @@ svg.lucide {
   }
 }
 
+/*
+ * Smooth open/close for native <details> accordions (process page stage index).
+ * Animates the panel height and fades the content. Browsers without
+ * ::details-content or interpolate-size still open and close instantly.
+ */
+@media (prefers-reduced-motion: no-preference) {
+  .details-smooth {
+    interpolate-size: allow-keywords;
+  }
+
+  .details-smooth::details-content {
+    block-size: 0;
+    opacity: 0;
+    overflow: clip;
+    transition:
+      block-size 450ms var(--ease-premium),
+      opacity 300ms ease,
+      content-visibility 450ms allow-discrete;
+  }
+
+  .details-smooth[open]::details-content {
+    block-size: auto;
+    opacity: 1;
+    transition:
+      block-size 450ms var(--ease-premium),
+      opacity 400ms ease 80ms,
+      content-visibility 450ms allow-discrete;
+  }
+}
+
 /* Dropdown menus (documents form): opacity and a short slide only. */
 @keyframes dropdown-in {
   from {
