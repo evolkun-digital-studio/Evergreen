@@ -86,12 +86,12 @@ export function Industries() {
               />
               <figcaption className="absolute inset-x-0 bottom-0 flex items-end justify-between gap-3 p-4 sm:p-5 lg:p-6">
                 <span className="text-[15px] font-medium leading-tight text-white sm:text-base lg:text-lg">{name}</span>
-                <span
+                {/* <span
                   aria-hidden="true"
                   className="grid h-8 w-8 shrink-0 translate-y-1 place-items-center rounded-full bg-white text-evergreen-950 opacity-0 transition duration-300 ease-[var(--ease-premium)] group-hover:translate-y-0 group-hover:opacity-100 group-data-[active]:translate-y-0 group-data-[active]:opacity-100 motion-reduce:transition-none sm:h-9 sm:w-9"
                 >
                   <ArrowUpRight className="h-4 w-4" strokeWidth={2} />
-                </span>
+                </span> */}
               </figcaption>
             </figure>
           </motion.li>
