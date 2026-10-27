@@ -25,10 +25,10 @@ function ServicePanel({
 
   const aspectClass =
     variant === "featured"
-      ? "aspect-[4/3] sm:aspect-[16/10] lg:aspect-auto lg:h-full lg:min-h-[440px]"
+      ? "aspect-[16/9] sm:aspect-[2/1] lg:aspect-auto lg:h-full lg:min-h-[260px]"
       : variant === "supporting"
-        ? "aspect-[16/10]"
-        : "aspect-[4/3]";
+        ? "aspect-[16/9] lg:aspect-[21/9]"
+        : "aspect-[16/9]";
 
   const sizes =
     variant === "featured"
@@ -41,7 +41,7 @@ function ServicePanel({
     <Link
       href={`/services/${service.slug}`}
       className={cn(
-        "group relative isolate block w-full overflow-hidden",
+        "group relative isolate block w-full overflow-hidden rounded-[10px]",
         "bg-evergreen-950",
         "outline-none focus-visible:outline-2",
         "focus-visible:outline-offset-4",
@@ -95,7 +95,7 @@ function ServicePanel({
       <div
         className={cn(
           "absolute inset-x-0 bottom-0 z-10",
-          "p-5 sm:p-6",
+          "p-4 sm:p-5",
         )}
       >
         <div className="flex items-end justify-between gap-4">
@@ -103,8 +103,8 @@ function ServicePanel({
             <h3
               className={cn(
                 "font-display font-medium text-white",
-                "text-[1.25rem] sm:text-[1.35rem]",
-                "leading-[1.25] tracking-[-0.015em]",
+                "text-[1.125rem] sm:text-[1.15rem]",
+                "leading-[1.15] tracking-[-0.015em]",
               )}
             >
               {service.title}
@@ -165,7 +165,7 @@ export function RecycleShowcase({
         />
 
         {/* Asymmetric main gallery */}
-        <div className="grid gap-4 lg:grid-cols-12 lg:gap-5">
+        <div className="grid gap-3 sm:gap-4 lg:grid-cols-12 lg:gap-5">
           {featured && (
             <div className="min-w-0 lg:col-span-7">
               <ServicePanel
@@ -177,7 +177,7 @@ export function RecycleShowcase({
 
           <div
             className={cn(
-              "grid min-w-0 gap-4",
+              "grid min-w-0 gap-3 sm:gap-4",
               "sm:grid-cols-2",
               "lg:col-span-5 lg:grid-cols-1",
               "lg:grid-rows-2 lg:gap-5",
@@ -197,7 +197,7 @@ export function RecycleShowcase({
         {remaining.length > 0 && (
           <div
             className={cn(
-              "mt-4 grid gap-4",
+              "mt-3 grid gap-3 sm:mt-4 sm:gap-4",
               "sm:grid-cols-2",
               "lg:mt-5 lg:grid-cols-3 lg:gap-5",
             )}
