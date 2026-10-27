@@ -7,6 +7,8 @@ import compositionJson from "@/data/epr/metal-composition.json";
 import targetsJson from "@/data/epr/targets.json";
 import goldJson from "@/data/epr/gold-phase-in.json";
 import metaJson from "@/data/epr/meta.json";
+/** Hand-maintained (not generated): update `lastVerified` only after re-checking the official sources. */
+import statusJson from "@/data/epr/regulatory-status.json";
 
 export type EeeItem = {
   /** Code, plus a sub-type slug when CPCB gives sub-types different average lives (e.g. "ITEW24-up-to-2-kva"). */
@@ -48,6 +50,8 @@ export type Source = {
   title: string;
   issuer: string;
   date: string;
+  /** Date the instrument came into force, where it differs from or confirms `date`. */
+  effective?: string;
   url: string;
   usedFor: string;
   sha256: string;
@@ -69,4 +73,13 @@ export const eprData: EprData = {
   meta: metaJson,
 };
 
+export const regulatoryStatus: { regulation: string; lastVerified: string; verifiedBy: string; openItems: string[] } = statusJson;
+
 export const itemLabel = (i: Pick<EeeItem, "name" | "variant">) => (i.variant ? `${i.name}: ${i.variant}` : i.name);
+
+/**
+ * Short name for the picker trigger, e.g. "Mainframes" or "Laptop Computers": the sub-type if any,
+ * else the Schedule I name without its group prefix and trailing parenthetical.
+ */
+export const shortLabel = (i: Pick<EeeItem, "name" | "variant">) =>
+  i.variant ?? i.name.replace(/^[^:]*:\s*/, "").replace(/\s*\([^)]*\)\s*$/, "");

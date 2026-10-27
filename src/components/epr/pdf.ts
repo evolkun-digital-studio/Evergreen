@@ -1,8 +1,8 @@
-/** One-page branded PDF of a calculation. Loaded on demand, so jsPDF stays out of the page bundle. */
+/** Branded PDF of a calculation (continues onto a second page when needed). Loaded on demand, so jsPDF stays out of the page bundle. */
 import { jsPDF } from "jspdf";
 import { site } from "@/config/site";
-import type { CalcInput, CalcResult } from "@/lib/epr/calculate";
-import { eprData } from "@/lib/epr/data";
+import type { CalcInput, Target } from "@/lib/epr/calculate";
+import { eprData, regulatoryStatus } from "@/lib/epr/data";
 import { DISCLAIMER, buildSummary } from "@/lib/epr/summary";
 
 const EVERGREEN_950: [number, number, number] = [10, 38, 22];
@@ -45,13 +45,21 @@ function drawPhoneIcon(doc: jsPDF, cx: number, cy: number) {
   doc.circle(cx, cy + 3.1, 0.55, "F");
 }
 
-export async function downloadPdf(input: CalcInput, r: Extract<CalcResult, { kind: "target" }>, url: string) {
+export async function downloadPdf(input: CalcInput, r: Target, url: string) {
   const s = buildSummary(input, r);
   const logo = await loadBrandLogo();
   const doc = new jsPDF({ unit: "pt", format: "a4" });
   const W = doc.internal.pageSize.getWidth();
+  const H = doc.internal.pageSize.getHeight();
   const M = 48;
   let y = 0;
+  /** Starts a new page when the next `h` points would run past the bottom margin. */
+  const room = (h: number) => {
+    if (y + h > H - M) {
+      doc.addPage();
+      y = M;
+    }
+  };
 
   // Branded header
   doc.setFillColor(248, 250, 248);
@@ -86,6 +94,7 @@ export async function downloadPdf(input: CalcInput, r: Extract<CalcResult, { kin
   y += 26;
 
   const section = (title: string) => {
+    room(60);
     doc.setTextColor(...EVERGREEN_700);
     doc.setFont("helvetica", "bold");
     doc.setFontSize(11);
@@ -104,6 +113,7 @@ export async function downloadPdf(input: CalcInput, r: Extract<CalcResult, { kin
       doc.setTextColor(...INK);
       doc.setFont("helvetica", "bold");
       const lines = doc.splitTextToSize(v, W - M - 250) as string[];
+      room(15 * lines.length);
       doc.text(lines, 250, y);
       y += 15 * lines.length + 3;
     }
@@ -115,7 +125,19 @@ export async function downloadPdf(input: CalcInput, r: Extract<CalcResult, { kin
   section("Results");
   rows(s.results);
 
-  section("Metal recovery obligation");
+  section("How this was calculated");
+  doc.setFontSize(10);
+  doc.setFont("helvetica", "normal");
+  doc.setTextColor(...INK);
+  s.steps.forEach((step, i) => {
+    const lines = doc.splitTextToSize(`${i + 1}. ${step}`, W - 2 * M) as string[];
+    room(13 * lines.length);
+    doc.text(lines, M, y);
+    y += 13 * lines.length + 3;
+  });
+  y += 10;
+
+  section("Key metals for EPR certificates (part of the target)");
   const cols = [M, 250, 360, W - M];
   doc.setFontSize(9.5);
   doc.setTextColor(...MUTED);
@@ -124,6 +146,7 @@ export async function downloadPdf(input: CalcInput, r: Extract<CalcResult, { kin
   y += 16;
   doc.setFontSize(10.5);
   for (const [m, c, p, q] of s.metals) {
+    room(16);
     doc.setTextColor(...INK);
     doc.setFont("helvetica", "normal");
     doc.text(m, cols[0], y);
@@ -141,6 +164,7 @@ export async function downloadPdf(input: CalcInput, r: Extract<CalcResult, { kin
     doc.setFont("helvetica", "normal");
     for (const n of s.notes) {
       const lines = doc.splitTextToSize(n, W - 2 * M) as string[];
+      room(12 * lines.length);
       doc.text(lines, M, y);
       y += 12 * lines.length + 2;
     }
@@ -154,10 +178,17 @@ export async function downloadPdf(input: CalcInput, r: Extract<CalcResult, { kin
   const sources = eprData.meta.sources.filter(x => !x.key.startsWith("amendment") && x.key !== "portalFaq");
   for (const src of sources) {
     const lines = doc.splitTextToSize(`${src.issuer}, ${src.title} (${src.date}).`, W - 2 * M) as string[];
+    room(11 * lines.length);
+    doc.text(lines, M, y);
+    y += 11 * lines.length + 3;
+  }
+  {
+    const lines = doc.splitTextToSize(`${regulatoryStatus.regulation}. Regulatory data last verified ${regulatoryStatus.lastVerified}.`, W - 2 * M) as string[];
     doc.text(lines, M, y);
     y += 11 * lines.length + 3;
   }
   y += 6;
+  room(60);
   doc.setTextColor(...INK);
   doc.setFont("helvetica", "bold");
   doc.text(doc.splitTextToSize(DISCLAIMER, W - 2 * M) as string[], M, y);

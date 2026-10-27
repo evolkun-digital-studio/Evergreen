@@ -1,0 +1,10 @@
+{
+  "regulation": "E-Waste (Management) Rules, 2022 (G.S.R. 801(E)), as amended up to G.S.R. 699(E) of 12 November 2024",
+  "lastVerified": "2026-10-27",
+  "verifiedBy": "Checked the MoEFCC rules page (moef.gov.in/rules-regulations-3, e-waste list last updated 27 April 2026) and the text of every amendment listed there. The note to G.S.R. 699(E) lists all earlier amendments (G.S.R. 61(E), 534(E), 164(E)). No later e-waste amendment was found on moef.gov.in, cpcb.gov.in, eprewaste.cpcb.gov.in, pib.gov.in or egazette.gov.in. None of the amendments changes Schedule I, Schedule III or Schedule IV.",
+  "openItems": [
+    "Average life of 85 of the 106 EEE codes comes from CPCB's draft list of 21 March 2023. No final list has been published.",
+    "The rules do not define how years of sales operations are counted. The calculator counts the sales start year and the filing year inclusively.",
+    "For importers of used EEE, the rules say the obligation applies after end of life. CPCB fixes when that is on the EPR portal, so the calculator asks for the quantity reaching end of life in the filing year."
+  ]
+}

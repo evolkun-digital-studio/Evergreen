@@ -418,6 +418,21 @@ svg.lucide {
   }
 }
 
+/* Dropdown menus (documents form): opacity and a short slide only. */
+@keyframes dropdown-in {
+  from {
+    opacity: 0;
+    transform: translateY(var(--dropdown-y, -4px));
+  }
+}
+
+@keyframes dropdown-out {
+  to {
+    opacity: 0;
+    transform: translateY(var(--dropdown-y, -4px));
+  }
+}
+
 /* Base utility for staggered entrance */
 .animate-fade-rise {
   opacity: 0;

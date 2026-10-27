@@ -15,7 +15,7 @@ import {
 import { MaterialsGrid } from "@/components/sections/MaterialsGrid";
 import { PageJsonLd } from "@/components/PageJsonLd";
 import { Photo } from "@/components/Photo";
-import { industryPhotos, photos, stepPhotos } from "@/content/images";
+import { photos, stepPhotos } from "@/content/images";
 import { about, steps } from "@/content/company";
 import { stats } from "@/content/stats";
 import { site } from "@/config/site";
@@ -147,17 +147,6 @@ export default function Home() {
       <section aria-labelledby="industries-heading" className="section">
         <div className="container">
           <SectionHead id="industries-heading" title="Industries we serve" />
-          <ul className="mb-10 grid grid-cols-2 gap-3 sm:grid-cols-4 lg:mb-12">
-            {industryPhotos.map(photo => (
-              <li key={photo.alt}>
-                <Photo
-                  photo={photo}
-                  ratio="4/3"
-                  sizes="(min-width: 1280px) 290px, (min-width: 640px) 23vw, 46vw"
-                />
-              </li>
-            ))}
-          </ul>
           <Industries />
         </div>
       </section>

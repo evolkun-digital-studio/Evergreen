@@ -5,7 +5,7 @@ import { Check, ChevronsUpDown } from "lucide-react";
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from "@/components/ui/command";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
-import { itemLabel, type EeeItem } from "@/lib/epr/data";
+import { itemLabel, shortLabel, type EeeItem } from "@/lib/epr/data";
 import { cn } from "@/lib/utils";
 
 /** Searchable EEE picker grouped by Schedule I category. Search matches code, name and sub-type. */
@@ -31,7 +31,8 @@ export function EeeCombobox({
     for (const i of items) map.set(i.category, [...(map.get(i.category) ?? []), i]);
     return [...map.entries()];
   }, [items]);
-  const label = selected ? `${selected.code} · ${itemLabel(selected)}` : "";
+  const label = selected ? `${selected.code} — ${shortLabel(selected)}` : "";
+  const fullLabel = selected ? `${selected.code} · ${itemLabel(selected)}` : "";
 
   const trigger = (
     <PopoverTrigger asChild>
@@ -54,17 +55,18 @@ export function EeeCombobox({
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
-      {selected && label.length > 34 ? (
+      {selected && fullLabel !== label ? (
         <Tooltip>
           <TooltipTrigger asChild>{trigger}</TooltipTrigger>
           <TooltipContent side="top" className="max-w-sm text-[13px] leading-snug">
-            {label}
+            {fullLabel}
           </TooltipContent>
         </Tooltip>
       ) : (
         trigger
       )}
-      <PopoverContent align="start" sideOffset={6} className="w-[min(640px,calc(100vw-2rem))] rounded-lg border-line p-0 shadow-[0_16px_40px_-20px_rgba(10,38,22,0.4)]">
+      {/* collisionPadding keeps the menu inside the viewport; the list below shrinks to the space left. */}
+      <PopoverContent align="start" sideOffset={6} collisionPadding={16} className="w-[min(640px,calc(100vw-2rem))] rounded-lg border-line p-0 shadow-[0_16px_40px_-20px_rgba(10,38,22,0.4)]">
         <Command
           filter={(itemValue, search, keywords) => {
             const hay = `${itemValue} ${keywords?.join(" ") ?? ""}`.toLowerCase();
@@ -78,7 +80,7 @@ export function EeeCombobox({
           }}
         >
           <CommandInput placeholder="Type a product or code, e.g. laptop or CEEW4" aria-label="Search EEE items" />
-          <CommandList id={`${id}-listbox`}>
+          <CommandList id={`${id}-listbox`} className="max-h-[min(420px,60vh,calc(var(--radix-popover-content-available-height)-3.5rem))]">
             <CommandEmpty>No EEE item matches that search.</CommandEmpty>
             {groups.map(([category, list]) => (
               <CommandGroup key={category} heading={category}>

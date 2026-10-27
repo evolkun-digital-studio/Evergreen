@@ -9,11 +9,8 @@ import {
   useState,
   useTransition,
 } from "react";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
+import * as PopoverPrimitive from "@radix-ui/react-popover";
+import { Popover, PopoverTrigger } from "@/components/ui/popover";
 import type { PublicDocumentOption } from "@/lib/data/document-requests";
 import {
   DOCUMENT_CATEGORIES,
@@ -31,6 +28,38 @@ const controlClass =
 
 const dropdownClass =
   "w-[var(--radix-popover-trigger-width)] max-w-[calc(100vw-2rem)] rounded-[10px] border border-[#e1e6e0] bg-white p-1.5 text-ink shadow-[0_8px_24px_rgba(10,38,22,0.04)]";
+
+/**
+ * Menu for the document dropdowns. Unlike the shared PopoverContent it:
+ * - re-positions every frame, so it stays glued to the trigger while Lenis smooth-scrolls the page
+ *   (scroll-event updates land a frame late and the menu visibly trails the trigger);
+ * - prefers opening below and only opens above when there is no room (it never flips on its own,
+ *   because the trigger it tracks no longer moves);
+ * - animates opacity and a 4px slide away from the trigger only (no zoom), so its width always
+ *   matches the trigger.
+ */
+function DropdownContent({
+  className,
+  ...props
+}: React.ComponentProps<typeof PopoverPrimitive.Content>) {
+  return (
+    <PopoverPrimitive.Portal>
+      <PopoverPrimitive.Content
+        data-slot="dropdown-content"
+        side="bottom"
+        align="start"
+        sideOffset={6}
+        updatePositionStrategy="always"
+        className={cn(
+          "z-50 outline-none [--dropdown-y:-4px] data-[side=top]:[--dropdown-y:4px] data-[state=open]:animate-[dropdown-in_150ms_ease-out] data-[state=closed]:animate-[dropdown-out_150ms_ease-out_forwards]",
+          dropdownClass,
+          className
+        )}
+        {...props}
+      />
+    </PopoverPrimitive.Portal>
+  );
+}
 
 function Field({
   id,
@@ -118,7 +147,9 @@ const DropdownTrigger = forwardRef<HTMLButtonElement, DropdownTriggerProps>(
       aria-label={ariaLabel}
       className={cn(
         controlClass,
-        "group flex min-h-11 cursor-pointer items-center justify-between gap-3 text-left",
+        // active:transform-none opts out of the global button press-scale, which shrank the trigger
+        // under the pointer just as the menu measured it.
+        "group flex min-h-11 cursor-pointer items-center justify-between gap-3 text-left active:transform-none",
         className
       )}
     >
@@ -127,7 +158,7 @@ const DropdownTrigger = forwardRef<HTMLButtonElement, DropdownTriggerProps>(
         aria-hidden="true"
         viewBox="0 0 16 16"
         fill="none"
-        className="size-4 shrink-0 text-ink-muted transition-transform group-data-[state=open]:rotate-180"
+        className="size-4 shrink-0 text-ink-muted transition-transform duration-150 ease-out group-data-[state=open]:rotate-180"
       >
         <path
           d="m4 6 4 4 4-4"
@@ -425,11 +456,7 @@ export function RequestAccessForm({
                     ariaLabel="Choose document types"
                   />
                 </PopoverTrigger>
-                <PopoverContent
-                  align="start"
-                  sideOffset={6}
-                  className={dropdownClass}
-                >
+                <DropdownContent>
                   <fieldset>
                     <legend className="sr-only">Document types</legend>
                     {DOCUMENT_CATEGORIES.map(category => (
@@ -454,7 +481,7 @@ export function RequestAccessForm({
                       </label>
                     ))}
                   </fieldset>
-                </PopoverContent>
+                </DropdownContent>
               </Popover>
             </div>
             {categories.length > 0 && (
@@ -483,11 +510,7 @@ export function RequestAccessForm({
                       ariaLabel="Choose exact documents"
                     />
                   </PopoverTrigger>
-                  <PopoverContent
-                    align="start"
-                    sideOffset={6}
-                    className={cn(dropdownClass, "max-h-80 overflow-y-auto")}
-                  >
+                  <DropdownContent className="max-h-80 overflow-y-auto">
                     <div className="space-y-1">
                       {pickable.map(category => (
                         <fieldset key={category}>
@@ -513,7 +536,7 @@ export function RequestAccessForm({
                         </fieldset>
                       ))}
                     </div>
-                  </PopoverContent>
+                  </DropdownContent>
                 </Popover>
               </div>
               {selectedOptions.length > 0 && (
