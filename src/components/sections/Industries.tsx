@@ -110,9 +110,9 @@ export function Industries() {
               key={name}
               {...item}
               onPointerEnter={() => setActive(hasPhoto ? name : null)}
-              className="flex items-center gap-4 border-b border-line py-4 sm:last:col-span-2 lg:flex-col lg:items-start lg:gap-3 lg:border-b-0 lg:border-l lg:px-4 lg:pt-5 lg:first:border-l-0 lg:first:pl-0 lg:last:col-span-1"
+              className="flex items-center gap-2  py-4 sm:last:col-span-2 lg:flex-col lg:items-center lg:gap-2  lg:px-2 lg:pt-5 lg:first:pl-0 lg:last:col-span-1"
             >
-              <span className="w-6 text-xs tabular-nums text-ink-muted lg:w-auto">{String(i + 1).padStart(2, "0")}</span>
+              {/* <span className="w-6 text-xs tabular-nums text-ink-muted lg:w-auto">{String(i + 1).padStart(2, "0")}</span> */}
               <span className="flex flex-1 items-center justify-between gap-3 lg:flex-none lg:flex-col lg:items-start lg:justify-start">
                 <span
                   className={cn(

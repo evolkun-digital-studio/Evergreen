@@ -196,9 +196,9 @@ export const registrations: {
 export const industries: { name: string; icon: LucideIcon }[] = [
   { name: "IT companies", icon: Laptop },
   { name: "Banks and NBFCs", icon: Landmark },
-  { name: "Manufacturing plants", icon: Factory },
+  { name: "Manufacturing", icon: Factory },
   { name: "Hospitals", icon: Hospital },
-  { name: "Educational institutions", icon: GraduationCap },
+  { name: "Educational ", icon: GraduationCap },
   { name: "Retailers", icon: Store },
   { name: "Construction", icon: HardHat },
 ];

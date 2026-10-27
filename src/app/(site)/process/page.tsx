@@ -133,7 +133,7 @@ export default function ProcessPage() {
                       name="evergreen-process"
                       open={index === 0}
                       className="
-                        group scroll-mt-28
+                        details-smooth group scroll-mt-28
                         border-b border-line
                       "
                     >
@@ -199,8 +199,8 @@ export default function ProcessPage() {
                             strokeWidth={1.6}
                             className="
                               transition-transform
-                              duration-300
-                              ease-out
+                              duration-[450ms]
+                              ease-[var(--ease-premium)]
                               group-open:rotate-45
                               motion-reduce:transition-none
                             "

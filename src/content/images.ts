@@ -35,6 +35,12 @@ import yardProcess from "../../public/images/home/yard-conveyor.jpg";
 import ourProcess from "../../public/images/stock/Our.jpg";
 import hddBroken from "../../public/images/stock/secure-hdd-broken.webp";
 import craneScrap from "../../public/images/stock/industrial-crane-scrap.webp";
+import ewasteRepair from "../../public/ewaste/e-waste.jpg";
+import ewasteBatteries from "../../public/ewaste/battery.jpg";
+import ewasteMetalWire from "../../public/ewaste/metal-waste.jpg";
+import ewasteScrapYard from "../../public/ewaste/metal-waste2.jpg";
+import ewastePlasticBottles from "../../public/ewaste/pastic-waste1.jpg";
+import ewastePlasticBale from "../../public/ewaste/pastic-waste2.jpg";
 import irfanAhmad from "../../public/images/evergreen/irfan-ahmad.jpg";
 import associateDirector from "../../public/images/evergreen/associate-director.jpg";
 import mukulAgarwal from "../../public/images/evergreen/mukul.jpg";
@@ -90,6 +96,38 @@ export const photos = {
 
 /** Every other photo on the site, by subject. Services, workflows and strips pick from here. */
 export const library = {
+  repairBench: {
+    src: ewasteRepair,
+    alt: "Hands lifting the circuit board out of an opened smartphone on a technician's workbench",
+    stock: true,
+    position: "50% 58%",
+  },
+  looseBatteries: {
+    src: ewasteBatteries,
+    alt: "A heap of used household batteries of many brands and sizes",
+    stock: true,
+  },
+  scrapMetalWire: {
+    src: ewasteMetalWire,
+    alt: "Scrap steel sections and tangled copper wire piled in a metal recycling yard",
+    stock: true,
+  },
+  scrapYardHeap: {
+    src: ewasteScrapYard,
+    alt: "A tall heap of mixed scrap metal, appliances and vehicle parts in a scrapyard under a clear sky",
+    stock: true,
+    position: "50% 70%",
+  },
+  plasticBottles: {
+    src: ewastePlasticBottles,
+    alt: "A heap of crushed plastic water bottles and containers ready for recycling",
+    stock: true,
+  },
+  plasticBale: {
+    src: ewastePlasticBale,
+    alt: "A tall strapped bale of compressed plastic bottles on a yard floor in front of a covered shed",
+    stock: true,
+  },
   liIonCells: {
     src: liIonCells,
     alt: "Five blue cylindrical lithium-ion cells of the 18650 type lying side by side",
@@ -260,11 +298,11 @@ export const portraits = {
 
 /** Header photo (16:9) per service, keyed by service slug. Also used on the service cards. */
 export const servicePhotos: Record<string, Photo> = {
-  "e-waste-recycling": library.eWasteBoards,
-  "battery-recycling": library.liIonCells,
-  "plastic-recycling": library.plasticBales,
-  "metal-recovery": library.copperWire,
-  "industrial-scrap-management": library.industrialScrap,
+  "e-waste-recycling": library.repairBench,
+  "battery-recycling": library.looseBatteries,
+  "plastic-recycling": library.plasticBottles,
+  "metal-recovery": library.scrapMetalWire,
+  "industrial-scrap-management": library.scrapYardHeap,
   "secure-disposal": library.hardDrives,
 };
 
