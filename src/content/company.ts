@@ -19,7 +19,7 @@ export const about = {
       body: "is an authorised recycler of e-waste, batteries and plastics, operating from Sitapur, Uttar Pradesh. Since 2020, we have helped organisations across India manage retired assets through documented, environmentally responsible recycling.",
     },
     {
-      body: "Our work covers inspection and physical asset verification, reverse logistics, data destruction and degaussing, refurbishment, material recovery and final certification. Hazardous fractions are segregated and managed through authorised routes, while reusable materials are returned to productive use.",
+      body: "Our work covers inspection and physical asset verification, reverse logistics, data destruction and degaussing, refurbishment, material recovery and final certification.",
     },
   ],
   highlights: [

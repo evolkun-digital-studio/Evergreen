@@ -32,6 +32,7 @@ import plasticBales from "../../public/images/stock/plastic-bales.webp";
 import plasticFlakes from "../../public/images/stock/plastic-flakes.webp";
 import paperwork from "../../public/images/stock/process-paperwork.webp";
 import yardProcess from "../../public/images/home/yard-conveyor.jpg";
+import ourProcess from "../../public/images/stock/Our.jpg";
 import hddBroken from "../../public/images/stock/secure-hdd-broken.webp";
 import craneScrap from "../../public/images/stock/industrial-crane-scrap.webp";
 import irfanAhmad from "../../public/images/evergreen/irfan-ahmad.jpg";
@@ -220,6 +221,11 @@ export const library = {
   yard: {
     src: yardProcess,
     alt: "An overhead material handler feeding mixed scrap onto a conveyor at a recycling facility",
+    stock: true,
+  },
+  ourProcess: {
+    src: ourProcess,
+    alt: "A gloved worker breaking green glass bottles on a metal drum beside piles of sorted scrap",
     stock: true,
   },
 } satisfies Record<string, Photo>;
