@@ -1,73 +1,216 @@
+
 import Image from "next/image";
 import Link from "next/link";
-import { Plus } from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
+
 import { SectionHead } from "@/components/sections/Blocks";
 import { servicePhotos } from "@/content/images";
 import { services } from "@/content/services";
 import { cn } from "@/lib/utils";
 
-/**
- * Home "What we recycle" section. Same header rhythm as the sections around it; below it a bento of
- * white tiles on a soft grey stage: words on top, a full-bleed photograph below, one quiet "+".
- * Two wide tiles (first and last) give the grid its rhythm.
- */
-const wide = new Set([0, services.length - 1]);
+type Service = (typeof services)[number];
+type PanelVariant = "featured" | "supporting" | "standard";
 
-export function RecycleShowcase({ headingId }: { headingId: string }) {
+interface ServicePanelProps {
+  service: Service;
+  variant?: PanelVariant;
+}
+
+function ServicePanel({
+  service,
+  variant = "standard",
+}: ServicePanelProps) {
+  const photo = servicePhotos[service.slug];
+  const Icon = service.icon;
+
+  const aspectClass =
+    variant === "featured"
+      ? "aspect-[4/3] sm:aspect-[16/10] lg:aspect-auto lg:h-full lg:min-h-[440px]"
+      : variant === "supporting"
+        ? "aspect-[16/10]"
+        : "aspect-[4/3]";
+
+  const sizes =
+    variant === "featured"
+      ? "(min-width: 1024px) 58vw, 100vw"
+      : variant === "supporting"
+        ? "(min-width: 1024px) 42vw, (min-width: 640px) 50vw, 100vw"
+        : "(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw";
+
   return (
-    <section aria-labelledby={headingId} className="section bg-paper-2">
+    <Link
+      href={`/services/${service.slug}`}
+      className={cn(
+        "group relative isolate block w-full overflow-hidden",
+        "bg-evergreen-950",
+        "outline-none focus-visible:outline-2",
+        "focus-visible:outline-offset-4",
+        "focus-visible:outline-evergreen-600",
+        aspectClass,
+      )}
+    >
+      {/* Background image */}
+      {photo ? (
+        <Image
+          src={photo.src}
+          alt={photo.alt}
+          fill
+          sizes={sizes}
+          placeholder="blur"
+          className={cn(
+            "object-cover",
+            "transition-transform duration-700",
+            "ease-[cubic-bezier(0.22,1,0.36,1)]",
+            "group-hover:scale-[1.035]",
+            "motion-reduce:transition-none",
+          )}
+          style={
+            photo.position
+              ? { objectPosition: photo.position }
+              : undefined
+          }
+        />
+      ) : (
+        <div className="absolute inset-0 flex items-center justify-center">
+          <Icon
+            aria-hidden="true"
+            strokeWidth={1.25}
+            className="h-10 w-10 text-white/30"
+          />
+        </div>
+      )}
+
+      {/* Subtle gradient only at bottom */}
+      <div
+        aria-hidden="true"
+        className={cn(
+          "pointer-events-none absolute inset-x-0 bottom-0",
+          "h-[65%]",
+          "bg-gradient-to-t",
+          "from-black/75 via-black/20 to-transparent",
+        )}
+      />
+
+      {/* Text INSIDE the image */}
+      <div
+        className={cn(
+          "absolute inset-x-0 bottom-0 z-10",
+          "p-5 sm:p-6",
+        )}
+      >
+        <div className="flex items-end justify-between gap-4">
+          <div className="min-w-0 flex-1">
+            <h3
+              className={cn(
+                "font-display font-medium text-white",
+                "text-[1.25rem] sm:text-[1.35rem]",
+                "leading-[1.25] tracking-[-0.015em]",
+              )}
+            >
+              {service.title}
+            </h3>
+
+            {/* <p
+              className={cn(
+                "mt-1.5 max-w-[44ch]",
+                "line-clamp-2 text-[13px]",
+                "leading-[1.6] text-white/80",
+              )}
+            >
+              {service.summary}
+            </p> */}
+          </div>
+
+          {/* <ArrowUpRight
+            aria-hidden="true"
+            strokeWidth={1.5}
+            className={cn(
+              "mb-1 h-[18px] w-[18px]",
+              "shrink-0 text-white/85",
+              "transition-transform duration-300",
+              "group-hover:translate-x-0.5",
+              "group-hover:-translate-y-0.5",
+              "motion-reduce:transition-none",
+            )}
+          /> */}
+        </div>
+      </div>
+    </Link>
+  );
+}
+
+export function RecycleShowcase({
+  headingId,
+}: {
+  headingId: string;
+}) {
+  const featured = services[0];
+  const supporting = services.slice(1, 3);
+  const remaining = services.slice(3);
+
+  return (
+    <section
+      aria-labelledby={headingId}
+      className="section overflow-hidden bg-paper"
+    >
       <div className="container">
         <SectionHead
           id={headingId}
           title="What we recycle"
           lead="Six specialist recovery routes for electronics, batteries, plastics, metals and industrial assets—with documentation at every stage."
-          link={{ href: "/services", label: "View all services" }}
+          link={{
+            href: "/services",
+            label: "View all services",
+          }}
         />
 
-        <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4 lg:gap-5">
-          {services.map((service, index) => {
-            const photo = servicePhotos[service.slug];
-            const Icon = service.icon;
-            const isWide = wide.has(index);
+        {/* Asymmetric main gallery */}
+        <div className="grid gap-4 lg:grid-cols-12 lg:gap-5">
+          {featured && (
+            <div className="min-w-0 lg:col-span-7">
+              <ServicePanel
+                service={featured}
+                variant="featured"
+              />
+            </div>
+          )}
 
-            return (
-              <li key={service.slug} className={cn(isWide && "sm:col-span-2")}>
-                <Link
-                  href={`/services/${service.slug}`}
-                  className="group relative flex h-full flex-col overflow-hidden rounded-2xl bg-white outline-none transition-shadow duration-300 hover:shadow-[0_18px_40px_-28px_rgba(10,38,22,0.4)] focus-visible:ring-2 focus-visible:ring-evergreen-600 focus-visible:ring-offset-2 focus-visible:ring-offset-paper-2"
-                >
-                  <div className="flex-1 p-5 pb-0 sm:p-6 sm:pb-0">
-                    <Icon aria-hidden="true" className="h-5 w-5 text-evergreen-700" strokeWidth={1.75} />
-                    <h3 className="mt-4 text-[1.20rem] leading-[1.2] tracking-[-0.015em]">{service.title}</h3>
-                    <p className={cn("mt-2 text-[12px] leading-[1.55] text-ink-muted", isWide ? "max-w-md" : "max-w-[32ch]")}>
-                      {service.summary}
-                    </p>
-                  </div>
+          <div
+            className={cn(
+              "grid min-w-0 gap-4",
+              "sm:grid-cols-2",
+              "lg:col-span-5 lg:grid-cols-1",
+              "lg:grid-rows-2 lg:gap-5",
+            )}
+          >
+            {supporting.map((service) => (
+              <ServicePanel
+                key={service.slug}
+                service={service}
+                variant="supporting"
+              />
+            ))}
+          </div>
+        </div>
 
-                  <div className="relative mt-5 h-44 shrink-0 sm:h-48">
-                    {photo && (
-                      <Image
-                        src={photo.src}
-                        alt={photo.alt}
-                        fill
-                        sizes={isWide ? "(min-width: 1024px) 620px, (min-width: 640px) 90vw, 100vw" : "(min-width: 1024px) 300px, (min-width: 640px) 45vw, 100vw"}
-                        placeholder="blur"
-                        className="object-cover transition-transform duration-500 ease-out group-hover:scale-[1.03]"
-                        style={photo.position ? { objectPosition: photo.position } : undefined}
-                      />
-                    )}
-                    <span
-                      aria-hidden="true"
-                      className="absolute bottom-3 right-3 grid h-8 w-8 place-items-center rounded-full bg-white/90 text-evergreen-950 shadow-sm backdrop-blur transition-colors duration-200 group-hover:bg-evergreen-700 group-hover:text-white"
-                    >
-                      <Plus className="h-4 w-4" strokeWidth={2} />
-                    </span>
-                  </div>
-                </Link>
-              </li>
-            );
-          })}
-        </ul>
+        {/* Three equal image panels */}
+        {remaining.length > 0 && (
+          <div
+            className={cn(
+              "mt-4 grid gap-4",
+              "sm:grid-cols-2",
+              "lg:mt-5 lg:grid-cols-3 lg:gap-5",
+            )}
+          >
+            {remaining.map((service) => (
+              <ServicePanel
+                key={service.slug}
+                service={service}
+                variant="standard"
+              />
+            ))}
+          </div>
+        )}
       </div>
     </section>
   );

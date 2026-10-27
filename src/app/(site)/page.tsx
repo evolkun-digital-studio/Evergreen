@@ -10,9 +10,9 @@ import { Industries } from "@/components/sections/Industries";
 import {
   CapacityBand,
   EntityBlock,
-  MaterialsStrip,
   SectionHead,
 } from "@/components/sections/Blocks";
+import { MaterialsGrid } from "@/components/sections/MaterialsGrid";
 import { PageJsonLd } from "@/components/PageJsonLd";
 import { Photo } from "@/components/Photo";
 import { industryPhotos, photos, stepPhotos } from "@/content/images";
@@ -91,16 +91,10 @@ export default function Home() {
 
       <section
         aria-labelledby="materials-heading"
-        className="section overflow-hidden bg-paper-2"
+        className="section border-t border-line"
       >
         <div className="container">
-          <SectionHead
-            id="materials-heading"
-            title="Materials we recover"
-            lead="Recovered material goes back into manufacturing instead of landfill."
-            link={{ href: "/services/metal-recovery", label: "Metal recovery" }}
-          />
-          <MaterialsStrip />
+          <MaterialsGrid />
         </div>
       </section>
 

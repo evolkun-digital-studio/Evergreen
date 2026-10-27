@@ -262,7 +262,7 @@ export const servicePhotos: Record<string, Photo> = {
   "secure-disposal": library.hardDrives,
 };
 
-/** Home "Materials we recover" strip: four 1:1 tiles. */
+/** Home "Materials we recover" grid: four 4:5 cards. */
 export const materialPhotos: {
   label: string;
   caption: string;

@@ -14,7 +14,7 @@ export function PickupSteps({ steps }: { steps: { title: string; photo: Photo }[
 
   return (
     <div className="grid items-center gap-8 lg:grid-cols-12 lg:gap-14">
-      <div className="relative aspect-[4/3] overflow-hidden rounded-2xl bg-paper-2 lg:col-span-7">
+      <div className="relative aspect-[4/3] overflow-hidden bg-paper-2 [clip-path:polygon(0_0,92%_0,100%_14%,100%_100%,0_100%)] lg:col-span-7">
         {steps.map((s, i) => (
           <Image
             key={s.title}

@@ -7,6 +7,7 @@ const ratios = {
   "1/1": "aspect-square",
   "16/10": "aspect-[16/10]",
   "4/3": "aspect-[4/3]",
+  "4/5": "aspect-[4/5]",
   "3/2": "aspect-[3/2]",
   "21/9": "aspect-[21/9]",
   fill: "h-full",

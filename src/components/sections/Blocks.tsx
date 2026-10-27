@@ -3,7 +3,6 @@ import { ArrowRight, ArrowUpRight } from "lucide-react";
 import { ConfirmBadge } from "@/components/Confirm";
 import { FontSafe } from "@/components/FontSafe";
 import { Photo } from "@/components/Photo";
-import { MaterialsCarousel } from "@/components/sections/MaterialsCarousel";
 import type { Photo as PhotoData } from "@/content/images";
 import { library } from "@/content/images";
 import { CAPACITY_LABEL, capacity, formatTonnes } from "@/content/stats";
@@ -18,21 +17,23 @@ export function SectionHead({
   lead,
   link,
   className,
+  tone = "light",
 }: {
   id: string;
   title: string;
   lead?: string;
   link?: { href: string; label: string };
   className?: string;
+  tone?: "light" | "dark";
 }) {
   return (
     <div className={cn("mb-10 flex flex-col gap-4 lg:mb-12 lg:flex-row lg:items-end lg:justify-between", className)}>
       <div>
-        <h2 id={id}>{title}</h2>
-        {lead && <p className="lead mt-4 max-w-2xl">{lead}</p>}
+        <h2 id={id} className={tone === "dark" ? "text-white" : undefined}>{title}</h2>
+        {lead && <p className={cn("lead mt-4 max-w-2xl", tone === "dark" && "text-white/70")}>{lead}</p>}
       </div>
       {link && (
-        <Link href={link.href} className="text-link min-h-11 shrink-0">
+        <Link href={link.href} className={cn("text-link min-h-11 shrink-0", tone === "dark" && "!text-moss-soft decoration-moss/40 hover:decoration-moss")}>
           {link.label}
           <ArrowRight aria-hidden="true" className="h-4 w-4" />
         </Link>
@@ -148,11 +149,6 @@ export function CapacityNote({ material, tonnes }: { material: string; tonnes: n
       </span>
     </p>
   );
-}
-
-/** Home "Materials we recover" carousel. */
-export function MaterialsStrip() {
-  return <MaterialsCarousel />;
 }
 
 /**
