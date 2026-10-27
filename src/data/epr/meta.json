@@ -7,6 +7,7 @@
       "title": "E-Waste (Management) Rules, 2022 (G.S.R. 801(E))",
       "issuer": "Ministry of Environment, Forest and Climate Change",
       "date": "2022-11-02",
+      "effective": "2023-04-01",
       "url": "https://cpcb.gov.in/uploads/Projects/E-Waste/e-waste_rules_2022.pdf",
       "usedFor": "Schedule I (EEE items and codes), Schedule III and Schedule IV targets",
       "sha256": "d03f8744bc79d67a94b06e1020537e93d15572b0cf1d575cb32b76c89f30a5fb"
@@ -17,6 +18,7 @@
       "title": "E-Waste (Management) Amendment Rules, 2023 (G.S.R. 61(E))",
       "issuer": "Ministry of Environment, Forest and Climate Change",
       "date": "2023-01-30",
+      "effective": "2023-04-01",
       "url": "https://tnpcb.gov.in/owems/pdf/regulations/Ewaste%20Rules2022_Amendment%20Jan23.pdf",
       "usedFor": "Checked: amends rule 16 and Schedule II only; Schedules I, III and IV unchanged",
       "sha256": "b2d920aef4913ec7093c849e69789b622c10c09e44cbef79705e116e5aa27f1b"
@@ -27,9 +29,32 @@
       "title": "E-Waste (Management) Amendment Rules, 2024 (G.S.R. 164(E))",
       "issuer": "Ministry of Environment, Forest and Climate Change",
       "date": "2024-03-08",
+      "effective": "2024-03-08",
       "url": "https://egazette.gov.in/writeReadData/2024/252788.pdf",
       "usedFor": "Checked: amends rules 3, 9 and 15 (definitions, relaxation, EPR certificate prices); Schedules I, III and IV unchanged",
       "sha256": "e15a599fd195bc4ad69a5d64134d22366228e2dd0a8d0953d7a76aba175689e0"
+    },
+    {
+      "key": "amendment2023b",
+      "file": "ewaste-second-amendment-2023-gsr534e-2023-07-24.pdf",
+      "title": "E-Waste (Management) Second Amendment Rules, 2023 (G.S.R. 534(E))",
+      "issuer": "Ministry of Environment, Forest and Climate Change",
+      "date": "2023-07-24",
+      "effective": "2023-07-24",
+      "url": "https://moef.gov.in/rules-regulations-3",
+      "usedFor": "Checked: amends rules 5, 7, 9, 14 and 16 and Schedule II (refrigerants, conversion factors, RoHS exemptions); Schedules I, III and IV unchanged",
+      "sha256": "e7960c4cccff8a7e69ff7b92dd6be2482b839990c8bc86e78408b72120af0a82"
+    },
+    {
+      "key": "amendment2024b",
+      "file": "ewaste-second-amendment-2024-gsr699e-2024-11-12.pdf",
+      "title": "E-Waste (Management) Second Amendment Rules, 2024 (G.S.R. 699(E))",
+      "issuer": "Ministry of Environment, Forest and Climate Change",
+      "date": "2024-11-12",
+      "effective": "2024-11-12",
+      "url": "https://moef.gov.in/rules-regulations-3",
+      "usedFor": "Checked: substitutes rule 23 (penalties) only; Schedules I, III and IV unchanged. Its note lists every amendment to date: G.S.R. 61(E), 534(E), 164(E)",
+      "sha256": "8608dcf120ecf79695928cfee7651a5a34d5d0633e46f4d3baff2ae16e5244ba"
     },
     {
       "key": "metals",

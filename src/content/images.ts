@@ -305,24 +305,24 @@ export const stepPhotos: Photo[] = [
   photos.certs,
 ];
 
-/** Four of the industries we serve, shown as a strip above the full list. */
-export const industryPhotos: Photo[] = [
-  {
+/** The four photographed industries, composed above the full list of seven. */
+export const industryPhotos = {
+  it: {
     src: itServerRoom,
     alt: "Rows of server racks in a data centre",
     stock: true,
   },
-  {
+  manufacturing: {
     src: manufacturing,
     alt: "Walkway beside a conveyor line on a factory floor",
     stock: true,
     position: "60% 50%",
   },
-  { src: hospital, alt: "A long, dimly lit hospital corridor", stock: true },
-  {
+  hospitals: { src: hospital, alt: "A long, dimly lit hospital corridor", stock: true },
+  construction: {
     src: construction,
     alt: "A tower crane beside a building wrapped in scaffolding",
     stock: true,
     position: "70% 50%",
   },
-];
+} satisfies Record<string, Photo>;
