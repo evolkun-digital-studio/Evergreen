@@ -1,0 +1,45 @@
+name: Evergreen Production Build
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js 24
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24.3.0'
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build production application
+        env:
+          SITE_ENV: production
+          NEXT_PUBLIC_SITE_URL: https://evergreenrecycler.in
+          AUTH_URL: https://evergreenrecycler.in
+          AUTH_SECRET: ${{ secrets.EVERGREEN_AUTH_SECRET }}
+          CRON_SECRET: ${{ secrets.EVERGREEN_CRON_SECRET }}
+          MONGODB_URI: ${{ secrets.EVERGREEN_MONGODB_URI }}
+          MONGODB_DB: evergreen
+          STORAGE_DRIVER: local
+        run: npm run build:production
+
+      - name: Upload Linux production build
+        uses: actions/upload-artifact@v4
+        with:
+          name: evergreen-linux-production
+          path: production-build/
+          if-no-files-found: error
+          retention-days: 3
